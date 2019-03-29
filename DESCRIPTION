@@ -1,0 +1,20 @@
+Package: dataresqc
+Type: Package
+Title: C3S quality control tools for historical climate data
+Version: 0.1.0
+Date: 2019-03-29
+Authors@R: c(
+    person("Yuri", "Brugnara", email = "yuri.brugnara@giub.unibe.ch", role = c("aut", "cre")), 
+    person("Alba", "Gilabert", role = "aut"),
+    person("Clara", "Ventura", role = "aut"),
+    person("Stefan", "Hunziker", role = "aut"))
+Description: Quality control functions developed for the Copernicus Data Rescue Service.
+Depends: R (>= 3.1.2)
+License: file LICENSE
+Suggests:
+    ggplot2,
+    grid,
+    knitr
+LazyData: true
+RoxygenNote: 6.0.1
+Encoding: UTF-8
