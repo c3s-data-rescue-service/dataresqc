@@ -1,0 +1,9 @@
+v0.1.1
+05-Apr-2019
+- Added tutorial
+- Added function climexp_to_sef
+- Fixed several minor bugs
+
+v0.1.0
+29-Mar-2019
+First release
