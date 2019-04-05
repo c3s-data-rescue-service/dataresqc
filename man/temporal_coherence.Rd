@@ -4,8 +4,8 @@
 \alias{temporal_coherence}
 \title{Daily temporal coherence test}
 \usage{
-temporal_coherence(dailydata, meta = NULL, outpath, temp_jumps = 20,
-  windspeed_jumps = 15, snowdepth_jumps = 50)
+temporal_coherence(dailydata, meta = NULL, outpath = getwd(),
+  temp_jumps = 20, windspeed_jumps = 15, snowdepth_jumps = 50)
 }
 \arguments{
 \item{dailydata}{A character string giving the path of the input file,
@@ -16,7 +16,8 @@ day, and the daily value.}
 altitude, variable code, units. If \code{dailydata} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results.}
+\item{outpath}{Character string giving the path for the QC results. By default
+this is the working directory.}
 
 \item{temp_jumps}{given a daily maximum or minimum temperature values of two
 consecutive days, maximum difference in degrees Celsius. By default, 
@@ -39,7 +40,7 @@ The input file must follow the Copernicus Station Exchange
 Format (SEF).
 }
 \examples{
-temporal_coherence(Rosario$Tx, Meta$Tx, getwd(), temp_jumps = 10)
+temporal_coherence(Rosario$Tx, Meta$Tx, temp_jumps = 10)
 
 }
 \author{

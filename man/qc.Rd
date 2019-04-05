@@ -4,7 +4,7 @@
 \alias{qc}
 \title{Apply all tests}
 \usage{
-qc(Data, Metadata = NULL, outpath, time_offset = 0)
+qc(Data, Metadata = NULL, outpath = getwd(), time_offset = 0)
 }
 \arguments{
 \item{Data}{Either a character vector of paths to SEF files, a data frame
@@ -19,7 +19,8 @@ IDs must appear in the same order of the respective elements in the list.
 If \code{Data} is a vector, \code{Metadata} is ignored and all the
 required information is read from the SEF files.}
 
-\item{outpath}{Character string giving the path where the output is saved.}
+\item{outpath}{Character string giving the path where the output is saved. By
+default this is the working directory.}
 
 \item{time_offset}{Numerical vector of the number of hours to add to the time 
 to obtain local time. This is used for tests on day and night temperature.

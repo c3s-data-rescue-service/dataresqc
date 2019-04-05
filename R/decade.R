@@ -72,6 +72,9 @@ multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 #' Hunziker et al., 2017: Identifying, attributing, and overcoming common data quality 
 #' issues of manned station observations. Int. J. Climatol, 37: 4131-4145.
 #' 
+#' Hunziker et al., 2018: Effects of undetected data quality issues on climatological
+#' analyses. Clim. Past, 14: 1-20.
+#' 
 #' @examples 
 #' plot_decimals(Rosario$Tx)
 #' 
@@ -217,7 +220,7 @@ plot_decimals <- function(Data, outfile = NA, startyear = NA, endyear = NA) {
 #' a 5-column matrix with following columns: variable code, year, month, day,  
 #' and the daily value.
 #' @param len Integer indicating the number of years shown in 
-#' each plot.
+#' each panel.
 #' @param outfile Character string giving the path of the output pdf file. By
 #' default a file named after the analysed variable is created in the working 
 #' directory.
@@ -243,6 +246,9 @@ plot_decimals <- function(Data, outfile = NA, startyear = NA, endyear = NA) {
 #' @references
 #' Hunziker et al., 2017: Identifying, attributing, and overcoming common data quality 
 #' issues of manned station observations. Int. J. Climatol, 37: 4131-4145.
+#' 
+#' Hunziker et al., 2018: Effects of undetected data quality issues on climatological
+#' analyses. Clim. Past, 14: 1-20.
 #' 
 #' @examples
 #' plot_daily(Rosario$Tx, len = 2)
@@ -280,7 +286,7 @@ plot_daily <- function(dailydata, len = 1, outfile = NA,
                   ISOdate(max(dailydata[,2]) + 1, 1, 1, 0), "months")
   
   ## get segment lengths
-  segment.amounts.rounded <- ceiling(length(unique(dailydata[,2])) / len)
+  segment.amounts.rounded <- ceiling(length(min(dailydata[,2]):max(dailydata[,2])) / len)
   
   ## loop on the segments
   n <- 0
@@ -393,6 +399,9 @@ days_of_month <- function(year, month) {
 #' @references
 #' Hunziker et al., 2017: Identifying, attributing, and overcoming common data quality 
 #' issues of manned station observations. Int. J. Climatol, 37: 4131-4145.
+#' 
+#' Hunziker et al., 2018: Effects of undetected data quality issues on climatological
+#' analyses. Clim. Past, 14: 1-20.
 #' 
 #' @examples
 #' plot_subdaily(Bern$p, year = 1803)
@@ -595,6 +604,9 @@ weekly_test <- function(x, p) {
 #' @references
 #' Hunziker et al., 2017: Identifying, attributing, and overcoming common data quality 
 #' issues of manned station observations. Int. J. Climatol, 37: 4131-4145.
+#' 
+#' Hunziker et al., 2018: Effects of undetected data quality issues on climatological
+#' analyses. Clim. Past, 14: 1-20.
 #' 
 #' @examples
 #' plot_weekly_cycle(list(Rosario = Rosario$rr))

@@ -3,3 +3,4 @@
 .RData
 .Rbuildignore
 dataresqc.Rproj
+inst/doc

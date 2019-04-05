@@ -4,8 +4,8 @@
 \alias{subdaily_repetition}
 \title{Sub-daily repetition test}
 \usage{
-subdaily_repetition(subdailydata = file.choose(), meta = NULL, n = 6,
-  outpath)
+subdaily_repetition(subdailydata = file.choose(), meta = NULL,
+  outpath = getwd(), n = 6)
 }
 \arguments{
 \item{subdailydata}{A character string giving the path of the input file,
@@ -16,10 +16,11 @@ day, hour, minute, value.}
 altitude, variable code, units. If \code{subdailydata} is a path, \code{meta} is
 ignored.}
 
+\item{outpath}{Character string giving the path for the QC results. By default
+this is the working directory.}
+
 \item{n}{Number of minimum equal consecutive values required for a flag. The
 default is 6.}
-
-\item{outpath}{Character string giving the path for the QC results.}
 }
 \description{
 Report occurrences of equal consecutive values in subdaily data.
@@ -30,8 +31,7 @@ The input file must follow the Copernicus Station Exchange Format (SEF).
 Zeroes are automatically excluded in bounded variables such as precipitation.
 }
 \examples{
-subdaily_repetition(Rosario$ta, Meta$ta[which(Meta$ta$id=="Rosario"),], 
-                         getwd(), n = 3)
+subdaily_repetition(Rosario$ta, Meta$ta[which(Meta$ta$id=="Rosario"),], n = 3)
 
 }
 \author{

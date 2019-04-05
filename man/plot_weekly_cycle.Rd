@@ -34,6 +34,9 @@ plot_weekly_cycle(list(Rosario = Rosario$rr))
 \references{
 Hunziker et al., 2017: Identifying, attributing, and overcoming common data quality 
 issues of manned station observations. Int. J. Climatol, 37: 4131-4145.
+
+Hunziker et al., 2018: Effects of undetected data quality issues on climatological
+analyses. Clim. Past, 14: 1-20.
 }
 \author{
 Stefan Hunziker, Yuri Brugnara

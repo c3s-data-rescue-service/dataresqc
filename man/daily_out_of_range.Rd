@@ -4,11 +4,11 @@
 \alias{daily_out_of_range}
 \title{Daily big errors test}
 \usage{
-daily_out_of_range(dailydata, meta = NULL, outpath, tmax_upper = 45,
-  tmax_lower = -30, tmin_upper = 30, tmin_lower = -40, rr_upper = 200,
-  rr_lower = 0, w_upper = 30, w_lower = 0, dd_upper = 360,
-  dd_lower = 0, sc_upper = 100, sc_lower = 0, sd_upper = 200,
-  sd_lower = 0, fs_upper = 100, fs_lower = 0)
+daily_out_of_range(dailydata, meta = NULL, outpath = getwd(),
+  tmax_upper = 45, tmax_lower = -30, tmin_upper = 30, tmin_lower = -40,
+  rr_upper = 200, rr_lower = 0, w_upper = 30, w_lower = 0,
+  dd_upper = 360, dd_lower = 0, sc_upper = 100, sc_lower = 0,
+  sd_upper = 200, sd_lower = 0, fs_upper = 100, fs_lower = 0)
 }
 \arguments{
 \item{dailydata}{A character string giving the path of the input file,
@@ -19,7 +19,8 @@ day, and the daily value.}
 altitude, variable code, units. If \code{dailydata} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results.}
+\item{outpath}{Character string giving the path for the QC results. By default
+this is the working directory.}
 
 \item{tmax_upper}{is the tx maximum threshold in degrees Celsius.
 By default, tmax_upper = 45 C.}
@@ -79,7 +80,7 @@ or fs exceeds some threshold.
 The input file must follow the Copernicus Station Exchange Format (SEF).
 }
 \examples{
-daily_out_of_range(Rosario$Tn, Meta$Tn, getwd(), tmin_upper = 25)
+daily_out_of_range(Rosario$Tn, Meta$Tn, tmin_upper = 25)
 
 }
 \author{

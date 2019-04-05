@@ -4,18 +4,20 @@
 \alias{write_sef}
 \title{Write data in Station Exchange Format version 0.2.0}
 \usage{
-write_sef(Data, outpath = getwd(), cod, nam = "", lat = "", lon = "",
-  alt = "", sou = "", link = "", units, stat, metaHead = "",
+write_sef(Data, outpath = getwd(), variable, cod, nam = "", lat = "",
+  lon = "", alt = "", sou = "", link = "", units, stat, metaHead = "",
   meta = "", period = "", time_offset = 0, note = "")
 }
 \arguments{
-\item{Data}{A data frame with 7 variables in this order: variable code, 
+\item{Data}{A data frame with 6 variables in this order: 
 year, month, day, hour, minute, value.}
 
 \item{outpath}{Character string giving the output path (note that the 
 filename is generated from the source identifier, station code, start 
 and end dates, and variable code). By default this is the working
 directory.}
+
+\item{variable}{Variable code. This is a required field.}
 
 \item{cod}{Station code. This is a required field.}
 
@@ -68,9 +70,9 @@ Times in SEF files must be expressed in UTC.
 # (assuming the observation times are in local solar time)
 # The file will be written in the working directory
 meta_bern <- Meta$ta[which(Meta$ta$id == "Bern"), ]
-write_sef(Bern$ta, cod = meta_bern$id, lat = meta_bern$lat, lon = meta_bern$lon,
-          alt = meta_bern$alt, units = meta_bern$units, stat = "point", 
-          period = "0", time_offset = meta_bern$lon * 24 / 360)
+write_sef(Bern$ta[, 2:7], variable = "ta", cod = meta_bern$id, lat = meta_bern$lat, 
+          lon = meta_bern$lon, alt = meta_bern$alt, units = meta_bern$units,  
+          stat = "point", period = "0", time_offset = meta_bern$lon * 24 / 360)
 
 }
 \author{

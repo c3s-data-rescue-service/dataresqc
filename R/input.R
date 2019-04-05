@@ -28,7 +28,7 @@ read_sef <- function(file = file.choose(), all = FALSE) {
   
   ## Select columns
   if (!all) {
-    if (timeres == "point") {
+    if (timeres == "point" & !varcode %in% c("sd","sc")) {
       Data <- Data[, c(1:5,7)]
       colnames(Data) <- c("Year", "Month", "Day", "Hour", "Minute", "Value")
     } else {

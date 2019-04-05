@@ -157,3 +157,90 @@ check_units <- function(x, v, u) {
   return(x)
   
 }
+
+
+################################################################################
+
+
+#' Download a GHCN-Daily data file from the Climate Explorer and convert it
+#' into the Station Exchange Format version 0.2.0
+#'
+#' @param url Character string giving the url of the data file.
+#' @param outpath Character string giving the path where to save the file.
+#' By default this is the working directory.
+#'
+#' @author Yuri Brugnara
+#' 
+#' @examples
+#' # Download the maximum temperature series for Buenos Aires
+#' climexp_to_sef("http://climexp.knmi.nl/data/xgdcnAR000875850.dat")
+#'
+#' @import utils
+#' @export
+
+
+climexp_to_sef <- function(url, outpath = getwd()) {
+  
+  filename <- rev(strsplit(url, "/")[[1]])[1]
+  download.file(url, paste(file.path(outpath), filename, sep = "/"))
+  
+  ## Find out variable, units, statistic
+  v <- substr(filename, 1, 1)
+  if (v == "x") {
+    vbl <- "Tx"
+    u <- "C"
+    st <- "maximum"
+  } else if (v == "n") {
+    vbl <- "Tn"
+    u <- "C"
+    st <- "minimum"
+  } else if (v == "v") {
+    vbl <- "ta"
+    u <- "C"
+    st <- "mean"
+  } else if (v == "p") {
+    vbl <- "rr"
+    u <- "mm"
+    st <- "sum"
+  } else if (v == "f") {
+    vbl <- "fs"
+    u <- "mm"
+    st <- "sum"
+  } else if (v == "d") {
+    vbl <- "sd"
+    u <- "mm"
+    st <- "point"
+  }
+  
+  ## Read data
+  Data <- read.table(paste(file.path(outpath), filename, sep = "/"))
+  names(Data) <- c("Year", "Month", "Day", "Value")
+  Data$Hour <- ""
+  Data$Minute <- ""
+  Data <- Data[, c("Year", "Month", "Day", "Hour", "Minute", "Value")]
+  
+  ## Read metadata
+  header <- read.table(paste(file.path(outpath), filename, sep = "/"), 
+                       comment.char = "", nrows = 2, sep = "\t")[2, 1]
+  lat <- substr(header, 16, 21)
+  lon <- substr(header, 25, 31)
+  alt <- substr(header, 37, 42)
+  
+  ## Remove original file
+  file.remove(paste(file.path(outpath), filename, sep = "/"))
+  
+  ## Write SEF file
+  write_sef(Data, outpath,
+            variable = vbl,
+            cod = substr(header, 67, 77),
+            nam = substr(header, 79, 108),
+            lat = substr(header, 16, 21),
+            lon = substr(header, 25, 31),
+            alt = substr(header, 37, 42),
+            sou = "GHCN-D",
+            units = u,
+            stat = st,
+            metaHead = "Data policy=U.S. Government Work (non-commercial)",
+            period = ifelse(vbl == "sd", 0, "day"))
+  
+}

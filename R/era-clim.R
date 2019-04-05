@@ -56,17 +56,17 @@
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{series} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results.
+#' @param outpath Character string giving the path for the QC results. By default
+#' this is the working directory.
 #' 
 #' @author Clara Ventura, Yuri Brugnara
 #' 
 #' @examples 
-#' wmo_time_consistency(series = Bern$p, meta = Meta$p[which(Meta$p$id=="Bern"),], 
-#'                      outpath = getwd())
+#' wmo_time_consistency(series = Bern$p, meta = Meta$p[which(Meta$p$id=="Bern"),])
 #' 
 #' @export
  
-wmo_time_consistency <- function(series, meta = NULL, outpath) {
+wmo_time_consistency <- function(series, meta = NULL, outpath = getwd()) {
   
   #Read data and metadata
   if (is.null(dim(series))) {
@@ -179,20 +179,19 @@ wmo_time_consistency <- function(series, meta = NULL, outpath) {
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{series} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results.
+#' @param outpath Character string giving the path for the QC results. By default
+#' this is the working directory..
 #' 
 #' @author Clara Ventura, Yuri Brugnara
 #' 
 #' @examples
-#' impossible_values(series = Rosario$n, meta = Meta$n, 
-#'                  outpath = getwd())
-#' impossible_values(series = Rosario$rh, meta = Meta$rh, 
-#'                  outpath = getwd())
+#' impossible_values(series = Rosario$n, meta = Meta$n)
+#' impossible_values(series = Rosario$rh, meta = Meta$rh)
 #' 
 #' @export
 #'
 
-impossible_values <- function(series, meta = NULL, outpath) {
+impossible_values <- function(series, meta = NULL, outpath = getwd()) {
   
   #Read data and metadata
   if (is.null(dim(series))) {
@@ -424,21 +423,19 @@ impossible_values <- function(series, meta = NULL, outpath) {
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{series} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results.
+#' @param outpath Character string giving the path for the QC results. By default
+#' this is the working directory.
 #' 
 #' @author Clara Ventura, Yuri Brugnara
 #' 
 #' @examples
-#' wmo_gross_errors(series = Rosario$p, meta = Meta$p[which(Meta$p$id=="Rosario"),], 
-#'                  outpath = getwd())
-#' wmo_gross_errors(series = Rosario$ta, meta = Meta$ta[which(Meta$p$id=="Rosario"),], 
-#'                  outpath = getwd())
-#' wmo_gross_errors(series = Rosario$td, meta = Meta$td, 
-#'                  outpath = getwd())
+#' wmo_gross_errors(series = Rosario$p, meta = Meta$p[which(Meta$p$id=="Rosario"),])
+#' wmo_gross_errors(series = Rosario$ta, meta = Meta$ta[which(Meta$p$id=="Rosario"),])
+#' wmo_gross_errors(series = Rosario$td, meta = Meta$td)
 #' 
 #' @export
 
-wmo_gross_errors <- function(series, meta = NULL, outpath) {
+wmo_gross_errors <- function(series, meta = NULL, outpath = getwd()) {
   
   #Read data and metadata
   if (is.null(dim(series))) {

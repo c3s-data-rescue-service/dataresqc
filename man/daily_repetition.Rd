@@ -4,7 +4,7 @@
 \alias{daily_repetition}
 \title{Daily repetition test}
 \usage{
-daily_repetition(dailydata, meta = NULL, outpath, n = 4)
+daily_repetition(dailydata, meta = NULL, outpath = getwd(), n = 4)
 }
 \arguments{
 \item{dailydata}{A character string giving the path of the input file,
@@ -15,7 +15,8 @@ day, and the daily value.}
 altitude, variable code, units. If \code{dailydata} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results.}
+\item{outpath}{Character string giving the path for the QC results. By default
+this is the working directory.}
 
 \item{n}{Number of minimum equal consecutive values required for a flag. The
 default is 4.}
@@ -29,7 +30,7 @@ The input file must follow the Copernicus Station Exchange Format (SEF).
 Zeroes are automatically excluded in bounded variables such as precipitation.
 }
 \examples{
-daily_repetition(Rosario$Tx, Meta$Tx, getwd(), n = 3)
+daily_repetition(Rosario$Tx, Meta$Tx, n = 3)
 
 }
 \author{

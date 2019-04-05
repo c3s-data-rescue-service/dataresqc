@@ -4,7 +4,7 @@
 \alias{wmo_gross_errors}
 \title{WMO Gross Errors Tests for Pressure, Temperature, Dew Point, and Wind Speed.}
 \usage{
-wmo_gross_errors(series, meta = NULL, outpath)
+wmo_gross_errors(series, meta = NULL, outpath = getwd())
 }
 \arguments{
 \item{series}{A character string giving the path of the SEF file, or a
@@ -14,7 +14,8 @@ five or seven-column (daily or subdaily) data frame with the series.}
 altitude, variable code, units. If \code{series} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results.}
+\item{outpath}{Character string giving the path for the QC results. By default
+this is the working directory.}
 }
 \description{
 Applicable to a series (daily or sub-daily) of air pressure, air temperature (ta),
@@ -171,12 +172,9 @@ observation, test. The test column has the description "gross_errors".
 }
 }
 \examples{
-wmo_gross_errors(series = Rosario$p, meta = Meta$p[which(Meta$p$id=="Rosario"),], 
-                 outpath = getwd())
-wmo_gross_errors(series = Rosario$ta, meta = Meta$ta[which(Meta$p$id=="Rosario"),], 
-                 outpath = getwd())
-wmo_gross_errors(series = Rosario$td, meta = Meta$td, 
-                 outpath = getwd())
+wmo_gross_errors(series = Rosario$p, meta = Meta$p[which(Meta$p$id=="Rosario"),])
+wmo_gross_errors(series = Rosario$ta, meta = Meta$ta[which(Meta$p$id=="Rosario"),])
+wmo_gross_errors(series = Rosario$td, meta = Meta$td)
 
 }
 \references{

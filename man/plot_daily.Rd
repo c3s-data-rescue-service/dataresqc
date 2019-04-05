@@ -13,7 +13,7 @@ a 5-column matrix with following columns: variable code, year, month, day,
 and the daily value.}
 
 \item{len}{Integer indicating the number of years shown in 
-each plot.}
+each panel.}
 
 \item{outfile}{Character string giving the path of the output pdf file. By
 default a file named after the analysed variable is created in the working 
@@ -50,6 +50,9 @@ plot_daily(Rosario$Tx, len = 2)
 \references{
 Hunziker et al., 2017: Identifying, attributing, and overcoming common data quality 
 issues of manned station observations. Int. J. Climatol, 37: 4131-4145.
+
+Hunziker et al., 2018: Effects of undetected data quality issues on climatological
+analyses. Clim. Past, 14: 1-20.
 }
 \author{
 Stefan Hunziker, Yuri Brugnara

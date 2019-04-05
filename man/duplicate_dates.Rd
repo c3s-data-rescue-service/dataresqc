@@ -4,7 +4,7 @@
 \alias{duplicate_dates}
 \title{Duplicate dates test}
 \usage{
-duplicate_dates(dailydata, meta = NULL, outpath)
+duplicate_dates(dailydata, meta = NULL, outpath = getwd())
 }
 \arguments{
 \item{dailydata}{A character string giving the path of the input file,
@@ -15,7 +15,8 @@ day, and the daily value.}
 altitude, variable code, units. If \code{dailydata} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results.}
+\item{outpath}{Character string giving the path for the QC results. By default
+this is the working directory.}
 }
 \description{
 Flag dates that appear more than once in daily data.
@@ -24,7 +25,7 @@ Flag dates that appear more than once in daily data.
 The input file must follow the Copernicus Station Exchange Format (SEF).
 }
 \examples{
-duplicate_dates(Rosario$Tx, Meta$Tx, getwd())
+duplicate_dates(Rosario$Tx, Meta$Tx)
 
 }
 \author{

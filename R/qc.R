@@ -13,7 +13,8 @@
 #' 'resolution' can be either 'daily' (or 'd') or 'subdaily' (or 's').
 #' If \code{Data} is a vector, \code{Metadata} is ignored and all the
 #' required information is read from the SEF files.
-#' @param outpath Character string giving the path where the output is saved.
+#' @param outpath Character string giving the path where the output is saved. By
+#' default this is the working directory.
 #' @param time_offset Numerical vector of the number of hours to add to the time 
 #' to obtain local time. This is used for tests on day and night temperature.
 #' Recycled for all stations if only one value is given.
@@ -72,7 +73,7 @@
 #' 
 #' @export
 
-qc <- function(Data, Metadata = NULL, outpath, time_offset = 0) {
+qc <- function(Data, Metadata = NULL, outpath = getwd(), time_offset = 0) {
   
   ## Check metadata and read SEF files
   if (class(Data) == "list") {
@@ -105,7 +106,7 @@ qc <- function(Data, Metadata = NULL, outpath, time_offset = 0) {
         Data[[id]] <- read_sef(paths[i], all=TRUE)[, c(1:6,8)]
       }
       stat <- read_meta(paths[i], "stat")
-      if (v %in% c("Tx","Tn")) {
+      if (v %in% c("Tx","Tn", "sd", "sc")) {
         datares <- "d"
       } else if (stat == "point") { 
         datares <- "s"

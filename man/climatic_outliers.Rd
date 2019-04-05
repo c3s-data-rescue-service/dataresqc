@@ -4,8 +4,8 @@
 \alias{climatic_outliers}
 \title{Climatic outliers test}
 \usage{
-climatic_outliers(Data, meta = NULL, outpath, IQR = NA, bplot = FALSE,
-  ...)
+climatic_outliers(Data, meta = NULL, outpath = getwd(), IQR = NA,
+  bplot = FALSE, outfile = NA, ...)
 }
 \arguments{
 \item{Data}{A character string giving the path of the input file,
@@ -16,20 +16,23 @@ month, day, (hour), (minute), value.}
 altitude, variable code, units. If \code{Data} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results.}
+\item{outpath}{Character string giving the path for the QC results. By default
+this is the working directory.}
 
 \item{IQR}{Interquantile range used to define outliers. By default it is 5 for
 precipitation, 3 for air temperature, and 4 for any other variable.}
 
 \item{bplot}{If TRUE, create a boxplot and print it into a PDF.}
 
+\item{outfile}{Filename for the plot. Ignored if \code{bplot} is FALSE.}
+
 \item{...}{Graphical parameters passed to the function \code{\link{boxplot}}.}
 }
 \description{
-Considers as outliers all values
-falling outside a range with p25 - 3 interquartile ranges (IQR, lower
-bound, can be modified by the user) and p75 + 3 IQR (upper bound, can be
-modified by the user).
+Considers as outliers all values falling outside a range between,
+for example, p25 - 3 interquartile ranges and p75 + 3 interquartile 
+The number of interquantile ranges can be modified through the parameter
+\code{IQR}.
 }
 \details{
 The input file must follow the Copernicus Station Exchange 
@@ -38,7 +41,7 @@ Format (SEF). This function works with any numerical variable.
 Zeroes are automatically excluded in bounded variables such as precipitation.
 }
 \examples{
-climatic_outliers(Rosario$Tn, Meta$Tn, getwd(), IQR = 4) 
+climatic_outliers(Rosario$Tn, Meta$Tn, IQR = 4) 
 
 }
 \author{

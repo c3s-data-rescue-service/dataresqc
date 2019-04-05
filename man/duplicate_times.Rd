@@ -4,7 +4,7 @@
 \alias{duplicate_times}
 \title{Duplicate times test}
 \usage{
-duplicate_times(subdailydata, meta = NULL, outpath)
+duplicate_times(subdailydata, meta = NULL, outpath = getwd())
 }
 \arguments{
 \item{subdailydata}{A character string giving the path of the input file,
@@ -15,7 +15,8 @@ day, hour, minute, value.}
 altitude, variable code, units. If \code{subdailydata} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results.}
+\item{outpath}{Character string giving the path for the QC results. By default
+this is the working directory.}
 }
 \description{
 Flag times that appear more than once.
@@ -24,7 +25,7 @@ Flag times that appear more than once.
 The input file must follow the Copernicus Station Exchange Format (SEF).
 }
 \examples{
-duplicate_times(Bern$p, Meta$p[which(Meta$p$id=="Bern"),], getwd())
+duplicate_times(Bern$p, Meta$p[which(Meta$p$id=="Bern"),])
 
 }
 \author{

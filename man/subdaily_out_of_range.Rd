@@ -4,12 +4,12 @@
 \alias{subdaily_out_of_range}
 \title{Sub-daily big errors test}
 \usage{
-subdaily_out_of_range(subdailydata, meta = NULL, outpath, time_offset = 0,
-  ta_day_upper = 45, ta_day_lower = -35, ta_night_upper = 40,
-  ta_night_lower = -40, rr_upper = 100, rr_lower = 0, w_upper = 50,
-  w_lower = 0, dd_upper = 360, dd_lower = 0, sc_upper = 100,
-  sc_lower = 0, sd_upper = 200, sd_lower = 0, fs_upper = 100,
-  fs_lower = 0)
+subdaily_out_of_range(subdailydata, meta = NULL, outpath = getwd(),
+  time_offset = 0, ta_day_upper = 45, ta_day_lower = -35,
+  ta_night_upper = 40, ta_night_lower = -40, rr_upper = 100,
+  rr_lower = 0, w_upper = 50, w_lower = 0, dd_upper = 360,
+  dd_lower = 0, sc_upper = 100, sc_lower = 0, sd_upper = 200,
+  sd_lower = 0, fs_upper = 100, fs_lower = 0)
 }
 \arguments{
 \item{subdailydata}{A character string giving the path of the input file,
@@ -20,7 +20,8 @@ day, hour, minute, value.}
 altitude, variable code, units. If \code{subdailydata} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results.}
+\item{outpath}{Character string giving the path for the QC results. By default
+this is the working directory.}
 
 \item{time_offset}{Offset in hours to add to the time to obtain local time.
 By default, time_offset = 0.}
@@ -85,7 +86,7 @@ The input file must follow the Copernicus Station Exchange Format (SEF).
 }
 \examples{
 subdaily_out_of_range(Rosario$ta, Meta$ta[which(Meta$ta$id=="Rosario"),], 
-                      getwd(), time_offset = -4.28, ta_day_upper = 35)
+                      time_offset = -4.28, ta_day_upper = 35)
 
 }
 \author{

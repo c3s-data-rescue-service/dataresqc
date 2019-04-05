@@ -4,7 +4,7 @@
 \alias{internal_consistency}
 \title{Daily internal consistency test}
 \usage{
-internal_consistency(dailydata, meta = NULL, outpath)
+internal_consistency(dailydata, meta = NULL, outpath = getwd())
 }
 \arguments{
 \item{dailydata}{A character vector giving the paths of two input files,
@@ -15,7 +15,8 @@ day, and the daily value.}
 longitude, altitude, variable code, units. If \code{dailydata} is a vector, 
 \code{meta} is ignored.}
 
-\item{outpath}{Character string giving the path for the QC results.}
+\item{outpath}{Character string giving the path for the QC results. By default
+this is the working directory.}
 }
 \description{
 Determines the coherence between daily maximum temperature (Tx) values and
@@ -35,7 +36,7 @@ higher than 3 degrees Celsius.
 }
 \examples{
 internal_consistency(rbind(Rosario$Tx, Rosario$Tn), 
-                     rbind(Meta$Tx, Meta$Tn), getwd())
+                     rbind(Meta$Tx, Meta$Tn))
 
 }
 \author{
