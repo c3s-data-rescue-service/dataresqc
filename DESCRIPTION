@@ -9,7 +9,7 @@ Authors@R: c(
     person("Clara", "Ventura", role = "aut"),
     person("Stefan", "Hunziker", role = "aut"))
 Description: Quality control functions developed for the Copernicus Data Rescue Service.
-Depends: R (>= 3.1.2)
+Depends: R (>= 3.2)
 License: file LICENSE
 Suggests:
     ggplot2,
