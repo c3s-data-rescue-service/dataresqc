@@ -263,7 +263,7 @@ Moreover, the name and version of the software that was used is printed in the h
 
 The internal consistency test for maximum and minimum temperature simply checks that the minimum temperature is
 not larger than the maximum temperature. For this test, you will need a minimum temperature series for the
-same station you selected before. You can easily download the minimum temperature series by replacing the letter 'x' with the letter 'n' in the filename:
+same station you selected before. You can get the minimum temperature series by repeating the procedure described in Section 1.1 and selecting 'minimum temperature' in the first page. Then:
 
 ```{r, results="hide"}
 climexp_to_sef("http://climexp.knmi.nl/data/ngdcnAR000875850.dat")
