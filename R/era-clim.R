@@ -113,8 +113,15 @@ wmo_time_consistency <- function(series, meta = NULL, outpath = getwd()) {
       tol[which(dt <= 1)] <- 4
       tol[which(dt > 1 & dt <= 2)] <- 7
       tol[which(dt > 2 & dt <= 3)] <- 9
-      tol[which(dt > 3 & dt <= 6)] <- 15
-      tol[which(dt > 6 & dt <= 12)] <- 25
+      tol[which(dt > 3 & dt <= 4)] <- 11
+      tol[which(dt > 4 & dt <= 5)] <- 13
+      tol[which(dt > 5 & dt <= 6)] <- 15
+      tol[which(dt > 6 & dt <= 7)] <- 17
+      tol[which(dt > 7 & dt <= 8)] <- 18
+      tol[which(dt > 8 & dt <= 9)] <- 20
+      tol[which(dt > 9 & dt <= 10)] <- 22
+      tol[which(dt > 10 & dt <= 11)] <- 23
+      tol[which(dt > 11 & dt <= 12)] <- 25
       
     # Test applied to {1, 2, 3, 6, 12} hours with the tolerances suggested by WMO,
     # respectively {4, 6, 8, 12, 20} Celsius degrees
@@ -123,8 +130,15 @@ wmo_time_consistency <- function(series, meta = NULL, outpath = getwd()) {
       tol[which(dt <= 1)] <- 4
       tol[which(dt > 1 & dt <= 2)] <- 6
       tol[which(dt > 2 & dt <= 3)] <- 8
-      tol[which(dt > 3 & dt <= 6)] <- 12
-      tol[which(dt > 6 & dt <= 12)] <- 20
+      tol[which(dt > 3 & dt <= 4)] <- 9
+      tol[which(dt > 4 & dt <= 5)] <- 11
+      tol[which(dt > 5 & dt <= 6)] <- 12
+      tol[which(dt > 6 & dt <= 7)] <- 13
+      tol[which(dt > 7 & dt <= 8)] <- 15
+      tol[which(dt > 8 & dt <= 9)] <- 16
+      tol[which(dt > 9 & dt <= 10)] <- 17
+      tol[which(dt > 10 & dt <= 11)] <- 19
+      tol[which(dt > 11 & dt <= 12)] <- 20
     } 
     
     # Create data frame of flagged observations

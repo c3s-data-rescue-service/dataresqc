@@ -87,8 +87,10 @@ climatic_outliers <- function(Data, meta = NULL, outpath = getwd(),
     #Flag data
     out <- data.frame(Var=character(), Year=numeric(), Month=numeric(),
                       Day=numeric(), Value=numeric(), Meta=character())
-    for (a in 1:12) {
-      out <- rbind(out, subset(Data, Data[,3] == a &
+    months <- x$names
+    colnames(x$stats) <- months
+    for (a in months) {
+      out <- rbind(out, subset(Data, as.character(Data[,3]) == a &
                                  ((Data[,n] > x$stats[5,a]) | (Data[,n] < x$stats[1,a]))))
     }
     
@@ -343,7 +345,7 @@ temporal_coherence <- function(dailydata, meta = NULL, outpath = getwd(),
                                           dailydata$Date[1:(n-1)],
                                           units="days")))
     flags <- which(abs(dailydiff) > jumps & datediff == 1)
-    flags <- append(flags, flags+1)
+    flags <- append(flags, flags-1)
     out <- dailydata[flags, 1:5]
     if (length(flags) != 0) {
       out <- out[!duplicated(out), ]

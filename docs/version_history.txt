@@ -1,3 +1,11 @@
+v0.1.2
+12-Nov-2019
+- Fixed bug in plot_decimals and plot_daily_cycle
+- Inserted interpolated tolerances in wmo_time_consistency
+- Fixed bug in climate_outliers
+- Fixed bug in temporal_coherence
+- Improved write_flags
+
 v0.1.1
 05-Apr-2019
 - Added tutorial

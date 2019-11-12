@@ -168,8 +168,6 @@ write_flags <- function(infile, qcfile, outpath, note = "") {
   
   ## Read SEF file
   Data <- read_sef(infile, all = TRUE)
-  Data$Hour[which(is.na(Data$Hour))] <- ""
-  Data$Minute[which(is.na(Data$Minute))] <- ""
   header <- read.table(file = infile, quote = "", comment.char = "", sep = "\t",
                        nrows = 12, stringsAsFactors = FALSE, fill = TRUE)
   header[which(is.na(header[,2])), 2] <- ""
@@ -187,56 +185,64 @@ write_flags <- function(infile, qcfile, outpath, note = "") {
   if (flags[1,1] != Data[1,1]) {
     stop(paste("Variable mismatch:", flags[1,1], Data[1,1]))
   }
-  if (dim(flags)[2] == 6) {
-    dates <- paste(flags[,2], flags[,3], flags[,4])
-    i <- match(dates, paste(Data$Year, Data$Month, Data$Day))
-  } else if (dim(flags)[2] == 8) {
-    dates <- paste(flags[,2], flags[,3], flags[,4], flags[,5], flags[,6])
-    i <- match(dates, paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute))   
+  if (dim(flags)[2] == 6) { # daily resolution
+    dates <- paste(flags[,2], flags[,3], flags[,4], flags[,5])
+    i <- which(paste(Data$Year, Data$Month, Data$Day, Data$Value) %in% dates)
+  } else if (dim(flags)[2] == 8) { # subdaily resolution
+    dates <- paste(flags[,2], flags[,3], flags[,4], flags[,5], flags[,6], flags[,7])
+    i <- which(paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute, Data$Value) 
+               %in% dates)   
   } else {
     stop("Wrong number of columns in flags file")
   }
   
-  ## Check that values match
-  if (!all(Data$Value[i] == flags[,dim(flags)[2]-1])) {
-    j <- which(Data$Value[i] != flags[,dim(flags)[2]-1])
-    warning(paste("Flags for the following dates could not be written",
-                  "(observations did not match)",
-                  paste(dates[j], collapse=" ")))
-    i <- i[-j]
-    flags <- flags[-j, ]
-  }
-  
-  Data$Meta[i] <- paste0(Data$Meta[i], "|qc=", flags[, dim(flags)[2]])
-  Data$Meta[which(substr(Data$Meta, 1, 1) == "|")] <- 
-    sub("[|]", "", Data$Meta[which(substr(Data$Meta, 1, 1) == "|")])
+  if (length(i) > 0) {
     
-  
-  ## Add name of QC package to the header
-  meta_string <- paste0("QC software=dataresqc v", packageVersion("dataresqc"))
-  if (header[12, 2] == "") {
-    header[12, 2] <- meta_string
-  } else {
-    header[12, 2] <- paste(header[12, 2], meta_string, sep = "|")
-  }
-  
-  ## Write SEF file with flags
-  write_sef(Data = Data[, c(2:6,8)],
-            outpath = outpath,
-            variable = vbl,
-            cod = header[2, 2],
-            nam = header[3, 2],
-            lat = header[4, 2],
-            lon = header[5, 2],
-            alt = header[6, 2],
-            sou = header[7, 2], 
-            link = header[8, 2],
-            stat = header[10, 2],
-            units = uts, 
-            metaHead = header[12, 2], 
-            meta = Data[, 9], 
-            period = Data[, 7], 
-            note = note)
+    ## Stop if there are duplicates
+    if (length(i) > nrow(flags)) stop("Duplicates need one flag for each instance")
+    
+    ## Check if all flagged times are present in the SEF file
+    if (length(i) < nrow(flags)) {
+      k <- which(!dates %in% paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute,
+                                   Data$Value))
+      warning(paste("The SEF file does not contain all flagged observations.",
+                    "Flags for the following observations could not be written:\n",
+                    paste(dates[k], collapse="\n")))
+      flags <- flags[-k, ]
+    }
+    
+    ## Write flags
+    Data$Meta[i] <- paste0(Data$Meta[i], "|qc=", flags[, dim(flags)[2]])
+    Data$Meta[which(substr(Data$Meta, 1, 1) == "|")] <- 
+      sub("[|]", "", Data$Meta[which(substr(Data$Meta, 1, 1) == "|")])
+    
+    ## Add name of QC package to the header
+    meta_string <- paste0("QC software=dataresqc v", packageVersion("C3SQC"))
+    if (header[12, 2] == "") {
+      header[12, 2] <- meta_string
+    } else {
+      header[12, 2] <- paste(header[12, 2], meta_string, sep = "|")
+    }
+    
+    ## Write SEF file with flags
+    write_sef(Data = Data[, c(2:6,8)],
+              outpath = outpath,
+              variable = vbl,
+              cod = header[2, 2],
+              nam = header[3, 2],
+              lat = header[4, 2],
+              lon = header[5, 2],
+              alt = header[6, 2],
+              sou = header[7, 2], 
+              link = header[8, 2],
+              stat = header[10, 2],
+              units = uts, 
+              metaHead = header[12, 2], 
+              meta = Data[, 9], 
+              period = Data[, 7], 
+              note = note)
+    
+  } else warning("No matches found: possibly incorrect input files")
   
 }
 

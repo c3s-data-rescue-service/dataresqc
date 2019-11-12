@@ -10,7 +10,7 @@ plot_weekly_cycle(dailypcp, outpath = getwd(), p = 0.95)
 \item{dailypcp}{A character vector giving the paths of the input files, or
 a list of 5-column matrices with following columns: variable code (must be 'rr'),   
 year, month, day, value. The names of the list elements are assumed to be
-the station names.}
+the station IDs.}
 
 \item{outpath}{Character string giving the path for the output files. By
 default this is the working directory.}
@@ -24,7 +24,7 @@ means of a binomial test.
 \details{
 The input files must follow the C3S Station Exchange Format (SEF).
 
-Creates one pdf for each station ('weekly.name.pdf') plus one pdf with an overview 
+Creates one pdf for each station ('weekly.ID.pdf') plus one pdf with an overview 
 of the entire dataset ('weekly.pdf').
 }
 \examples{

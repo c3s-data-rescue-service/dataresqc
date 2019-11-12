@@ -106,7 +106,11 @@ plot_decimals <- function(Data, outfile = NA, startyear = NA, endyear = NA) {
     Data <- Data[which(Data[,2] <= endyear), ]
   }
   
-  if (is.na(outfile)) outfile <- paste(Data[1, 1], "pdf", sep = ".")
+  if (is.na(outfile)) {
+    outfile <- paste(Data[1, 1], "pdf", sep = ".")
+  } else if (substr(outfile, nchar(outfile)-2, nchar(outfile)) != "pdf") {
+    outfile <- paste(outfile, "pdf", sep = ".")
+  }
   
   dec.labels <- c("x.0","x.1","x.2","x.3","x.4","x.5","x.6","x.7","x.8","x.9")
   
@@ -168,6 +172,8 @@ plot_decimals <- function(Data, outfile = NA, startyear = NA, endyear = NA) {
   plots <- list()
   rhg_cols <- c("black", "yellow", "orange", "red", "darkslateblue", "darkgray", 
                 "magenta","blue", "cyan", "darkgreen")
+  plot_title <- strsplit(outfile, "\\.pdf")[[1]]
+  plot_title <- rev(strsplit(plot_title, "/")[[1]])[1]
   ## Loop on segments
   for (k in 1:segment.amounts.rounded) {
 #    decimal.frame.count <- melt(get(paste0("segment.no.", k)), id.vars = "year")
@@ -197,7 +203,7 @@ plot_decimals <- function(Data, outfile = NA, startyear = NA, endyear = NA) {
                             plot.margin = ggplot2::unit(c(0.6,0.2,0.5,0.5), "cm"))
                     + ggplot2::guides(fill = ggplot2::guide_legend(reverse=TRUE)) 
                     + ggplot2::ylab("observations / year")
-                    + ggplot2::ggtitle(paste0(strsplit(outfile,"\\.pdf"))," \n")) 
+                    + ggplot2::ggtitle(plot_title," \n")) 
     plots[[k]] <- segment.plot
   }
   
@@ -588,7 +594,7 @@ weekly_test <- function(x, p) {
 #' @param dailypcp A character vector giving the paths of the input files, or
 #' a list of 5-column matrices with following columns: variable code (must be 'rr'),   
 #' year, month, day, value. The names of the list elements are assumed to be
-#' the station names.
+#' the station IDs.
 #' @param outpath Character string giving the path for the output files. By
 #' default this is the working directory.
 #' @param p Probability threshold for the binomial test (default is 0.95).
@@ -596,7 +602,7 @@ weekly_test <- function(x, p) {
 #' @details
 #' The input files must follow the C3S Station Exchange Format (SEF).
 #' 
-#' Creates one pdf for each station ('weekly.name.pdf') plus one pdf with an overview 
+#' Creates one pdf for each station ('weekly.ID.pdf') plus one pdf with an overview 
 #' of the entire dataset ('weekly.pdf').
 #' 
 #' @author Stefan Hunziker, Yuri Brugnara
@@ -642,7 +648,7 @@ plot_weekly_cycle <- function(dailypcp, outpath = getwd(), p = 0.95) {
   if (!is.list(dailypcp)) {
     tmp <- list()
     for (i in 1:length(dailypcp)) {
-      station <- read_meta(dailypcp[i], "name")
+      station <- read_meta(dailypcp[i], "id")
       tmp[[station]] <- read_sef(dailypcp[i])[, 1:5]
     }
     dailypcp <- tmp
@@ -677,7 +683,7 @@ plot_weekly_cycle <- function(dailypcp, outpath = getwd(), p = 0.95) {
          ylim = c(min(output$d.count) - 0.01, max(output$d.count) + 0.01),
          xlim = c(1, 7), axes = FALSE,
          xlab = "", ylab = "WD fraction (rr >= 1 mm)",
-         main = paste0(st), cex.main = 1.8, cex.lab = 1.3)
+         main = st, cex.main = 1.8, cex.lab = 1.3)
     axis(1, w.day, day.names, cex.axis = 1.5)
     axis(2, cex.axis = 1.5,las = 0.05)
     abline(h = bintest$phi, lty = 2, col = "black")
