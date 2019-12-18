@@ -5,10 +5,11 @@
 \title{Daily big errors test}
 \usage{
 daily_out_of_range(dailydata, meta = NULL, outpath = getwd(),
-  tmax_upper = 45, tmax_lower = -30, tmin_upper = 30, tmin_lower = -40,
-  rr_upper = 200, rr_lower = 0, w_upper = 30, w_lower = 0,
-  dd_upper = 360, dd_lower = 0, sc_upper = 100, sc_lower = 0,
-  sd_upper = 200, sd_lower = 0, fs_upper = 100, fs_lower = 0)
+  tmax_upper = 45, tmax_lower = -30, tmin_upper = 30,
+  tmin_lower = -40, rr_upper = 200, rr_lower = 0, w_upper = 30,
+  w_lower = 0, dd_upper = 360, dd_lower = 0, sc_upper = 100,
+  sc_lower = 0, sd_upper = 200, sd_lower = 0, fs_upper = 100,
+  fs_lower = 0)
 }
 \arguments{
 \item{dailydata}{A character string giving the path of the input file,

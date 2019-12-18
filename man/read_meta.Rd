@@ -2,7 +2,7 @@
 % Please edit documentation in R/input.R
 \name{read_meta}
 \alias{read_meta}
-\title{Read metadata from the Station Exchange Format version 0.2.0}
+\title{Read metadata from the Station Exchange Format version 1.0.0}
 \usage{
 read_meta(file = file.choose(), parameter = NULL)
 }
@@ -12,14 +12,14 @@ read_meta(file = file.choose(), parameter = NULL)
 \item{parameter}{Character vector of required parameters. Accepted
 values are \code{"version"}, \code{"id"}, \code{"name"}, \code{"lat"},
 \code{"lon"}, \code{"alt"}, \code{"source"}, \code{"link"},
-\code{"var"}, \code{"stat"}, \code{"units"}, \code{"meta"}. 
+\code{"var"}, \code{"stat"}, \code{"units"}, \code{"meta"}.
 By default all parameters are read at once.}
 }
 \value{
 A character vector with the required parameters.
 }
 \description{
-Read metadata from the Station Exchange Format version 0.2.0
+Read metadata from the Station Exchange Format version 1.0.0
 }
 \author{
 Yuri Brugnara

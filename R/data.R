@@ -35,3 +35,5 @@
 #' 
 #' @format Data frame
 "Variables"
+
+utils::globalVariables(c("Tests", "Variables", "ind", "value", "variable"))

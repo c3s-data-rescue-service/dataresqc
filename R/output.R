@@ -1,9 +1,9 @@
-#' Write data in Station Exchange Format version 0.2.0
+#' Write data in Station Exchange Format version 1.0.0
 #'
-#' @param Data A data frame with 6 variables in this order: 
+#' @param Data A data frame with 6 variables in this order:
 #' year, month, day, hour, minute, value.
-#' @param outpath Character string giving the output path (note that the 
-#' filename is generated from the source identifier, station code, start 
+#' @param outpath Character string giving the output path (note that the
+#' filename is generated from the source identifier, station code, start
 #' and end dates, and variable code). By default this is the working
 #' directory.
 #' @param variable Variable code. This is a required field.
@@ -18,63 +18,80 @@
 #' @param stat Character string giving the statistic code. This is a required
 #' field.
 #' @param units Character string giving the units. This is a required field.
-#' @param metaHead Character string giving metadata entries for the header 
+#' @param metaHead Character string giving metadata entries for the header
 #' (pipe separated).
 #' @param meta Character vector with length equal to the number of rows
 #' of \code{Data}, giving metadata entries for the single observations (pipe
 #' separated).
-#' @param period Observation time period code. Must be a character vector with 
-#' length equal to the number of rows of \code{Data} unless all observations 
+#' @param period Observation time period code. Must be a character vector with
+#' length equal to the number of rows of \code{Data} unless all observations
 #' have the same period code.
-#' @param time_offset Numerical vector of offsets from UTC in hours. 
-#' This value will be subtracted from the observation times to obtain UTC times, 
+#' @param time_offset Numerical vector of offsets from UTC in hours.
+#' This value will be subtracted from the observation times to obtain UTC times,
 #' so for instance the offset of Central European Time is +1 hour.
 #' Recycled for all observations if only one value is given.
-#' @param note Character string to be added to the end of the filename.
-#' It will be separated from the rest of the name by an underscore.
+#' @param note Character string to be added to the end of the standard output
+#' filename. It will be separated from the rest of the name by an underscore.
 #' Blanks will be also replaced by underscores.
-#' 
-#' @note 
+#' @param keep_na If FALSE (the default), lines where observations are NA are
+#' removed.
+#' @param outfile Output filename. If specified, ignores \code{note}.
+#'
+#' @note
 #' Times in SEF files must be expressed in UTC.
 #'
+#' If \code{outfile} is not specified, the output filename is generated
+#' automatically as \code{sou}_\code{cod}_startdate_enddate_\code{variable}.tsv
+#'
 #' @author Yuri Brugnara
-#' 
+#'
 #' @examples
 #' # Create a basic SEF file for air temperature in Bern
 #' # (assuming the observation times are in local solar time)
 #' # The file will be written in the working directory
 #' meta_bern <- Meta$ta[which(Meta$ta$id == "Bern"), ]
-#' write_sef(Bern$ta[, 2:7], variable = "ta", cod = meta_bern$id, lat = meta_bern$lat, 
-#'           lon = meta_bern$lon, alt = meta_bern$alt, units = meta_bern$units,  
+#' write_sef(Bern$ta[, 2:7], variable = "ta", cod = meta_bern$id, lat = meta_bern$lat,
+#'           lon = meta_bern$lon, alt = meta_bern$alt, units = meta_bern$units,
 #'           stat = "point", period = "0", time_offset = meta_bern$lon * 24 / 360)
 #'
 #' @import utils
 #' @export
 
-write_sef <- function(Data, outpath = getwd(), variable, cod, nam = "", lat = "", 
-                      lon = "", alt = "", sou = "", link = "", units, 
-                      stat, metaHead = "", meta = "", period = "", 
-                      time_offset = 0, note = "") {
+write_sef <- function(Data, outpath = getwd(), variable, cod, nam = "", lat = "",
+                      lon = "", alt = "", sou = "", link = "", units,
+                      stat, metaHead = "", meta = "", period = "",
+                      time_offset = 0, note = "", keep_na = FALSE, outfile = NA) {
   
   ## Build filename
-  datemin <- paste(formatC(unlist(Data[1, 1:3]), width=2, flag=0),
-                   collapse = "")
-  datemax <- paste(formatC(unlist(Data[dim(Data)[1], 1:3]), width=2, flag=0),
-                   collapse = "")
-  dates <- paste(datemin, datemax, sep = "-")
-  filename <- paste(sou, cod, dates, variable, sep = "_")
-  if (sou %in% c(NA,"")) filename <- sub("_", "", filename)
   if (substr(outpath, nchar(outpath), nchar(outpath)) != "/") {
     outpath <- paste0(outpath, "/")
   }
-  if (note != "") {
-    note <- paste0("_", gsub(" ", "_", note))
+  if (is.na(outfile)) {
+    datemin <- paste(formatC(unlist(Data[1, 1:3]), width=2, flag=0),
+                     collapse = "")
+    datemax <- paste(formatC(unlist(Data[dim(Data)[1], 1:3]), width=2, flag=0),
+                     collapse = "")
+    if (substr(datemin,5,6) == "NA") datemin <- substr(datemin, 1, 4)
+    if (substr(datemax,5,6) == "NA") datemax <- substr(datemax, 1, 4)
+    if (substr(datemin,3,4) == "NA") datemin <- substr(datemin, 1, 2)
+    if (substr(datemax,3,4) == "NA") datemax <- substr(datemax, 1, 2)
+    dates <- paste(datemin, datemax, sep = "-")
+    filename <- paste(sou, cod, dates, variable, sep = "_")
+    if (sou %in% c(NA,"")) filename <- sub("_", "", filename)
+    if (note != "") {
+      note <- paste0("_", gsub(" ", "_", note))
+    }
+    filename <- paste0(outpath, filename, note, ".tsv")
+  } else {
+    filename <- paste0(outpath, outfile)
+    if (substr(filename, nchar(filename)-3, nchar(filename)) != ".tsv") {
+      filename <- paste0(filename, ".tsv")
+    }
   }
-  filename <- paste0(outpath, filename, note, ".tsv")
   
   ## Build header
   header <- array(dim = c(12, 2), data = "")
-  header[1, ] <- c("SEF", "0.2.0")
+  header[1, ] <- c("SEF", "1.0.0")
   header[2, ] <- c("ID", trimws(as.character(cod)))
   header[3, ] <- c("Name", trimws(as.character(nam)))
   header[4, ] <- c("Lat", trimws(as.character(lat)))
@@ -116,7 +133,7 @@ write_sef <- function(Data, outpath = getwd(), variable, cod, nam = "", lat = ""
                         stringsAsFactors = FALSE)
   
   ## Remove lines with missing data
-  DataNew <- DataNew[which(!is.na(DataNew$Value)), ]
+  if (!keep_na) DataNew <- DataNew[which(!is.na(DataNew$Value)), ]
   
   ## Write header to file
   write.table(header, file = filename, quote = FALSE, row.names = FALSE,
@@ -140,7 +157,7 @@ write_sef <- function(Data, outpath = getwd(), variable, cod, nam = "", lat = ""
 ###############################################################################
 
 
-#' Add quality flags to a data file in Station Exchange Format version 0.2.0
+#' Add quality flags to a data file in Station Exchange Format version 1.0.0
 #'
 #' @param infile Character string giving the path of the SEF file.
 #' @param qcfile Character string giving the path of the file with
@@ -150,9 +167,10 @@ write_sef <- function(Data, outpath = getwd(), variable, cod, nam = "", lat = ""
 #' (minute), value, semicolon(';')-separated failed tests. 
 #' @param outpath Character string giving the output path.
 #' @param note Character string to be added to the end of the name of the
-#' output file.
+#' input file to form the output filename. 
 #' It will be separated from the rest of the name by an underscore.
 #' Blanks will be also replaced by underscores.
+#' If not specified, input and output filenames will be identical.
 #' 
 #' @author Yuri Brugnara
 #' 
@@ -225,6 +243,10 @@ write_flags <- function(infile, qcfile, outpath, note = "") {
     }
     
     ## Write SEF file with flags
+    filename <- strsplit(infile, "/")[[1]]
+    filename <- filename[length(filename)]
+    if (note != "") filename <- paste0(substr(filename, 1, nchar(filename)-4),
+                                       "_", gsub(" ", "_" , note), ".tsv")
     write_sef(Data = Data[, c(2:6,8)],
               outpath = outpath,
               variable = vbl,
@@ -240,7 +262,7 @@ write_flags <- function(infile, qcfile, outpath, note = "") {
               metaHead = header[12, 2], 
               meta = Data[, 9], 
               period = Data[, 7], 
-              note = note)
+              outfile = filename)
     
   } else warning("No matches found: possibly incorrect input files")
   

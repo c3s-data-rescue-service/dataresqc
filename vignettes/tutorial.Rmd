@@ -24,8 +24,7 @@ knitr::opts_chunk$set(
 
 <center>
 ```{r, echo=FALSE, warning=FALSE}
-library(knitr)
-include_graphics("logo.png")
+knitr::include_graphics("logo.png")
 ```
 </center>
 
@@ -62,31 +61,31 @@ setwd("my_path/my_dir")
 Now open <a href="http://climexp.knmi.nl/selectdailyseries.cgi" target="_blank">Climate Explorer</a>. Select "maximum temperature" in the "GHCN-D"" panel, write the name of a city in the "Select" panel, and click on "Get stations":
 
 ```{r, echo=FALSE}
-include_graphics("climexp1.jpg")
+knitr::include_graphics("climexp1.jpg")
 ```
 
 You should now get one or more entries of records for the required city (if none appears, try a different city). Click then on "get data":
 
 ```{r, echo=FALSE}
-include_graphics("climexp2.jpg")
+knitr::include_graphics("climexp2.jpg")
 ```
 
 In the next window, click on "raw data":
 
 ```{r, echo=FALSE}
-include_graphics("climexp3.jpg")
+knitr::include_graphics("climexp3.jpg")
 ```
 
 Finally, copy the url of the data file from the address bar of the browser:
 
 ```{r, echo=FALSE}
-include_graphics("climexp4.jpg")
+knitr::include_graphics("climexp4.jpg")
 ```
 
 Paste the url into the following command in R (do not forget the quotes):
 
-```{r, results="hide"}
-climexp_to_sef("http://climexp.knmi.nl/data/xgdcnAR000875850.dat")
+```{r, eval=FALSE}
+climexp_to_sef("<url>")
 ```
 
 This command will create a SEF file in your working directory containing the 
@@ -94,7 +93,8 @@ data for the city that you selected. The name of the file is given automatically
 and includes: source ID, station ID, start date, end date, and variable code.
 
 Assign the name of the file to the variable `myfile`, so that you do
-not have to remember it later:
+not have to remember it later (in this example the filename is that of the Buenos Aires station,
+you will have a different filename):
 
 ```{r}
 myfile <- "GHCN-D_AR000875850_19080902-20190331_Tx.tsv"
@@ -116,7 +116,7 @@ plot_daily(myfile)
 The plot will be saved in the file 'Tx.pdf' in your working directory and will look like this:
 
 ```{r, echo=FALSE}
-include_graphics("plot_daily.jpg")
+knitr::include_graphics("plot_daily.jpg")
 ```
 
 One panel is plotted for each year. You can plot more than one year per panel, for instance three, using the parameter *len* (here we give a different name to the file to avoid overwriting the old one):
@@ -126,7 +126,7 @@ plot_daily(myfile, len = 3, outfile = "Tx3.pdf")
 ```
 
 ```{r, echo=FALSE}
-include_graphics("plot_daily3.jpg")
+knitr::include_graphics("plot_daily3.jpg")
 ```
 
 It is also possible to change most of the graphical parameters. For example, to make the points smaller and change their color:
@@ -136,7 +136,7 @@ plot_daily(myfile, len = 3, cex = 0.5, col = "blue", outfile = "Tx_blue.pdf")
 ```
 
 ```{r, echo=FALSE}
-include_graphics("plot_daily3b.jpg")
+knitr::include_graphics("plot_daily3b.jpg")
 ```
 
 To see which other parameters you can change, call the function documentation with:
@@ -156,7 +156,7 @@ plot_decimals(myfile, outfile = "decimals.pdf")
 ```
 
 ```{r, echo=FALSE}
-include_graphics("plot_decimals.jpg")
+knitr::include_graphics("plot_decimals.jpg")
 ```
 
 In this example, certain decimals (.2, .4, .7, .9) are much less frequent than the others, suggesting that
@@ -206,7 +206,7 @@ climatic_outliers(myfile, IQR = 2, bplot = TRUE, outfile = "boxplot.pdf")
 ```
 
 ```{r, echo=FALSE}
-include_graphics("climatic_outliers.jpg")
+knitr::include_graphics("climatic_outliers.jpg")
 ```
 
 Again, it is possible to change most graphical parameters:
@@ -216,7 +216,7 @@ climatic_outliers(myfile, IQR = 2, bplot = TRUE, col = "red", lwd = 2, outfile =
 ```
 
 ```{r, echo=FALSE}
-include_graphics("climatic_outliers_red.jpg")
+knitr::include_graphics("climatic_outliers_red.jpg")
 ```
 
 <br>
@@ -265,8 +265,11 @@ The internal consistency test for maximum and minimum temperature simply checks 
 not larger than the maximum temperature. For this test, you will need a minimum temperature series for the
 same station you selected before. You can get the minimum temperature series by repeating the procedure described in Section 1.1 and selecting 'minimum temperature' in the first page. Then:
 
-```{r, results="hide"}
-climexp_to_sef("http://climexp.knmi.nl/data/ngdcnAR000875850.dat")
+```{r, eval=FALSE}
+climexp_to_sef("<url>")
+```
+
+```{r}
 myfile2 <- "GHCN-D_AR000875850_19080902-20190331_Tn.tsv"
 ```
 
@@ -307,7 +310,7 @@ plot_subdaily(Rosario$p, year = 1887)
 ```
 
 ```{r, echo=FALSE}
-include_graphics("plot_subdaily.jpg")
+knitr::include_graphics("plot_subdaily.jpg")
 ```
 
 This will plot only the year 1887 (one pdf per year is created), with one panel for each month (for simplicity, panels after March are omitted in the figure above). As usual, graphical parameters can be edited.

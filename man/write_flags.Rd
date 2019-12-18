@@ -2,7 +2,7 @@
 % Please edit documentation in R/output.R
 \name{write_flags}
 \alias{write_flags}
-\title{Add quality flags to a data file in Station Exchange Format version 0.2.0}
+\title{Add quality flags to a data file in Station Exchange Format version 1.0.0}
 \usage{
 write_flags(infile, qcfile, outpath, note = "")
 }
@@ -18,12 +18,13 @@ for daily (sub-daily) data: variable code, year, month, day, (hour),
 \item{outpath}{Character string giving the output path.}
 
 \item{note}{Character string to be added to the end of the name of the
-output file.
+input file to form the output filename. 
 It will be separated from the rest of the name by an underscore.
-Blanks will be also replaced by underscores.}
+Blanks will be also replaced by underscores.
+If not specified, input and output filenames will be identical.}
 }
 \description{
-Add quality flags to a data file in Station Exchange Format version 0.2.0
+Add quality flags to a data file in Station Exchange Format version 1.0.0
 }
 \note{
 The data will be converted to the standard units adopted by the qc

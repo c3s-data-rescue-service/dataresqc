@@ -2,18 +2,19 @@
 % Please edit documentation in R/output.R
 \name{write_sef}
 \alias{write_sef}
-\title{Write data in Station Exchange Format version 0.2.0}
+\title{Write data in Station Exchange Format version 1.0.0}
 \usage{
 write_sef(Data, outpath = getwd(), variable, cod, nam = "", lat = "",
-  lon = "", alt = "", sou = "", link = "", units, stat, metaHead = "",
-  meta = "", period = "", time_offset = 0, note = "")
+  lon = "", alt = "", sou = "", link = "", units, stat,
+  metaHead = "", meta = "", period = "", time_offset = 0,
+  note = "", keep_na = FALSE, outfile = NA)
 }
 \arguments{
-\item{Data}{A data frame with 6 variables in this order: 
+\item{Data}{A data frame with 6 variables in this order:
 year, month, day, hour, minute, value.}
 
-\item{outpath}{Character string giving the output path (note that the 
-filename is generated from the source identifier, station code, start 
+\item{outpath}{Character string giving the output path (note that the
+filename is generated from the source identifier, station code, start
 and end dates, and variable code). By default this is the working
 directory.}
 
@@ -39,39 +40,47 @@ C3S Data Rescue registry).}
 \item{stat}{Character string giving the statistic code. This is a required
 field.}
 
-\item{metaHead}{Character string giving metadata entries for the header 
+\item{metaHead}{Character string giving metadata entries for the header
 (pipe separated).}
 
 \item{meta}{Character vector with length equal to the number of rows
 of \code{Data}, giving metadata entries for the single observations (pipe
 separated).}
 
-\item{period}{Observation time period code. Must be a character vector with 
-length equal to the number of rows of \code{Data} unless all observations 
+\item{period}{Observation time period code. Must be a character vector with
+length equal to the number of rows of \code{Data} unless all observations
 have the same period code.}
 
-\item{time_offset}{Numerical vector of offsets from UTC in hours. 
-This value will be subtracted from the observation times to obtain UTC times, 
+\item{time_offset}{Numerical vector of offsets from UTC in hours.
+This value will be subtracted from the observation times to obtain UTC times,
 so for instance the offset of Central European Time is +1 hour.
 Recycled for all observations if only one value is given.}
 
-\item{note}{Character string to be added to the end of the filename.
-It will be separated from the rest of the name by an underscore.
+\item{note}{Character string to be added to the end of the standard output
+filename. It will be separated from the rest of the name by an underscore.
 Blanks will be also replaced by underscores.}
+
+\item{keep_na}{If FALSE (the default), lines where observations are NA are
+removed.}
+
+\item{outfile}{Output filename. If specified, ignores \code{note}.}
 }
 \description{
-Write data in Station Exchange Format version 0.2.0
+Write data in Station Exchange Format version 1.0.0
 }
 \note{
 Times in SEF files must be expressed in UTC.
+
+If \code{outfile} is not specified, the output filename is generated
+automatically as \code{sou}_\code{cod}_startdate_enddate_\code{variable}.tsv
 }
 \examples{
 # Create a basic SEF file for air temperature in Bern
 # (assuming the observation times are in local solar time)
 # The file will be written in the working directory
 meta_bern <- Meta$ta[which(Meta$ta$id == "Bern"), ]
-write_sef(Bern$ta[, 2:7], variable = "ta", cod = meta_bern$id, lat = meta_bern$lat, 
-          lon = meta_bern$lon, alt = meta_bern$alt, units = meta_bern$units,  
+write_sef(Bern$ta[, 2:7], variable = "ta", cod = meta_bern$id, lat = meta_bern$lat,
+          lon = meta_bern$lon, alt = meta_bern$alt, units = meta_bern$units,
           stat = "point", period = "0", time_offset = meta_bern$lon * 24 / 360)
 
 }

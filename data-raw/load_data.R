@@ -1,6 +1,8 @@
 # Run in the package main directory to import example data and metadata,
 # plus a table of available tests
 
+library(devtools)
+
 # Load and format Bern data from CHIMES project
 load("data-raw/Bern_Studer.RData")
 n <- dim(df)[1]
@@ -150,30 +152,8 @@ Tests <- read.csv("data-raw/tests.csv", stringsAsFactors = FALSE)
 names(Tests)[1] <- "Test"
 
 # Create variables table
-Variables <- data.frame(var = c("dd","fs","rr","p","mslp","sc","sd","ta","Tn","Tx","w",
-                                "n","tb","td","rh"),
-                        units = c("degree", "cm", "mm", "hPa", "hPa", "%", "cm", "C", 
-                                  "C", "C", "m/s", "%", "C", "C", "%"),
-                        description = c("Wind direction",
-                                        "Fresh snow",
-                                        "Accumulated precipitation",
-                                        "Air pressure",
-                                        "Sea level pressure",
-                                        "Fraction of snow cover",
-                                        "Snow depth",
-                                        "Air temperature",
-                                        "Minimum air temperature",
-                                        "Maximum air temperature",
-                                        "Wind speed",
-                                        "Cloud cover",
-                                        "Wet bulb temperature",
-                                        "Dew point temperature",
-                                        "Relative humidity"),
-                        stringsAsFactors = FALSE)
-Variables <- Variables[order(Variables$var), ]
-rownames(Variables) <- 1:dim(Variables)[1]
+Variables <- read.table("data-raw/variables.txt", sep = "\t", stringsAsFactors = FALSE)
+names(Variables) <- c("abbr", "full_name")
 
 # Import using devtools
-setwd("../.")
-devtools::use_data(Bern, Rosario, Meta, Tests, Variables, pkg = "dataresqc", overwrite = TRUE)
-setwd("dataresqc")
+use_data(Bern, Rosario, Meta, Tests, Variables, overwrite = TRUE)

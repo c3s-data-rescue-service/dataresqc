@@ -1,3 +1,13 @@
+v1.0.0
+18-Dec-2019
+- Updated to SEF v1.0.0
+- Added function check_sef
+- It is now possible to fully customize the filename when using write_sef
+- It is now possible to keep NAs in the Value column when using write_sef
+- Function write_flags now retains the input filename
+- Added test duplicate_columns
+- Variables now contains all variable codes included in the C3S Metadata Guidelines
+
 v0.1.2
 12-Nov-2019
 - Fixed bug in plot_decimals and plot_daily_cycle

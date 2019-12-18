@@ -1,8 +1,8 @@
 Package: dataresqc
 Type: Package
 Title: C3S quality control tools for historical climate data
-Version: 0.1.2
-Date: 2019-11-12
+Version: 1.0.0
+Date: 2019-12-18
 Authors@R: c(
     person("Yuri", "Brugnara", email = "yuri.brugnara@giub.unibe.ch", role = c("aut", "cre")), 
     person("Alba", "Gilabert", role = "aut"),
@@ -17,6 +17,6 @@ Suggests:
     knitr,
     rmarkdown
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Encoding: UTF-8
 VignetteBuilder: knitr
