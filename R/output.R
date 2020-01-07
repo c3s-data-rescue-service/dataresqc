@@ -235,7 +235,7 @@ write_flags <- function(infile, qcfile, outpath, note = "") {
       sub("[|]", "", Data$Meta[which(substr(Data$Meta, 1, 1) == "|")])
     
     ## Add name of QC package to the header
-    meta_string <- paste0("QC software=dataresqc v", packageVersion("C3SQC"))
+    meta_string <- paste0("QC software=dataresqc v", packageVersion("dataresqc"))
     if (header[12, 2] == "") {
       header[12, 2] <- meta_string
     } else {
