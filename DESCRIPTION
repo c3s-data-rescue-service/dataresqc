@@ -8,7 +8,7 @@ Authors@R: c(
     person("Alba", "Gilabert", role = "aut"),
     person("Clara", "Ventura", role = "aut"),
     person("Stefan", "Hunziker", role = "aut"))
-Description: Quality control functions developed for the Copernicus Data Rescue Service (see https://data-rescue.copernicus-climate.eu).
+Description: Quality control functions developed for the Copernicus Data Rescue Service (see <https://data-rescue.copernicus-climate.eu/>).
 Depends: R (>= 3.2)
 License: file LICENSE
 Suggests:
