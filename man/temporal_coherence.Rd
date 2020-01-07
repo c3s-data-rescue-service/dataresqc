@@ -4,8 +4,14 @@
 \alias{temporal_coherence}
 \title{Daily temporal coherence test}
 \usage{
-temporal_coherence(dailydata, meta = NULL, outpath = getwd(),
-  temp_jumps = 20, windspeed_jumps = 15, snowdepth_jumps = 50)
+temporal_coherence(
+  dailydata,
+  meta = NULL,
+  outpath = getwd(),
+  temp_jumps = 20,
+  windspeed_jumps = 15,
+  snowdepth_jumps = 50
+)
 }
 \arguments{
 \item{dailydata}{A character string giving the path of the input file,

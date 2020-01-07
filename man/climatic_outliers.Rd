@@ -4,8 +4,15 @@
 \alias{climatic_outliers}
 \title{Climatic outliers test}
 \usage{
-climatic_outliers(Data, meta = NULL, outpath = getwd(), IQR = NA,
-  bplot = FALSE, outfile = NA, ...)
+climatic_outliers(
+  Data,
+  meta = NULL,
+  outpath = getwd(),
+  IQR = NA,
+  bplot = FALSE,
+  outfile = NA,
+  ...
+)
 }
 \arguments{
 \item{Data}{A character string giving the path of the input file,

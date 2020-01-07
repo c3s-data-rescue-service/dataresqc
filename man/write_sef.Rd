@@ -4,10 +4,27 @@
 \alias{write_sef}
 \title{Write data in Station Exchange Format version 1.0.0}
 \usage{
-write_sef(Data, outpath = getwd(), variable, cod, nam = "", lat = "",
-  lon = "", alt = "", sou = "", link = "", units, stat,
-  metaHead = "", meta = "", period = "", time_offset = 0,
-  note = "", keep_na = FALSE, outfile = NA)
+write_sef(
+  Data,
+  outpath = getwd(),
+  variable,
+  cod,
+  nam = "",
+  lat = "",
+  lon = "",
+  alt = "",
+  sou = "",
+  link = "",
+  units,
+  stat,
+  metaHead = "",
+  meta = "",
+  period = "",
+  time_offset = 0,
+  note = "",
+  keep_na = FALSE,
+  outfile = NA
+)
 }
 \arguments{
 \item{Data}{A data frame with 6 variables in this order:

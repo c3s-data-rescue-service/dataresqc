@@ -4,8 +4,14 @@
 \alias{plot_subdaily}
 \title{Plot sub-daily data points}
 \usage{
-plot_subdaily(subdailydata, year = NA, outfile = NA, fixed = TRUE,
-  units = NA, ...)
+plot_subdaily(
+  subdailydata,
+  year = NA,
+  outfile = NA,
+  fixed = TRUE,
+  units = NA,
+  ...
+)
 }
 \arguments{
 \item{subdailydata}{A character string giving the path of the input file, or

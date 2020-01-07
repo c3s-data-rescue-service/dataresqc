@@ -3,7 +3,7 @@
 \name{climexp_to_sef}
 \alias{climexp_to_sef}
 \title{Download a GHCN-Daily data file from the Climate Explorer and convert it
-into the Station Exchange Format version 0.2.0}
+into the Station Exchange Format}
 \usage{
 climexp_to_sef(url, outpath = getwd())
 }
@@ -15,12 +15,7 @@ By default this is the working directory.}
 }
 \description{
 Download a GHCN-Daily data file from the Climate Explorer and convert it
-into the Station Exchange Format version 0.2.0
-}
-\examples{
-# Download the maximum temperature series for Buenos Aires
-climexp_to_sef("http://climexp.knmi.nl/data/xgdcnAR000875850.dat")
-
+into the Station Exchange Format
 }
 \author{
 Yuri Brugnara

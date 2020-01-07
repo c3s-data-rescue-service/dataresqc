@@ -46,26 +46,25 @@
 #' @author Yuri Brugnara
 #' 
 #' @examples
-#' # Testing all variables for Bern and Rosario de Santa Fe
+#' # Testing all variables for Rosario de Santa Fe
 #' 
-#' # Create a data frame for each station and add them to a list
+#' # Create a data frame with all data from list Rosario
 #' # For daily data we need to add the hour and minute columns (NAs)
-#' df1 <- do.call("rbind", Bern)
 #' Ros <- Rosario
 #' Ros$Tx[,c("Hour","Minute")] <- NA
 #' Ros$Tn[,c("Hour","Minute")] <- NA
 #' Ros$rr[,c("Hour","Minute")] <- NA
-#' df2 <- do.call("rbind", Ros)
-#' df2 <- df2[, c("Var","Year","Month","Day","Hour","Minute","Value")]
-#' Data <- list(df1, df2)
+#' Ros <- do.call("rbind", Ros)
+#' Ros <- Ros[, c("Var","Year","Month","Day","Hour","Minute","Value")]
 #' 
 #' # Create a data frame with metadata including data resolution
 #' df_meta <- do.call("rbind", Meta)
-#' df_meta$res <- c(rep("s",4), "d", "d", "s", "s", "d", rep("s",4))
+#' df_meta <- df_meta[which(df_meta$id=="Rosario"), ]
+#' df_meta$res <- c("s", "s", "d", "d", "s", "s", "d", rep("s",4))
 #' 
 #' # Run all qc tests at once and print the results in the working directory
 #' # Time for Rosario is in UTC, therefore an offset is needed to get local time 
-#' qc(Data, df_meta, outpath = getwd(), time_offset=c(0,-4.28))
+#' qc(Ros, df_meta, outpath = getwd(), time_offset=-4.28)
 #' 
 #' 
 #' # Testing one variable at one station

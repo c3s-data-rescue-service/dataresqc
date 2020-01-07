@@ -4,8 +4,12 @@
 \alias{subdaily_repetition}
 \title{Sub-daily repetition test}
 \usage{
-subdaily_repetition(subdailydata = file.choose(), meta = NULL,
-  outpath = getwd(), n = 6)
+subdaily_repetition(
+  subdailydata = file.choose(),
+  meta = NULL,
+  outpath = getwd(),
+  n = 6
+)
 }
 \arguments{
 \item{subdailydata}{A character string giving the path of the input file,

@@ -163,17 +163,13 @@ check_units <- function(x, v, u) {
 
 
 #' Download a GHCN-Daily data file from the Climate Explorer and convert it
-#' into the Station Exchange Format version 0.2.0
+#' into the Station Exchange Format
 #'
 #' @param url Character string giving the url of the data file.
 #' @param outpath Character string giving the path where to save the file.
 #' By default this is the working directory.
 #'
 #' @author Yuri Brugnara
-#' 
-#' @examples
-#' # Download the maximum temperature series for Buenos Aires
-#' climexp_to_sef("http://climexp.knmi.nl/data/xgdcnAR000875850.dat")
 #'
 #' @import utils
 #' @export

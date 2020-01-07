@@ -4,8 +4,16 @@
 \alias{plot_daily}
 \title{Plot daily data points}
 \usage{
-plot_daily(dailydata, len = 1, outfile = NA, startyear = NA,
-  endyear = NA, miss = TRUE, units = NA, ...)
+plot_daily(
+  dailydata,
+  len = 1,
+  outfile = NA,
+  startyear = NA,
+  endyear = NA,
+  miss = TRUE,
+  units = NA,
+  ...
+)
 }
 \arguments{
 \item{dailydata}{A character string giving the path of the input file, or

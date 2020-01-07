@@ -4,12 +4,28 @@
 \alias{subdaily_out_of_range}
 \title{Sub-daily big errors test}
 \usage{
-subdaily_out_of_range(subdailydata, meta = NULL, outpath = getwd(),
-  time_offset = 0, ta_day_upper = 45, ta_day_lower = -35,
-  ta_night_upper = 40, ta_night_lower = -40, rr_upper = 100,
-  rr_lower = 0, w_upper = 50, w_lower = 0, dd_upper = 360,
-  dd_lower = 0, sc_upper = 100, sc_lower = 0, sd_upper = 200,
-  sd_lower = 0, fs_upper = 100, fs_lower = 0)
+subdaily_out_of_range(
+  subdailydata,
+  meta = NULL,
+  outpath = getwd(),
+  time_offset = 0,
+  ta_day_upper = 45,
+  ta_day_lower = -35,
+  ta_night_upper = 40,
+  ta_night_lower = -40,
+  rr_upper = 100,
+  rr_lower = 0,
+  w_upper = 50,
+  w_lower = 0,
+  dd_upper = 360,
+  dd_lower = 0,
+  sc_upper = 100,
+  sc_lower = 0,
+  sd_upper = 200,
+  sd_lower = 0,
+  fs_upper = 100,
+  fs_lower = 0
+)
 }
 \arguments{
 \item{subdailydata}{A character string giving the path of the input file,
