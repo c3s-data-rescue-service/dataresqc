@@ -30,7 +30,7 @@ The input file must follow the Copernicus Station Exchange Format (SEF).
 Zeroes are automatically excluded in bounded variables such as precipitation.
 }
 \examples{
-daily_repetition(Rosario$Tx, Meta$Tx, n = 3)
+daily_repetition(Rosario$Tx, Meta$Tx, outpath = tempdir(), n = 3)
 
 }
 \author{

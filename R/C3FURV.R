@@ -27,7 +27,7 @@
 #' @author Alba Gilabert, Yuri Brugnara
 #'
 #' @examples 
-#' climatic_outliers(Rosario$Tn, Meta$Tn, IQR = 4) 
+#' climatic_outliers(Rosario$Tn, Meta$Tn, outpath = tempdir(), IQR = 4)
 #'
 #' @import graphics
 #' @import grDevices
@@ -150,7 +150,8 @@ climatic_outliers <- function(Data, meta = NULL, outpath = getwd(),
 #' 
 #' @examples 
 #' internal_consistency(rbind(Rosario$Tx, Rosario$Tn), 
-#'                      rbind(Meta$Tx, Meta$Tn))
+#'                      rbind(Meta$Tx, Meta$Tn),
+#'                      outpath = tempdir())
 #'
 #' @export
 
@@ -301,7 +302,7 @@ internal_consistency <- function(dailydata, meta = NULL, outpath = getwd()) {
 #' @author Alba Gilabert, Yuri Brugnara
 #'
 #' @examples
-#' temporal_coherence(Rosario$Tx, Meta$Tx, temp_jumps = 10)
+#' temporal_coherence(Rosario$Tx, Meta$Tx, outpath = tempdir(), temp_jumps = 10)
 #'
 #' @export
 
@@ -390,7 +391,7 @@ temporal_coherence <- function(dailydata, meta = NULL, outpath = getwd(),
 #' @author Alba Gilabert, Yuri Brugnara
 #'
 #' @examples
-#' daily_repetition(Rosario$Tx, Meta$Tx, n = 3)
+#' daily_repetition(Rosario$Tx, Meta$Tx, outpath = tempdir(), n = 3)
 #'
 #' @export
 
@@ -451,7 +452,7 @@ daily_repetition <- function(dailydata, meta = NULL, outpath = getwd(), n = 4) {
 #' @author Alba Gilabert, Yuri Brugnara
 #'
 #' @examples 
-#' duplicate_dates(Rosario$Tx, Meta$Tx)
+#' duplicate_dates(Rosario$Tx, Meta$Tx, outpath = tempdir())
 #'
 #' @export
 
@@ -542,7 +543,7 @@ duplicate_dates <- function(dailydata, meta = NULL, outpath = getwd()) {
 #' @author Alba Gilabert, Yuri Brugnara
 #'
 #' @examples 
-#' daily_out_of_range(Rosario$Tn, Meta$Tn, tmin_upper = 25)
+#' daily_out_of_range(Rosario$Tn, Meta$Tn, outpath = tempdir(), tmin_upper = 25)
 #'
 #' @export
 
@@ -684,7 +685,8 @@ daily_out_of_range <- function(dailydata, meta = NULL, outpath = getwd(), tmax_u
 #'
 #' @examples 
 #' subdaily_out_of_range(Rosario$ta, Meta$ta[which(Meta$ta$id=="Rosario"),], 
-#'                       time_offset = -4.28, ta_day_upper = 35)
+#'                       outpath = tempdir(), time_offset = -4.28, 
+#'                       ta_day_upper = 35)
 #'
 #' @export
 
@@ -810,7 +812,8 @@ subdaily_out_of_range <- function(subdailydata, meta = NULL, outpath = getwd(), 
 #' @author Alba Gilabert, Yuri Brugnara
 #'
 #' @examples
-#' subdaily_repetition(Rosario$ta, Meta$ta[which(Meta$ta$id=="Rosario"),], n = 3)
+#' subdaily_repetition(Rosario$ta, Meta$ta[which(Meta$ta$id=="Rosario"),], 
+#'                     outpath = tempdir(), n = 3)
 #'
 #' @export
 
@@ -872,7 +875,7 @@ subdaily_repetition <- function(subdailydata = file.choose(), meta = NULL,
 #' @author Alba Gilabert, Yuri Brugnara
 #'
 #' @examples 
-#' duplicate_times(Bern$p, Meta$p[which(Meta$p$id=="Bern"),])
+#' duplicate_times(Bern$p, Meta$p[which(Meta$p$id=="Bern"),], outpath = tempdir())
 #'
 #' @export
 

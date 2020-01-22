@@ -24,7 +24,7 @@
 #' @author Yuri Brugnara
 #'
 #' @examples 
-#' climatic_outliers(Rosario$Tn, Meta$Tn, ndays = 3) 
+#' climatic_outliers(Rosario$Tn, Meta$Tn, outpath = tempdir(), ndays = 3) 
 #'
 #' @export
  

@@ -25,7 +25,7 @@ Flag times that appear more than once.
 The input file must follow the Copernicus Station Exchange Format (SEF).
 }
 \examples{
-duplicate_times(Bern$p, Meta$p[which(Meta$p$id=="Bern"),])
+duplicate_times(Bern$p, Meta$p[which(Meta$p$id=="Bern"),], outpath = tempdir())
 
 }
 \author{

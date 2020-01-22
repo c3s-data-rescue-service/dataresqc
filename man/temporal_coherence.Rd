@@ -46,7 +46,7 @@ The input file must follow the Copernicus Station Exchange
 Format (SEF).
 }
 \examples{
-temporal_coherence(Rosario$Tx, Meta$Tx, temp_jumps = 10)
+temporal_coherence(Rosario$Tx, Meta$Tx, outpath = tempdir(), temp_jumps = 10)
 
 }
 \author{

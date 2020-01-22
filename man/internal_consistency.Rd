@@ -36,7 +36,8 @@ higher than 3 degrees Celsius.
 }
 \examples{
 internal_consistency(rbind(Rosario$Tx, Rosario$Tn), 
-                     rbind(Meta$Tx, Meta$Tn))
+                     rbind(Meta$Tx, Meta$Tn),
+                     outpath = tempdir())
 
 }
 \author{

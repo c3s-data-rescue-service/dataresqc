@@ -25,7 +25,7 @@ Flag dates that appear more than once in daily data.
 The input file must follow the Copernicus Station Exchange Format (SEF).
 }
 \examples{
-duplicate_dates(Rosario$Tx, Meta$Tx)
+duplicate_dates(Rosario$Tx, Meta$Tx, outpath = tempdir())
 
 }
 \author{

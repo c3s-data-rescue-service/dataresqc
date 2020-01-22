@@ -76,7 +76,7 @@ multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 #' analyses. Clim. Past, 14: 1-20.
 #' 
 #' @examples 
-#' plot_decimals(Rosario$Tx)
+#' plot_decimals(Rosario$Tx, outfile = paste0(tempdir(),"/test.pdf"))
 #' 
 #' @import grDevices
 #' @export
@@ -257,7 +257,7 @@ plot_decimals <- function(Data, outfile = NA, startyear = NA, endyear = NA) {
 #' analyses. Clim. Past, 14: 1-20.
 #' 
 #' @examples
-#' plot_daily(Rosario$Tx, len = 2)
+#' plot_daily(Rosario$Tx, len = 2, outfile = paste0(tempdir(),"/test.pdf"))
 #' 
 #' @import graphics
 #' @import grDevices
@@ -410,7 +410,7 @@ days_of_month <- function(year, month) {
 #' analyses. Clim. Past, 14: 1-20.
 #' 
 #' @examples
-#' plot_subdaily(Bern$p, year = 1803)
+#' plot_subdaily(Bern$p, year = 1803, outfile = paste0(tempdir(),"/test.pdf"))
 #' 
 #' @import graphics
 #' @import grDevices
@@ -615,7 +615,7 @@ weekly_test <- function(x, p) {
 #' analyses. Clim. Past, 14: 1-20.
 #' 
 #' @examples
-#' plot_weekly_cycle(list(Rosario = Rosario$rr))
+#' plot_weekly_cycle(list(Rosario = Rosario$rr), outpath = tempdir())
 #' 
 #' @import graphics
 #' @import grDevices

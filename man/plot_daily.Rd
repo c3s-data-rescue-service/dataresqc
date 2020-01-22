@@ -52,7 +52,7 @@ The input file must follow the C3S Station Exchange Format (SEF).
 Missing data are shown as red dots at the bottom of the plot.
 }
 \examples{
-plot_daily(Rosario$Tx, len = 2)
+plot_daily(Rosario$Tx, len = 2, outfile = paste0(tempdir(),"/test.pdf"))
 
 }
 \references{

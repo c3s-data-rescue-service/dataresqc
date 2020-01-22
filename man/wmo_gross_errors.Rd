@@ -172,9 +172,11 @@ observation, test. The test column has the description "gross_errors".
 }
 }
 \examples{
-wmo_gross_errors(series = Rosario$p, meta = Meta$p[which(Meta$p$id=="Rosario"),])
-wmo_gross_errors(series = Rosario$ta, meta = Meta$ta[which(Meta$p$id=="Rosario"),])
-wmo_gross_errors(series = Rosario$td, meta = Meta$td)
+wmo_gross_errors(series = Rosario$p, meta = Meta$p[which(Meta$p$id=="Rosario"),],
+                 outpath = tempdir())
+wmo_gross_errors(series = Rosario$ta, meta = Meta$ta[which(Meta$p$id=="Rosario"),],
+                 outpath = tempdir())
+wmo_gross_errors(series = Rosario$td, meta = Meta$td, outpath = tempdir())
 
 }
 \references{

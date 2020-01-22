@@ -96,7 +96,7 @@ or fs exceeds some threshold.
 The input file must follow the Copernicus Station Exchange Format (SEF).
 }
 \examples{
-daily_out_of_range(Rosario$Tn, Meta$Tn, tmin_upper = 25)
+daily_out_of_range(Rosario$Tn, Meta$Tn, outpath = tempdir(), tmin_upper = 25)
 
 }
 \author{

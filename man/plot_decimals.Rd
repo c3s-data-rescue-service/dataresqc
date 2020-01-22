@@ -36,7 +36,7 @@ For precipitation and other bounded variables one needs to remove the values
 at the boundaries from the input data (e.g., zeros for precipitation).
 }
 \examples{
-plot_decimals(Rosario$Tx)
+plot_decimals(Rosario$Tx, outfile = paste0(tempdir(),"/test.pdf"))
 
 }
 \references{

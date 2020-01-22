@@ -39,8 +39,8 @@ integer interval (0, 9) if the unit is oktas.
 }
 }
 \examples{
-impossible_values(series = Rosario$n, meta = Meta$n)
-impossible_values(series = Rosario$rh, meta = Meta$rh)
+impossible_values(series = Rosario$n, meta = Meta$n, outpath = tempdir())
+impossible_values(series = Rosario$rh, meta = Meta$rh, outpath = tempdir())
 
 }
 \author{

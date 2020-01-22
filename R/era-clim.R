@@ -62,7 +62,8 @@
 #' @author Clara Ventura, Yuri Brugnara
 #' 
 #' @examples 
-#' wmo_time_consistency(series = Bern$p, meta = Meta$p[which(Meta$p$id=="Bern"),])
+#' wmo_time_consistency(series = Bern$p, meta = Meta$p[which(Meta$p$id=="Bern"),],
+#'                      outpath = tempdir())
 #' 
 #' @export
  
@@ -199,8 +200,8 @@ wmo_time_consistency <- function(series, meta = NULL, outpath = getwd()) {
 #' @author Clara Ventura, Yuri Brugnara
 #' 
 #' @examples
-#' impossible_values(series = Rosario$n, meta = Meta$n)
-#' impossible_values(series = Rosario$rh, meta = Meta$rh)
+#' impossible_values(series = Rosario$n, meta = Meta$n, outpath = tempdir())
+#' impossible_values(series = Rosario$rh, meta = Meta$rh, outpath = tempdir())
 #' 
 #' @export
 #'
@@ -443,9 +444,11 @@ impossible_values <- function(series, meta = NULL, outpath = getwd()) {
 #' @author Clara Ventura, Yuri Brugnara
 #' 
 #' @examples
-#' wmo_gross_errors(series = Rosario$p, meta = Meta$p[which(Meta$p$id=="Rosario"),])
-#' wmo_gross_errors(series = Rosario$ta, meta = Meta$ta[which(Meta$p$id=="Rosario"),])
-#' wmo_gross_errors(series = Rosario$td, meta = Meta$td)
+#' wmo_gross_errors(series = Rosario$p, meta = Meta$p[which(Meta$p$id=="Rosario"),],
+#'                  outpath = tempdir())
+#' wmo_gross_errors(series = Rosario$ta, meta = Meta$ta[which(Meta$p$id=="Rosario"),],
+#'                  outpath = tempdir())
+#' wmo_gross_errors(series = Rosario$td, meta = Meta$td, outpath = tempdir())
 #' 
 #' @export
 

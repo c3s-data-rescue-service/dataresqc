@@ -271,7 +271,7 @@ check_sef <- function(file = file.choose()) {
   }
   
   i <- which(x$Hour == 0 & x$Minute == 0)
-  if (length(i) > 0) {
+  if (length(i) > 0 & meta["stat"] != "point") {
     cat("Warning: 24 is recommended instead of 0 for the Hour column\n")
     w <- w + 1
   }

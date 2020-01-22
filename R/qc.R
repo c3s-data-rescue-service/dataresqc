@@ -64,12 +64,13 @@
 #' 
 #' # Run all qc tests at once and print the results in the working directory
 #' # Time for Rosario is in UTC, therefore an offset is needed to get local time 
-#' qc(Ros, df_meta, outpath = getwd(), time_offset=-4.28)
+#' qc(Ros, df_meta, outpath = tempdir(), time_offset=-4.28)
 #' 
 #' 
 #' # Testing one variable at one station
-#' qc(Bern$ta, cbind(Meta$ta[which(Meta$ta$id=="Bern"),],"s"), outpath = getwd())
-#' 
+#' qc(Bern$ta, cbind(Meta$ta[which(Meta$ta$id=="Bern"),],"s"), 
+#'    outpath = tempdir())
+#'    
 #' @export
 
 qc <- function(Data, Metadata = NULL, outpath = getwd(), time_offset = 0) {

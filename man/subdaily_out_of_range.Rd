@@ -102,7 +102,8 @@ The input file must follow the Copernicus Station Exchange Format (SEF).
 }
 \examples{
 subdaily_out_of_range(Rosario$ta, Meta$ta[which(Meta$ta$id=="Rosario"),], 
-                      time_offset = -4.28, ta_day_upper = 35)
+                      outpath = tempdir(), time_offset = -4.28, 
+                      ta_day_upper = 35)
 
 }
 \author{

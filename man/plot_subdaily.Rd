@@ -47,7 +47,7 @@ The input file must follow the C3S Station Exchange Format (SEF).
 Creates one pdf for each year plotted.
 }
 \examples{
-plot_subdaily(Bern$p, year = 1803)
+plot_subdaily(Bern$p, year = 1803, outfile = paste0(tempdir(),"/test.pdf"))
 
 }
 \references{

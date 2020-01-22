@@ -96,9 +96,11 @@ automatically as \code{sou}_\code{cod}_startdate_enddate_\code{variable}.tsv
 # (assuming the observation times are in local solar time)
 # The file will be written in the working directory
 meta_bern <- Meta$ta[which(Meta$ta$id == "Bern"), ]
-write_sef(Bern$ta[, 2:7], variable = "ta", cod = meta_bern$id, lat = meta_bern$lat,
-          lon = meta_bern$lon, alt = meta_bern$alt, units = meta_bern$units,
-          stat = "point", period = "0", time_offset = meta_bern$lon * 24 / 360)
+write_sef(Bern$ta[, 2:7], outpath = tempdir(), variable = "ta", 
+          cod = meta_bern$id, nam = "Bern", lat = meta_bern$lat, 
+          lon = meta_bern$lon, alt = meta_bern$alt, 
+          units = meta_bern$units, stat = "point", period = "0", 
+          time_offset = meta_bern$lon * 24 / 360)
 
 }
 \author{

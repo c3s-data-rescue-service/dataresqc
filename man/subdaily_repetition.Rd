@@ -35,7 +35,8 @@ The input file must follow the Copernicus Station Exchange Format (SEF).
 Zeroes are automatically excluded in bounded variables such as precipitation.
 }
 \examples{
-subdaily_repetition(Rosario$ta, Meta$ta[which(Meta$ta$id=="Rosario"),], n = 3)
+subdaily_repetition(Rosario$ta, Meta$ta[which(Meta$ta$id=="Rosario"),], 
+                    outpath = tempdir(), n = 3)
 
 }
 \author{

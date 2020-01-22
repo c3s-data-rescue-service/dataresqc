@@ -28,7 +28,7 @@ Creates one pdf for each station ('weekly.ID.pdf') plus one pdf with an overview
 of the entire dataset ('weekly.pdf').
 }
 \examples{
-plot_weekly_cycle(list(Rosario = Rosario$rr))
+plot_weekly_cycle(list(Rosario = Rosario$rr), outpath = tempdir())
 
 }
 \references{

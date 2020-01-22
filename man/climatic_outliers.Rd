@@ -48,7 +48,7 @@ Format (SEF). This function works with any numerical variable.
 Zeroes are automatically excluded in bounded variables such as precipitation.
 }
 \examples{
-climatic_outliers(Rosario$Tn, Meta$Tn, IQR = 4) 
+climatic_outliers(Rosario$Tn, Meta$Tn, outpath = tempdir(), IQR = 4)
 
 }
 \author{

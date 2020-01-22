@@ -66,7 +66,8 @@ The test column has the description "wmo_time_consistency".
 }
 }
 \examples{
-wmo_time_consistency(series = Bern$p, meta = Meta$p[which(Meta$p$id=="Bern"),])
+wmo_time_consistency(series = Bern$p, meta = Meta$p[which(Meta$p$id=="Bern"),],
+                     outpath = tempdir())
 
 }
 \references{
