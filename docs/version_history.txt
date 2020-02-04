@@ -1,6 +1,7 @@
 v1.0.2
 04-Feb-2020
 - Applied fixes required by CRAN
+- Updated url to data rescue portal in the documentation
 
 v1.0.1
 22-Jan-2020
