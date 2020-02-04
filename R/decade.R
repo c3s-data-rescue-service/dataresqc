@@ -423,7 +423,7 @@ plot_subdaily <- function(subdailydata, year = NA, outfile,
   v <- subdailydata[1, 1]
   y_lab <- paste(v, ifelse(is.na(units), "", paste0("[",units,"]")))
   
-  if (is.na(year)) {
+  if (is.na(year[1])) {
     year <- sort(unique(subdailydata[,2]))
   }
   subdailydata <- subdailydata[which(subdailydata[,2] %in% year), ]
