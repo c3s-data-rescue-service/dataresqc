@@ -13,12 +13,13 @@
 #' 'resolution' can be either 'daily' (or 'd') or 'subdaily' (or 's').
 #' If \code{Data} is a vector, \code{Metadata} is ignored and all the
 #' required information is read from the SEF files.
-#' @param outpath Character string giving the path where the output is saved. By
-#' default this is the working directory.
-#' @param time_offset Numerical vector of the number of hours to add to the time 
+#' @param outpath Character string giving the path where the output is saved.
+#' @param time_offset Numerical vector (of length 1 or equal to the number of 
+#' analysed stations) of the number of hours to add to the time 
 #' to obtain local time. This is used for tests on day and night temperature.
-#' Recycled for all stations if only one value is given.
-#' By default time is assumed to be local time (i.e. offset is zero).
+#' Recycled for all stations if only one value is given. Data not stored
+#' in SEF files (i.e., not in UTC) are typically already expressed in local time:
+#' in this case the offset is zero (the default).
 #' 
 #' @details
 #' This is a wrapper of all functions that can be applied to the variables given
@@ -62,18 +63,18 @@
 #' df_meta <- df_meta[which(df_meta$id=="Rosario"), ]
 #' df_meta$res <- c("s", "s", "d", "d", "s", "s", "d", rep("s",4))
 #' 
-#' # Run all qc tests at once and print the results in the working directory
+#' # Run all qc tests at once
 #' # Time for Rosario is in UTC, therefore an offset is needed to get local time 
 #' qc(Ros, df_meta, outpath = tempdir(), time_offset=-4.28)
 #' 
 #' 
 #' # Testing one variable at one station
 #' qc(Bern$ta, cbind(Meta$ta[which(Meta$ta$id=="Bern"),],"s"), 
-#'    outpath = tempdir())
+#'    outpath = tempdir(), time_offset=0)
 #'    
 #' @export
 
-qc <- function(Data, Metadata = NULL, outpath = getwd(), time_offset = 0) {
+qc <- function(Data, Metadata = NULL, outpath, time_offset = 0) {
   
   ## Check metadata and read SEF files
   if (class(Data) == "list") {
@@ -139,10 +140,10 @@ qc <- function(Data, Metadata = NULL, outpath = getwd(), time_offset = 0) {
   
   ## Loop on stations
   for (st in names(Data)) {
-    print("", quote = FALSE)
-    print("----------------", quote = FALSE)
-    print(st, quote = FALSE)
-    print("----------------", quote = FALSE)
+    message("")
+    message("----------------")
+    message(st)
+    message("----------------")
     names(Data[[st]]) <- c("var", "year", "month", "day", "hour", "minute", "value")
     Data$var <- as.character(Data$var)
     t_offset <- time_offset[which(names(Data)==st)]
@@ -175,8 +176,8 @@ qc <- function(Data, Metadata = NULL, outpath = getwd(), time_offset = 0) {
           } else {
             stop (paste("Unrecognized resolution for", vbl))
           }
-          print("", quote = FALSE)
-          print(paste0("[ ", vbl, " (", r, ") ]"), quote = FALSE)
+          message("")
+          message(paste0("[ ", vbl, " (", r, ") ]"))
           
           for (i_test in 1:nrow(st_tests)) {
             

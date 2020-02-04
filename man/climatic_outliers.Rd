@@ -7,7 +7,7 @@
 climatic_outliers(
   Data,
   meta = NULL,
-  outpath = getwd(),
+  outpath,
   IQR = NA,
   bplot = FALSE,
   outfile = NA,
@@ -23,8 +23,7 @@ month, day, (hour), (minute), value.}
 altitude, variable code, units. If \code{Data} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results. By default
-this is the working directory.}
+\item{outpath}{Character string giving the path for the QC results.}
 
 \item{IQR}{Interquantile range used to define outliers. By default it is 5 for
 precipitation, 3 for air temperature, and 4 for any other variable.}

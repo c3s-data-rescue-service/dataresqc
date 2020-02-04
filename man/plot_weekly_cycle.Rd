@@ -4,7 +4,7 @@
 \alias{plot_weekly_cycle}
 \title{Plot weekly cycle}
 \usage{
-plot_weekly_cycle(dailypcp, outpath = getwd(), p = 0.95)
+plot_weekly_cycle(dailypcp, outpath, p = 0.95)
 }
 \arguments{
 \item{dailypcp}{A character vector giving the paths of the input files, or
@@ -12,8 +12,7 @@ a list of 5-column matrices with following columns: variable code (must be 'rr')
 year, month, day, value. The names of the list elements are assumed to be
 the station IDs.}
 
-\item{outpath}{Character string giving the path for the output files. By
-default this is the working directory.}
+\item{outpath}{Character string giving the path for the output files.}
 
 \item{p}{Probability threshold for the binomial test (default is 0.95).}
 }

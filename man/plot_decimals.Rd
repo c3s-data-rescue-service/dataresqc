@@ -4,16 +4,14 @@
 \alias{plot_decimals}
 \title{Plot decimals}
 \usage{
-plot_decimals(Data, outfile = NA, startyear = NA, endyear = NA)
+plot_decimals(Data, outfile, startyear = NA, endyear = NA)
 }
 \arguments{
 \item{Data}{A character string giving the path of the input file, or
 a 5 or 7-column matrix (depending on data type) with following columns: 
 variable code, year, month, day, (hour), (minute), value.}
 
-\item{outfile}{Character string giving the path of the output pdf file. By
-default a file named after the analysed variable is created in the working 
-directory.}
+\item{outfile}{Character string giving the path of the output pdf file.}
 
 \item{startyear}{First year to plot. If not indicated, all available years
 until \code{endyear} will be plotted.}

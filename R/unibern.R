@@ -11,8 +11,7 @@
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{Data} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' @param ndays Number of consecutive days with zero difference required to
 #' flag the data. The default is 5.
 #' 
@@ -28,7 +27,7 @@
 #'
 #' @export
  
-duplicate_columns <- function(Data, meta = NULL, outpath = getwd(), ndays = 5) {
+duplicate_columns <- function(Data, meta = NULL, outpath, ndays = 5) {
   
   #Read data and metadata
   if (is.null(dim(Data))) {
@@ -126,6 +125,6 @@ duplicate_columns <- function(Data, meta = NULL, outpath = getwd(), ndays = 5) {
   }
   outMsg <- "Duplicate columns test completed"
     
-  return(print(outMsg, quote=FALSE))
+  message(outMsg)
   
 }

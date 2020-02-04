@@ -4,7 +4,7 @@
 \alias{duplicate_dates}
 \title{Duplicate dates test}
 \usage{
-duplicate_dates(dailydata, meta = NULL, outpath = getwd())
+duplicate_dates(dailydata, meta = NULL, outpath)
 }
 \arguments{
 \item{dailydata}{A character string giving the path of the input file,
@@ -15,8 +15,7 @@ day, and the daily value.}
 altitude, variable code, units. If \code{dailydata} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results. By default
-this is the working directory.}
+\item{outpath}{Character string giving the path for the QC results.}
 }
 \description{
 Flag dates that appear more than once in daily data.

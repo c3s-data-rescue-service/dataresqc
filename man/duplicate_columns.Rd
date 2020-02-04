@@ -4,7 +4,7 @@
 \alias{duplicate_columns}
 \title{Duplicate columns test}
 \usage{
-duplicate_columns(Data, meta = NULL, outpath = getwd(), ndays = 5)
+duplicate_columns(Data, meta = NULL, outpath, ndays = 5)
 }
 \arguments{
 \item{Data}{A character string giving the path of the input file,
@@ -15,8 +15,7 @@ month, day, (hour), (minute), value.}
 altitude, variable code, units. If \code{Data} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results. By default
-this is the working directory.}
+\item{outpath}{Character string giving the path for the QC results.}
 
 \item{ndays}{Number of consecutive days with zero difference required to
 flag the data. The default is 5.}

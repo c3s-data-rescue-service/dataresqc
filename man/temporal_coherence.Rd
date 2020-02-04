@@ -7,7 +7,7 @@
 temporal_coherence(
   dailydata,
   meta = NULL,
-  outpath = getwd(),
+  outpath,
   temp_jumps = 20,
   windspeed_jumps = 15,
   snowdepth_jumps = 50
@@ -22,8 +22,7 @@ day, and the daily value.}
 altitude, variable code, units. If \code{dailydata} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results. By default
-this is the working directory.}
+\item{outpath}{Character string giving the path for the QC results.}
 
 \item{temp_jumps}{given a daily maximum or minimum temperature values of two
 consecutive days, maximum difference in degrees Celsius. By default, 

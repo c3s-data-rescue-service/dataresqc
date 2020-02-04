@@ -11,8 +11,7 @@
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{Data} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' @param IQR Interquantile range used to define outliers. By default it is 5 for
 #' precipitation, 3 for air temperature, and 4 for any other variable.
 #' @param bplot If TRUE, create a boxplot and print it into a PDF.
@@ -34,7 +33,7 @@
 #'
 #' @export
 
-climatic_outliers <- function(Data, meta = NULL, outpath = getwd(), 
+climatic_outliers <- function(Data, meta = NULL, outpath, 
                               IQR = NA, bplot = FALSE, outfile = NA, ...) {
   
   #Read data and metadata
@@ -113,7 +112,7 @@ climatic_outliers <- function(Data, meta = NULL, outpath = getwd(),
                     "(minimum 5 years of non-zero values for daily data)")
   }
   
-  return(print(outMsg, quote=FALSE))
+  message(outMsg)
   
 }
 
@@ -135,8 +134,7 @@ climatic_outliers <- function(Data, meta = NULL, outpath = getwd(),
 #' @param meta A data frame with 2 rows and 6 columns: station ID, latitude, 
 #' longitude, altitude, variable code, units. If \code{dailydata} is a vector, 
 #' \code{meta} is ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' 
 #' @details The input file must follow the Copernicus Station Exchange 
 #' Format (SEF).
@@ -155,7 +153,7 @@ climatic_outliers <- function(Data, meta = NULL, outpath = getwd(),
 #'
 #' @export
 
-internal_consistency <- function(dailydata, meta = NULL, outpath = getwd()) {
+internal_consistency <- function(dailydata, meta = NULL, outpath) {
   
   #Read data and metadata
   if (is.null(dim(dailydata))) {
@@ -266,7 +264,8 @@ internal_consistency <- function(dailydata, meta = NULL, outpath = getwd()) {
     outMsg <- "The variables provided are incompatible with this test"
   }
   
-  return(print(outMsg, quote=FALSE))
+  message(outMsg)
+  
 }
 
 
@@ -286,8 +285,7 @@ internal_consistency <- function(dailydata, meta = NULL, outpath = getwd()) {
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{dailydata} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' @param temp_jumps given a daily maximum or minimum temperature values of two
 #' consecutive days, maximum difference in degrees Celsius. By default, 
 #' temp_jumps = 20 C.
@@ -306,7 +304,7 @@ internal_consistency <- function(dailydata, meta = NULL, outpath = getwd()) {
 #'
 #' @export
 
-temporal_coherence <- function(dailydata, meta = NULL, outpath = getwd(), 
+temporal_coherence <- function(dailydata, meta = NULL, outpath, 
                                temp_jumps = 20, windspeed_jumps = 15, 
                                snowdepth_jumps = 50) {
   
@@ -361,7 +359,8 @@ temporal_coherence <- function(dailydata, meta = NULL, outpath = getwd(),
     outMsg <- "Variable not supported by this test"
   }
   
-  return(print(outMsg, quote=FALSE))
+  message(outMsg)
+  
 }
 
 
@@ -378,8 +377,7 @@ temporal_coherence <- function(dailydata, meta = NULL, outpath = getwd(),
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{dailydata} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' @param n Number of minimum equal consecutive values required for a flag. The
 #' default is 4.
 #' 
@@ -395,7 +393,7 @@ temporal_coherence <- function(dailydata, meta = NULL, outpath = getwd(),
 #'
 #' @export
 
-daily_repetition <- function(dailydata, meta = NULL, outpath = getwd(), n = 4) {
+daily_repetition <- function(dailydata, meta = NULL, outpath, n = 4) {
   
   #Read data and metadata
   if (is.null(dim(dailydata))) {
@@ -426,7 +424,8 @@ daily_repetition <- function(dailydata, meta = NULL, outpath = getwd(), n = 4) {
     write_intermediate_daily(namefile, out)
   }
   
-  return(print("Repetition test completed", quote=FALSE))
+  message("Repetition test completed")
+  
 }
 
 
@@ -443,8 +442,7 @@ daily_repetition <- function(dailydata, meta = NULL, outpath = getwd(), n = 4) {
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{dailydata} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' 
 #' @details 
 #' The input file must follow the Copernicus Station Exchange Format (SEF).
@@ -456,7 +454,7 @@ daily_repetition <- function(dailydata, meta = NULL, outpath = getwd(), n = 4) {
 #'
 #' @export
 
-duplicate_dates <- function(dailydata, meta = NULL, outpath = getwd()) {
+duplicate_dates <- function(dailydata, meta = NULL, outpath) {
   
   #Read data and metadata
   if (is.null(dim(dailydata))) {
@@ -482,7 +480,8 @@ duplicate_dates <- function(dailydata, meta = NULL, outpath = getwd()) {
     write_intermediate_daily(namefile, out)
   }
   
-  return(print("Duplicate dates test completed", quote=FALSE))
+  message("Duplicate dates test completed")
+  
 }
 
 
@@ -502,8 +501,7 @@ duplicate_dates <- function(dailydata, meta = NULL, outpath = getwd()) {
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{dailydata} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' @param tmax_upper is the tx maximum threshold in degrees Celsius.
 #' By default, tmax_upper = 45 C.
 #' @param tmax_lower is the tx minimum threshold in degrees Celsius.
@@ -547,7 +545,7 @@ duplicate_dates <- function(dailydata, meta = NULL, outpath = getwd()) {
 #'
 #' @export
 
-daily_out_of_range <- function(dailydata, meta = NULL, outpath = getwd(), tmax_upper = 45, 
+daily_out_of_range <- function(dailydata, meta = NULL, outpath, tmax_upper = 45, 
                                tmax_lower = -30, tmin_upper = 30, tmin_lower = -40, 
                                rr_upper = 200, rr_lower = 0, w_upper = 30, 
                                w_lower = 0, dd_upper = 360, dd_lower =  0, 
@@ -620,7 +618,8 @@ daily_out_of_range <- function(dailydata, meta = NULL, outpath = getwd(), tmax_u
     outMsg <- "Variable not supported by this test"
   }
   
-  return(print(outMsg, quote=FALSE))
+  message(outMsg)
+  
 }
 
 
@@ -641,8 +640,7 @@ daily_out_of_range <- function(dailydata, meta = NULL, outpath = getwd(), tmax_u
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{subdailydata} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' @param time_offset Offset in hours to add to the time to obtain local time.
 #' By default, time_offset = 0.
 #' @param ta_day_upper is the ta maximum day threshold in degrees Celsius.
@@ -690,7 +688,7 @@ daily_out_of_range <- function(dailydata, meta = NULL, outpath = getwd(), tmax_u
 #'
 #' @export
 
-subdaily_out_of_range <- function(subdailydata, meta = NULL, outpath = getwd(), time_offset = 0,
+subdaily_out_of_range <- function(subdailydata, meta = NULL, outpath, time_offset = 0,
                                   ta_day_upper = 45, ta_day_lower = -35,
                                   ta_night_upper = 40, ta_night_lower = -40,
                                   rr_upper = 100, rr_lower = 0, w_upper = 50, 
@@ -782,7 +780,8 @@ subdaily_out_of_range <- function(subdailydata, meta = NULL, outpath = getwd(), 
     outMsg <- "Variable not supported by this test"
   }
   
-  return(print(outMsg, quote=FALSE))
+  message(outMsg)
+  
 }
 
 
@@ -799,8 +798,7 @@ subdaily_out_of_range <- function(subdailydata, meta = NULL, outpath = getwd(), 
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{subdailydata} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' @param n Number of minimum equal consecutive values required for a flag. The
 #' default is 6.
 #' 
@@ -818,7 +816,7 @@ subdaily_out_of_range <- function(subdailydata, meta = NULL, outpath = getwd(), 
 #' @export
 
 subdaily_repetition <- function(subdailydata = file.choose(), meta = NULL, 
-                                outpath = getwd(), n = 6) {
+                                outpath, n = 6) {
   
   #Read data and metadata
   if (is.null(dim(subdailydata))) {
@@ -849,7 +847,8 @@ subdaily_repetition <- function(subdailydata = file.choose(), meta = NULL,
     write_intermediate_subdaily(namefile, out)
   }
   
-  return(print("Repetition test completed", quote=FALSE))
+  message("Repetition test completed")
+  
 }
 
 
@@ -866,8 +865,7 @@ subdaily_repetition <- function(subdailydata = file.choose(), meta = NULL,
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{subdailydata} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' 
 #' @details 
 #' The input file must follow the Copernicus Station Exchange Format (SEF).
@@ -879,7 +877,7 @@ subdaily_repetition <- function(subdailydata = file.choose(), meta = NULL,
 #'
 #' @export
 
-duplicate_times <- function(subdailydata, meta = NULL, outpath = getwd()) {
+duplicate_times <- function(subdailydata, meta = NULL, outpath) {
   
   #Read data and metadata
   if (is.null(dim(subdailydata))) {
@@ -907,5 +905,6 @@ duplicate_times <- function(subdailydata, meta = NULL, outpath = getwd()) {
     write_intermediate_subdaily(namefile, out)
   }
   
-  return(print("Duplicate times test completed", quote=FALSE))
+  message("Duplicate times test completed")
+  
 }

@@ -7,7 +7,7 @@
 plot_daily(
   dailydata,
   len = 1,
-  outfile = NA,
+  outfile,
   startyear = NA,
   endyear = NA,
   miss = TRUE,
@@ -23,9 +23,7 @@ and the daily value.}
 \item{len}{Integer indicating the number of years shown in 
 each panel.}
 
-\item{outfile}{Character string giving the path of the output pdf file. By
-default a file named after the analysed variable is created in the working 
-directory.}
+\item{outfile}{Character string giving the path of the output pdf file.}
 
 \item{startyear}{First year to plot. If not indicated, all available years
 until \code{endyear} will be plotted.}

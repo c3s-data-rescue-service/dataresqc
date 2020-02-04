@@ -4,8 +4,7 @@
 #' year, month, day, hour, minute, value.
 #' @param outpath Character string giving the output path (note that the
 #' filename is generated from the source identifier, station code, start
-#' and end dates, and variable code). By default this is the working
-#' directory.
+#' and end dates, and variable code).
 #' @param variable Variable code. This is a required field.
 #' @param cod Station code. This is a required field.
 #' @param nam Station name.
@@ -59,7 +58,7 @@
 #' @import utils
 #' @export
 
-write_sef <- function(Data, outpath = getwd(), variable, cod, nam = "", lat = "",
+write_sef <- function(Data, outpath, variable, cod, nam = "", lat = "",
                       lon = "", alt = "", sou = "", link = "", units,
                       stat, metaHead = "", meta = "", period = "",
                       time_offset = 0, note = "", keep_na = FALSE, outfile = NA) {
@@ -151,7 +150,7 @@ write_sef <- function(Data, outpath = getwd(), variable, cod, nam = "", lat = ""
               col.names = FALSE, sep = "\t", dec = ".", fileEncoding = "UTF-8",
               append = TRUE)
   
-  return(print(paste("Data written to file", filename), quote = FALSE))
+  message(paste("Data written to file", filename))
   
 }
 

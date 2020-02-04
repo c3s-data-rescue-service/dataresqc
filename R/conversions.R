@@ -167,7 +167,6 @@ check_units <- function(x, v, u) {
 #'
 #' @param url Character string giving the url of the data file.
 #' @param outpath Character string giving the path where to save the file.
-#' By default this is the working directory.
 #'
 #' @author Yuri Brugnara
 #'
@@ -175,7 +174,7 @@ check_units <- function(x, v, u) {
 #' @export
 
 
-climexp_to_sef <- function(url, outpath = getwd()) {
+climexp_to_sef <- function(url, outpath) {
   
   filename <- rev(strsplit(url, "/")[[1]])[1]
   download.file(url, paste(file.path(outpath), filename, sep = "/"))

@@ -4,7 +4,7 @@
 \alias{impossible_values}
 \title{Gross Errors Test for Cloud Cover and Relative Humidity.}
 \usage{
-impossible_values(series, meta = NULL, outpath = getwd())
+impossible_values(series, meta = NULL, outpath)
 }
 \arguments{
 \item{series}{A character string giving the path of the SEF file, or a
@@ -14,8 +14,7 @@ five or seven-column (daily or subdaily) data frame with the series.}
 altitude, variable code, units. If \code{series} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results. By default
-this is the working directory..}
+\item{outpath}{Character string giving the path for the QC results.}
 }
 \description{
 Applicable to a series (daily or sub-daily) of relative humidity (rh) in percent

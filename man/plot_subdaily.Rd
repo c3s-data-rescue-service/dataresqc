@@ -4,14 +4,7 @@
 \alias{plot_subdaily}
 \title{Plot sub-daily data points}
 \usage{
-plot_subdaily(
-  subdailydata,
-  year = NA,
-  outfile = NA,
-  fixed = TRUE,
-  units = NA,
-  ...
-)
+plot_subdaily(subdailydata, year = NA, outfile, fixed = TRUE, units = NA, ...)
 }
 \arguments{
 \item{subdailydata}{A character string giving the path of the input file, or
@@ -23,9 +16,7 @@ all available years will be plotted. One pdf per year will be created.}
 
 \item{outfile}{Character string giving the path of the output pdf file. If
 \code{year} has more than one element or is NA, then this is a root to the 
-filenames to which the year will be added ('root.year.pdf'). By
-default, a file named after the analysed variable and the year is created in  
-the working directory.}
+filenames to which the year will be added ('root.year.pdf').}
 
 \item{fixed}{If TRUE (default), use the same y axis for all months. If FALSE,
 the axis limits are set based on the data range of each month.}
@@ -47,7 +38,7 @@ The input file must follow the C3S Station Exchange Format (SEF).
 Creates one pdf for each year plotted.
 }
 \examples{
-plot_subdaily(Bern$p, year = 1803, outfile = paste0(tempdir(),"/test.pdf"))
+plot_subdaily(Bern$p, year = 1803:1804, outfile = paste0(tempdir(),"/test"))
 
 }
 \references{

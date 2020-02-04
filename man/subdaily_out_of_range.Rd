@@ -7,7 +7,7 @@
 subdaily_out_of_range(
   subdailydata,
   meta = NULL,
-  outpath = getwd(),
+  outpath,
   time_offset = 0,
   ta_day_upper = 45,
   ta_day_lower = -35,
@@ -36,8 +36,7 @@ day, hour, minute, value.}
 altitude, variable code, units. If \code{subdailydata} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results. By default
-this is the working directory.}
+\item{outpath}{Character string giving the path for the QC results.}
 
 \item{time_offset}{Offset in hours to add to the time to obtain local time.
 By default, time_offset = 0.}

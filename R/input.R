@@ -119,68 +119,68 @@ check_sef <- function(file = file.choose()) {
   ## Check header
   if (!all(header[, 1] == c("SEF", "ID", "Name", "Lat", "Lon", "Alt",
                             "Source","Link", "Vbl", "Stat", "Units", "Meta"))) {
-    cat("ERROR: One or more labels in the header were not recognized\n")
+    message("ERROR: One or more labels in the header were not recognized")
     e <- e + 1
   }
   
   if (is.na(meta["id"])) {
-    cat("ERROR: Missing Station ID\n")
+    message("ERROR: Missing Station ID")
     e <- e + 1
   }
   
   if (any(is.na(utf8ToInt(meta["id"])))) {
-    cat("ERROR: Special characters are not allowed in the Station ID\n")
+    message("ERROR: Special characters are not allowed in the Station ID")
     e <- e + 1
   }
   
   if (grepl(" ", trimws(meta["id"]))) {
-    cat("ERROR: Blanks are not allowed in the Station ID\n")
+    message("ERROR: Blanks are not allowed in the Station ID")
     e <- e + 1
   }
   
   if (is.na(meta["name"])) {
-    cat("ERROR: Missing Station Name\n")
+    message("ERROR: Missing Station Name")
     e <- e + 1
   }
   
   if (is.na(meta["lat"])) {
-    cat("ERROR: Missing Latitude\n")
+    message("ERROR: Missing Latitude")
     e <- e + 1
   }
   
   if (is.na(meta["lon"])) {
-    cat("ERROR: Missing Longitude\n")
+    message("ERROR: Missing Longitude")
     e <- e + 1
   }
   
   if (is.na(meta["alt"])) {
-    cat("Warning: Missing Altitude\n")
+    message("Warning: Missing Altitude")
     w <- w + 1
   }
   
   if (is.na(meta["source"])) {
-    cat("Warning: Missing Data Source\n")
+    message("Warning: Missing Data Source")
     w <- w + 1
   }
   
   if (!meta["var"] %in% Variables$abbr) {
-    cat("Warning: Non-standard variable code\n")
+    message("Warning: Non-standard variable code")
     w <- w + 1
   }
   
   if (is.na(meta["stat"])) {
-    cat("ERROR: Missing statistic\n")
+    message("ERROR: Missing statistic")
     e <- e + 1
   }
   
   if (!meta["stat"] %in% c("point","maximum","minimum","mean","median",
                            "mid_range","mode","sum","variance","standard_deviation")) {
-    cat("Warning: stat entry not recognized\n")
+    message("Warning: stat entry not recognized")
     w <- w + 1
   }
   
   if (is.na(meta["units"])) {
-    cat("ERROR: Missing units\n")
+    message("ERROR: Missing units")
     e <- e + 1
   }
   
@@ -188,7 +188,7 @@ check_sef <- function(file = file.choose()) {
     n1 <- length(strsplit(meta["meta"], "|", fixed = TRUE)[[1]])
     n2 <- length(strsplit(meta["meta"], "=", fixed = TRUE)[[1]])
     if (n2 != (n1+1)) {
-      cat("Warning: Uncorrect metadata format in Meta in the header\n")
+      message("Warning: Uncorrect metadata format in Meta in the header")
       w <- w + 1
     }
   }
@@ -197,7 +197,7 @@ check_sef <- function(file = file.choose()) {
   ## Check data
   if (!all(names(x) == c("Year", "Month", "Day", "Hour", "Minute", "Period",
                          "Value", "Meta"))) {
-    cat("ERROR: One or more data headers were not recognized\n")
+    message("ERROR: One or more data headers were not recognized")
     e <- e + 1
   }
   
@@ -205,46 +205,44 @@ check_sef <- function(file = file.choose()) {
     x[[lab]] <- suppressWarnings(as.numeric(x[[lab]]))
     i <- which(as.integer(x[[lab]]) != x[[lab]])
     if (length(i) > 0) {
-      cat ("ERROR: Non-integer", lab, "\n")
+      message(paste("ERROR: Non-integer", lab))
       e <- e + 1
     }
   }
   
   if (sum(is.na(x$Year)) > 0) {
-    cat("Warning: There are missing or non-numeric values in the Year column\n")
+    message("Warning: There are missing or non-numeric values in the Year column")
     w <- w + 1
   }
   
   current_year <- as.integer(substr(date(), nchar(date())-4, nchar(date())))
   i <- which(x$Year < 1600 | x$Year > current_year)
   if (length(i) > 0) {
-    cat ("Warning: Year outside 1600-present range\n")
+    message ("Warning: Year outside 1600-present range")
     w <- w + 1
   }
   
   i <- which(x$Month < 1 | x$Month > 12)
   if (length(i) > 0) {
-    cat ("ERROR: Month outside 1-12 range\n")
+    message ("ERROR: Month outside 1-12 range")
     e <- e + 1
   }
   
   n <- sum(!is.na(x$Month) & grepl("year", x$Period, ignore.case = TRUE))
   if (n > 0) {
-    cat("Warning: If the annual values refer to the calendar year",
-        "the Month column should contain missing values\n")
+    message("Warning: If the annual values refer to the calendar year the Month column should contain missing values")
     w <- w + 1
   }
   
   i <- which(x$Day < 1 | x$Day > 31)
   if (length(i) > 0) {
-    cat ("ERROR: Day outside 1-31 range\n")
+    message ("ERROR: Day outside 1-31 range")
     e <- e + 1
   }
   
   n <- sum(!is.na(x$Day) & grepl("month", x$Period, ignore.case = TRUE))
   if (n > 0) {
-    cat("Warning: If the monthly values refer to the calendar month",
-        "the Day column should contain missing values\n")
+    message("Warning: If the monthly values refer to the calendar month the Day column should contain missing values")
     w <- w + 1
   }
   
@@ -252,27 +250,26 @@ check_sef <- function(file = file.choose()) {
   if (sum(is.na(x$Month)) > 0) {
     i <- which(is.na(x$Month))
     if(!all(i %in% j)) {
-      cat("Warning: There are missing or non-numeric values in the Month",
-          "column where data are not annual\n")
+      message("Warning: There are missing or non-numeric values in the Month column where data are not annual")
       w <- w + 1
     }
   }
   
   i <- which(x$Hour < 0 | x$Hour > 24)
   if (length(i) > 0) {
-    cat("ERROR: Hour outside 0-24 range\n")
+    message("ERROR: Hour outside 0-24 range")
     e <- e + 1
   }
   
   i <- which(x$Minute < 0 | x$Minute > 59)
   if (length(i) > 0) {
-    cat("ERROR: Minute outside 0-59 range\n")
+    message("ERROR: Minute outside 0-59 range")
     e <- e + 1
   }
   
   i <- which(x$Hour == 0 & x$Minute == 0)
   if (length(i) > 0 & meta["stat"] != "point") {
-    cat("Warning: 24 is recommended instead of 0 for the Hour column\n")
+    message("Warning: 24 is recommended instead of 0 for the Hour column")
     w <- w + 1
   }
   
@@ -281,8 +278,8 @@ check_sef <- function(file = file.choose()) {
     if (sum(is.na(x[[lab]])) > 0) {
       i <- which(is.na(x[[lab]]))
       if(!all(i %in% c(j, k))) {
-        cat("Warning: There are missing or non-numeric values in the",
-            lab, "column but data are neither monthly nor annual\n")
+        message(paste("Warning: There are missing or non-numeric values in the",
+                      lab, "column but data are neither monthly nor annual"))
         w <- w + 1
       }
     }
@@ -290,13 +287,13 @@ check_sef <- function(file = file.choose()) {
   
   n <- sum(is.na(x$Period))
   if (n > 0) {
-    cat("ERROR: There are missing values in the Period column\n")
+    message("ERROR: There are missing values in the Period column")
     e <- e + 1
   }
   
   n <- length(grep(" ", trimws(x$Period)))
   if (n > 0) {
-    cat("ERROR: Blanks are not allowed in the Period column\n")
+    message("ERROR: Blanks are not allowed in the Period column")
     e <- e + 1
   }
   
@@ -308,15 +305,14 @@ check_sef <- function(file = file.choose()) {
                grep("day", x$Period, ignore.case = TRUE),
                grep("month", x$Period, ignore.case = TRUE),
                grep("year", x$Period, ignore.case = TRUE))) != (nrow(x) - n)) {
-    cat("Warning: There are unrecognized values in the Period column\n")
+    message("Warning: There are unrecognized values in the Period column")
     e <- e + 1
   }
   
   if (length(grep("p", x$Period)) > 0) {
     chronol <- order(x$Year, x$Month, x$Day)
     if (!all(chronol == 1:nrow(x))) {
-      cat("Warning: Data should be in cronological order when using p in the",
-          "Period column\n")
+      message("Warning: Data should be in cronological order when using p in the Period column")
       w <- w + 1
     }
   }
@@ -324,7 +320,7 @@ check_sef <- function(file = file.choose()) {
   n <- sum(is.na(x$Value))
   x$Value <- suppressWarnings(as.numeric(x$Value))
   if (sum(is.na(x$Value)) > n) {
-    cat("Warning: There are non-numeric values in the Value column\n")
+    message("Warning: There are non-numeric values in the Value column")
     w <- w + 1
   }
   
@@ -332,18 +328,18 @@ check_sef <- function(file = file.choose()) {
     n1 <- sapply(x$Meta, function(x) length(strsplit(x, "|", fixed = TRUE)[[1]]))
     n2 <- sapply(x$Meta, function(x) length(strsplit(x, "=", fixed = TRUE)[[1]]))
     if (any(n2 != (n1+1))) {
-      cat("Warning: Uncorrect format detected in the Meta column\n")
+      message("Warning: Uncorrect format detected in the Meta column")
       w <- w + 1
     }
   }
   
   if (meta["var"] == "p" & !grepl("PGC", meta["meta"])) {
-    cat("Warning: PGC not specified\n")
+    message("Warning: PGC not specified")
     w <- w + 1
   }
   
   if (meta["var"] == "p" & !grepl("PTC", meta["meta"])) {
-    cat("Warning: PTC not specified\n")
+    message("Warning: PTC not specified")
     w <- w + 1
   }
   
@@ -353,7 +349,7 @@ check_sef <- function(file = file.choose()) {
     i <- which(trimws(x$Period) != "0")
     j <- grep("stat", x$Meta, ignore.case = TRUE)
     if (!all(i %in% j)) {
-      cat("ERROR: Period must be 0 when stat is point\n")
+      message("ERROR: Period must be 0 when stat is point")
       e <- e + 1
     }
   }
@@ -362,14 +358,14 @@ check_sef <- function(file = file.choose()) {
     i <- which(trimws(x$Period) == "0")
     j <- grep("stat", x$Meta, ignore.case = TRUE)
     if (!all(i %in% j)) {
-      cat("ERROR: Period cannot be 0 when stat is not point\n")
+      message("ERROR: Period cannot be 0 when stat is not point")
       e <- e + 1
     }
   }
   
   
   ## Print recap and return a boolean
-  cat(e, "errors and", w, "warnings\n")
+  message(paste(e, "errors and", w, "warnings"))
   if (e == 0) {
     return(TRUE)
   } else {

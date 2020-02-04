@@ -4,7 +4,7 @@
 \alias{wmo_time_consistency}
 \title{WMO Time Consistency Test for Pressure, Temperature and Dew Point.}
 \usage{
-wmo_time_consistency(series, meta = NULL, outpath = getwd())
+wmo_time_consistency(series, meta = NULL, outpath)
 }
 \arguments{
 \item{series}{A character string giving the path of the input file,
@@ -15,8 +15,7 @@ day, hour, minute, value.}
 altitude, variable code, units. If \code{series} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results. By default
-this is the working directory.}
+\item{outpath}{Character string giving the path for the QC results.}
 }
 \description{
 Applicable to a series of sub-daily air pressure (p, mslp),  

@@ -56,8 +56,7 @@
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{series} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' 
 #' @author Clara Ventura, Yuri Brugnara
 #' 
@@ -67,7 +66,7 @@
 #' 
 #' @export
  
-wmo_time_consistency <- function(series, meta = NULL, outpath = getwd()) {
+wmo_time_consistency <- function(series, meta = NULL, outpath) {
   
   #Read data and metadata
   if (is.null(dim(series))) {
@@ -160,7 +159,8 @@ wmo_time_consistency <- function(series, meta = NULL, outpath = getwd()) {
     outMsg <- "Variable not supported by this test"
   }
   
-  return(print(outMsg, quote=FALSE))
+  message(outMsg)
+  
 }
 
 
@@ -194,8 +194,7 @@ wmo_time_consistency <- function(series, meta = NULL, outpath = getwd()) {
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{series} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory..
+#' @param outpath Character string giving the path for the QC results.
 #' 
 #' @author Clara Ventura, Yuri Brugnara
 #' 
@@ -206,7 +205,7 @@ wmo_time_consistency <- function(series, meta = NULL, outpath = getwd()) {
 #' @export
 #'
 
-impossible_values <- function(series, meta = NULL, outpath = getwd()) {
+impossible_values <- function(series, meta = NULL, outpath) {
   
   #Read data and metadata
   if (is.null(dim(series))) {
@@ -266,7 +265,8 @@ impossible_values <- function(series, meta = NULL, outpath = getwd()) {
     outMsg <- "Variable not supported by this test"
   }
   
-  return(print(outMsg, quote=FALSE))
+  message(outMsg)
+  
 }
 
 
@@ -438,8 +438,7 @@ impossible_values <- function(series, meta = NULL, outpath = getwd()) {
 #' @param meta A character vector with 6 elements: station ID, latitude, longitude,
 #' altitude, variable code, units. If \code{series} is a path, \code{meta} is
 #' ignored.
-#' @param outpath Character string giving the path for the QC results. By default
-#' this is the working directory.
+#' @param outpath Character string giving the path for the QC results.
 #' 
 #' @author Clara Ventura, Yuri Brugnara
 #' 
@@ -452,7 +451,7 @@ impossible_values <- function(series, meta = NULL, outpath = getwd()) {
 #' 
 #' @export
 
-wmo_gross_errors <- function(series, meta = NULL, outpath = getwd()) {
+wmo_gross_errors <- function(series, meta = NULL, outpath) {
   
   #Read data and metadata
   if (is.null(dim(series))) {
@@ -766,5 +765,6 @@ wmo_gross_errors <- function(series, meta = NULL, outpath = getwd()) {
     outMsg <- "Variable not supported by this test"
   }
   
-  return(print(outMsg, quote=FALSE))
+  message(outMsg)
+  
 }

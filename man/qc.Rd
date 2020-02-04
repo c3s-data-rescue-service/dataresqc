@@ -4,7 +4,7 @@
 \alias{qc}
 \title{Apply all tests}
 \usage{
-qc(Data, Metadata = NULL, outpath = getwd(), time_offset = 0)
+qc(Data, Metadata = NULL, outpath, time_offset = 0)
 }
 \arguments{
 \item{Data}{Either a character vector of paths to SEF files, a data frame
@@ -19,13 +19,14 @@ IDs must appear in the same order of the respective elements in the list.
 If \code{Data} is a vector, \code{Metadata} is ignored and all the
 required information is read from the SEF files.}
 
-\item{outpath}{Character string giving the path where the output is saved. By
-default this is the working directory.}
+\item{outpath}{Character string giving the path where the output is saved.}
 
-\item{time_offset}{Numerical vector of the number of hours to add to the time 
+\item{time_offset}{Numerical vector (of length 1 or equal to the number of 
+analysed stations) of the number of hours to add to the time 
 to obtain local time. This is used for tests on day and night temperature.
-Recycled for all stations if only one value is given.
-By default time is assumed to be local time (i.e. offset is zero).}
+Recycled for all stations if only one value is given. Data not stored
+in SEF files (i.e., not in UTC) are typically already expressed in local time:
+in this case the offset is zero (the default).}
 }
 \description{
 Perform all quality tests at once on multiple stations and multiple
@@ -71,14 +72,14 @@ df_meta <- do.call("rbind", Meta)
 df_meta <- df_meta[which(df_meta$id=="Rosario"), ]
 df_meta$res <- c("s", "s", "d", "d", "s", "s", "d", rep("s",4))
 
-# Run all qc tests at once and print the results in the working directory
+# Run all qc tests at once
 # Time for Rosario is in UTC, therefore an offset is needed to get local time 
 qc(Ros, df_meta, outpath = tempdir(), time_offset=-4.28)
 
 
 # Testing one variable at one station
 qc(Bern$ta, cbind(Meta$ta[which(Meta$ta$id=="Bern"),],"s"), 
-   outpath = tempdir())
+   outpath = tempdir(), time_offset=0)
    
 }
 \author{

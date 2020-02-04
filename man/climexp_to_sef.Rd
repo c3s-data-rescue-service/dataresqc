@@ -5,13 +5,12 @@
 \title{Download a GHCN-Daily data file from the Climate Explorer and convert it
 into the Station Exchange Format}
 \usage{
-climexp_to_sef(url, outpath = getwd())
+climexp_to_sef(url, outpath)
 }
 \arguments{
 \item{url}{Character string giving the url of the data file.}
 
-\item{outpath}{Character string giving the path where to save the file.
-By default this is the working directory.}
+\item{outpath}{Character string giving the path where to save the file.}
 }
 \description{
 Download a GHCN-Daily data file from the Climate Explorer and convert it

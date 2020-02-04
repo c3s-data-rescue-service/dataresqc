@@ -48,9 +48,7 @@ multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 #' @param Data A character string giving the path of the input file, or
 #' a 5 or 7-column matrix (depending on data type) with following columns: 
 #' variable code, year, month, day, (hour), (minute), value. 
-#' @param outfile Character string giving the path of the output pdf file. By
-#' default a file named after the analysed variable is created in the working 
-#' directory.
+#' @param outfile Character string giving the path of the output pdf file.
 #' @param startyear First year to plot. If not indicated, all available years
 #' until \code{endyear} will be plotted.
 #' @param endyear Last year to plot. If not indicated, all available years
@@ -81,7 +79,7 @@ multiplot <- function(..., plotlist=NULL, cols=1, layout=NULL) {
 #' @import grDevices
 #' @export
 
-plot_decimals <- function(Data, outfile = NA, startyear = NA, endyear = NA) {
+plot_decimals <- function(Data, outfile, startyear = NA, endyear = NA) {
   
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Package \"ggplot2\" needed for this function to work. Please install it.",
@@ -106,9 +104,7 @@ plot_decimals <- function(Data, outfile = NA, startyear = NA, endyear = NA) {
     Data <- Data[which(Data[,2] <= endyear), ]
   }
   
-  if (is.na(outfile)) {
-    outfile <- paste(Data[1, 1], "pdf", sep = ".")
-  } else if (substr(outfile, nchar(outfile)-2, nchar(outfile)) != "pdf") {
+  if (substr(outfile, nchar(outfile)-2, nchar(outfile)) != "pdf") {
     outfile <- paste(outfile, "pdf", sep = ".")
   }
   
@@ -210,7 +206,7 @@ plot_decimals <- function(Data, outfile = NA, startyear = NA, endyear = NA) {
   multiplot(plotlist = plots)
   dev.off()
   
-  return(print(paste("Plot saved in",outfile), quote = FALSE))
+  message(paste("Plot saved in",outfile))
   
 }
 
@@ -227,9 +223,7 @@ plot_decimals <- function(Data, outfile = NA, startyear = NA, endyear = NA) {
 #' and the daily value.
 #' @param len Integer indicating the number of years shown in 
 #' each panel.
-#' @param outfile Character string giving the path of the output pdf file. By
-#' default a file named after the analysed variable is created in the working 
-#' directory.
+#' @param outfile Character string giving the path of the output pdf file.
 #' @param startyear First year to plot. If not indicated, all available years
 #' until \code{endyear} will be plotted.
 #' @param endyear Last year to plot. If not indicated, all available years
@@ -265,7 +259,7 @@ plot_decimals <- function(Data, outfile = NA, startyear = NA, endyear = NA) {
 #' @export
 
 
-plot_daily <- function(dailydata, len = 1, outfile = NA,                             
+plot_daily <- function(dailydata, len = 1, outfile,                             
                        startyear = NA, endyear = NA, 
                        miss = TRUE, units = NA, ...) {
   
@@ -283,7 +277,9 @@ plot_daily <- function(dailydata, len = 1, outfile = NA,
     dailydata <- dailydata[which(dailydata[,2] <= endyear), ]
   }
   
-  if (is.na(outfile)) outfile <- paste(dailydata[1, 1], "pdf", sep = ".")
+  if (substr(outfile, nchar(outfile)-2, nchar(outfile)) != "pdf") {
+    outfile <- paste(outfile, "pdf", sep = ".")
+  }
   
   ## define grid
   abline_h <- as.numeric(pretty(round(min(dailydata[,5], na.rm = T)):
@@ -320,6 +316,7 @@ plot_daily <- function(dailydata, len = 1, outfile = NA,
   ## plot single or multiple time series segments
   pdf(outfile, width = 7, height = n * 2)
   old_par <- list(mfrow = par()$mfrow, mar = par()$mar)
+  on.exit(par(old_par))
   par(mar = c(3, 4, 2, 2))
   par(mfrow = c(n, 1))
   for (k in 1:segment.amounts.rounded) {
@@ -344,8 +341,8 @@ plot_daily <- function(dailydata, len = 1, outfile = NA,
   }
   
   dev.off()
-  par(old_par)
-  return(print(paste("Plot saved in",outfile), quote = FALSE))
+
+  message(paste("Plot saved in",outfile))
   
 }
 
@@ -383,9 +380,7 @@ days_of_month <- function(year, month) {
 #' all available years will be plotted. One pdf per year will be created.
 #' @param outfile Character string giving the path of the output pdf file. If  
 #' \code{year} has more than one element or is NA, then this is a root to the 
-#' filenames to which the year will be added ('root.year.pdf'). By
-#' default, a file named after the analysed variable and the year is created in  
-#' the working directory.
+#' filenames to which the year will be added ('root.year.pdf').
 #' @param fixed If TRUE (default), use the same y axis for all months. If FALSE,
 #' the axis limits are set based on the data range of each month.
 #' @param units Character string giving the units (will be printed in the y-axis). 
@@ -410,7 +405,7 @@ days_of_month <- function(year, month) {
 #' analyses. Clim. Past, 14: 1-20.
 #' 
 #' @examples
-#' plot_subdaily(Bern$p, year = 1803, outfile = paste0(tempdir(),"/test.pdf"))
+#' plot_subdaily(Bern$p, year = 1803:1804, outfile = paste0(tempdir(),"/test"))
 #' 
 #' @import graphics
 #' @import grDevices
@@ -418,7 +413,7 @@ days_of_month <- function(year, month) {
 #' @export
 
 
-plot_subdaily <- function(subdailydata, year = NA, outfile = NA,
+plot_subdaily <- function(subdailydata, year = NA, outfile,
                           fixed = TRUE, units = NA, ...) {
   
   if (is.null(dim(subdailydata))) {
@@ -436,14 +431,15 @@ plot_subdaily <- function(subdailydata, year = NA, outfile = NA,
   if (dim(subdailydata)[1] == 0) stop("No data to plot")
   
   ## define filename(s)
-  if (is.na(outfile)) {
-    outfile <- paste(subdailydata[1, 1], year, "pdf", sep = ".")
-  } else if (length(year) > 1) {
+  if (length(year) > 1) {
     outfile <- paste(outfile, year, "pdf", sep = ".")
+  } else if (substr(outfile, nchar(outfile)-2, nchar(outfile)) != "pdf") {
+    outfile <- paste(outfile, "pdf", sep = ".")
   }
   names(outfile) <- year
   
   old_par <- list(mfrow = par()$mfrow, mar = par()$mar, xaxs = par()$xaxs)
+  on.exit(par(old_par))
   
   for (y in year) {
     
@@ -503,7 +499,7 @@ plot_subdaily <- function(subdailydata, year = NA, outfile = NA,
   
   }
   
-  return(print(paste("Plot saved in",outfile), quote = FALSE))
+  message(paste("Plot saved in",outfile))
   
 }
 
@@ -595,8 +591,7 @@ weekly_test <- function(x, p) {
 #' a list of 5-column matrices with following columns: variable code (must be 'rr'),   
 #' year, month, day, value. The names of the list elements are assumed to be
 #' the station IDs.
-#' @param outpath Character string giving the path for the output files. By
-#' default this is the working directory.
+#' @param outpath Character string giving the path for the output files.
 #' @param p Probability threshold for the binomial test (default is 0.95).
 #'
 #' @details
@@ -623,7 +618,7 @@ weekly_test <- function(x, p) {
 #' @import stats
 #' @export
 
-plot_weekly_cycle <- function(dailypcp, outpath = getwd(), p = 0.95) {
+plot_weekly_cycle <- function(dailypcp, outpath, p = 0.95) {
   
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Package \"ggplot2\" needed for this function to work. Please install it.",
@@ -656,12 +651,13 @@ plot_weekly_cycle <- function(dailypcp, outpath = getwd(), p = 0.95) {
   } 
   
   old_par <- list(mar = par()$mar)
+  on.exit(par(old_par))
   
   ## Loop on stations
   for (st in names(dailypcp)) {
     
     if (dailypcp[[st]][1,1] != "rr") stop(paste0(st, ": not daily precipitation"))
-    print(paste("Working on", st), quote = FALSE)
+    message(paste("Working on", st))
     
     tab.data <- data.frame(yr = dailypcp[[st]][, 2],
                            m = dailypcp[[st]][, 3],
@@ -700,7 +696,7 @@ plot_weekly_cycle <- function(dailypcp, outpath = getwd(), p = 0.95) {
   }
   
   ## Prepare data for overview plot
-  print("Working on overview plot...", quote = FALSE)
+  message("Working on overview plot...")
   ## Find start and end years
   n <- length(dailypcp)
   start <- array(dim = n)
@@ -800,8 +796,7 @@ plot_weekly_cycle <- function(dailypcp, outpath = getwd(), p = 0.95) {
                                 axis.ticks = ggplot2::element_blank()))
   }
   dev.off()
-  par(old_par)
   
-  return(print(paste("Plots saved in", outpath), quote = FALSE))
+  message(paste("Plots saved in", outpath))
   
 }

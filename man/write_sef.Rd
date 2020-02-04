@@ -6,7 +6,7 @@
 \usage{
 write_sef(
   Data,
-  outpath = getwd(),
+  outpath,
   variable,
   cod,
   nam = "",
@@ -32,8 +32,7 @@ year, month, day, hour, minute, value.}
 
 \item{outpath}{Character string giving the output path (note that the
 filename is generated from the source identifier, station code, start
-and end dates, and variable code). By default this is the working
-directory.}
+and end dates, and variable code).}
 
 \item{variable}{Variable code. This is a required field.}
 

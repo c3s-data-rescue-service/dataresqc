@@ -85,7 +85,7 @@ knitr::include_graphics("climexp4.jpg")
 Paste the url into the following command in R (do not forget the quotes):
 
 ```{r, eval=FALSE}
-climexp_to_sef("<url>")
+climexp_to_sef("<url>", outpath = getwd())
 ```
 
 This command will create a SEF file in your working directory containing the 
@@ -110,7 +110,7 @@ you downloaded.
 Let us start with a simple plot. For that, you can use the function `plot_daily`:
 
 ```{r}
-plot_daily(myfile)
+plot_daily(myfile, outfile = "Tx.pdf")
 ```
 
 The plot will be saved in the file 'Tx.pdf' in your working directory and will look like this:
@@ -169,7 +169,7 @@ the actual resolution of the data is somewhat coarser than 0.1°C (this probably
 The function `climatic_outliers` looks for values in the tails of the distribution. You can set the threshold that defines the outliers as a multiple of the interquartile range. For example:
 
 ```{r}
-climatic_outliers(myfile, IQR=2)
+climatic_outliers(myfile, outpath = getwd(), IQR=2)
 ```
 
 will return all values that are more than 2 interquartile ranges smaller than the 25th percentile or more than 2 interquantile ranges larger than the 75th percentile (the test is done for each month separately).
@@ -202,7 +202,8 @@ Tx	2014	10	28	35.6	climatic_outliers
 On request, this function also produces a boxplot and saves it into a pdf:
 
 ```{r}
-climatic_outliers(myfile, IQR = 2, bplot = TRUE, outfile = "boxplot.pdf")
+climatic_outliers(myfile, outpath = getwd(), IQR = 2, bplot = TRUE, 
+                  outfile = "boxplot.pdf")
 ```
 
 ```{r, echo=FALSE}
@@ -212,7 +213,8 @@ knitr::include_graphics("climatic_outliers.jpg")
 Again, it is possible to change most graphical parameters:
 
 ```{r}
-climatic_outliers(myfile, IQR = 2, bplot = TRUE, col = "red", lwd = 2, outfile = "boxplot_red.pdf")
+climatic_outliers(myfile, outpath = getwd(), IQR = 2, bplot = TRUE, 
+                  col = "red", lwd = 2, outfile = "boxplot_red.pdf")
 ```
 
 ```{r, echo=FALSE}
@@ -226,10 +228,10 @@ knitr::include_graphics("climatic_outliers_red.jpg")
 The function `qc` automatically applies all possible quality tests. Its use is very simple:
 
 ```{r}
-qc(myfile)
+qc(myfile, outpath = getwd())
 ```
 
-For a single maximum temperature series, it will apply five tests (climatic outliers, temporal coherence, repetitions, duplicate dates, big errors). Note that the thresholds cannot be customized when you use `qc`.
+For a single maximum temperature series, it will apply five tests (climatic outliers, temporal coherence, repetitions, duplicate dates, big errors). Note that the thresholds cannot be customized when you use `qc`. 
 
 The additional suspicious values found by the tests will be added to the text file that you already created with `climatic_outliers`.
 
@@ -240,7 +242,8 @@ The additional suspicious values found by the tests will be added to the text fi
 The last step of the quality control process is to add flags to the data file. This is done with the function `write_flags`:
 
 ```{r}
-write_flags(myfile, "qc_AR000875850_Tx_daily.txt", outpath = ".", note = "qc")
+write_flags(myfile, "qc_AR000875850_Tx_daily.txt", outpath = getwd(), 
+            note = "qc")
 ```
 
 Here 'qc_AR000875850_Tx_daily.txt' must be replaced by the name of your text file containing the table of suspicious values. A new SEF file is created in the working directory (`outpath = "."`) and its name will be the same of the input file with an additional '_qc' at the end (set by the parameter *note* to avoid overwriting the input file).
@@ -266,7 +269,7 @@ not larger than the maximum temperature. For this test, you will need a minimum 
 same station you selected before. You can get the minimum temperature series by repeating the procedure described in Section 1.1 and selecting 'minimum temperature' in the first page. Then:
 
 ```{r, eval=FALSE}
-climexp_to_sef("<url>")
+climexp_to_sef("<url>", outpath = getwd())
 ```
 
 ```{r}
@@ -276,7 +279,7 @@ myfile2 <- "GHCN-D_AR000875850_19080902-20190331_Tn.tsv"
 Now you only need to use the function `internal_consistency`:
 
 ```{r}
-internal_consistency(c(myfile, myfile2))
+internal_consistency(c(myfile, myfile2), outpath = getwd())
 ```
 
 If no inconsistent values are found, then nothing will happen. Otherwise, the inconsistent values will be added to the usual text file, plus a new file will be created for the minimum temperature.
@@ -306,7 +309,7 @@ Recently digitized data for Bern (Switzerland) and Rosario de Santa Fe (Argentin
 To plot the data points we use the function `plot_subdaily`:
 
 ```{r}
-plot_subdaily(Rosario$p, year = 1887)
+plot_subdaily(Rosario$p, year = 1887, outfile = "1887.pdf")
 ```
 
 ```{r, echo=FALSE}
@@ -324,7 +327,8 @@ Similarly to the daily data, we can perform all available tests at once with the
 All this is done by the following line:
 
 ```{r}
-qc(Rosario$p, Metadata = cbind(Meta$p[2,],"subdaily"), time_offset = -4.28)
+qc(Rosario$p, Metadata = cbind(Meta$p[2,],"subdaily"), outpath = getwd(), 
+   time_offset = -4.28)
 ```
 
 The resulting table of suspicious values should include 29 entries:

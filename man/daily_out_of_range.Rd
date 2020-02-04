@@ -7,7 +7,7 @@
 daily_out_of_range(
   dailydata,
   meta = NULL,
-  outpath = getwd(),
+  outpath,
   tmax_upper = 45,
   tmax_lower = -30,
   tmin_upper = 30,
@@ -35,8 +35,7 @@ day, and the daily value.}
 altitude, variable code, units. If \code{dailydata} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results. By default
-this is the working directory.}
+\item{outpath}{Character string giving the path for the QC results.}
 
 \item{tmax_upper}{is the tx maximum threshold in degrees Celsius.
 By default, tmax_upper = 45 C.}

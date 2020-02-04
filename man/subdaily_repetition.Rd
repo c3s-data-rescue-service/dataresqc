@@ -4,12 +4,7 @@
 \alias{subdaily_repetition}
 \title{Sub-daily repetition test}
 \usage{
-subdaily_repetition(
-  subdailydata = file.choose(),
-  meta = NULL,
-  outpath = getwd(),
-  n = 6
-)
+subdaily_repetition(subdailydata = file.choose(), meta = NULL, outpath, n = 6)
 }
 \arguments{
 \item{subdailydata}{A character string giving the path of the input file,
@@ -20,8 +15,7 @@ day, hour, minute, value.}
 altitude, variable code, units. If \code{subdailydata} is a path, \code{meta} is
 ignored.}
 
-\item{outpath}{Character string giving the path for the QC results. By default
-this is the working directory.}
+\item{outpath}{Character string giving the path for the QC results.}
 
 \item{n}{Number of minimum equal consecutive values required for a flag. The
 default is 6.}
