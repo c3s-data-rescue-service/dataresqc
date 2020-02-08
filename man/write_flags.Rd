@@ -27,9 +27,8 @@ If not specified, input and output filenames will be identical.}
 Add quality flags to a data file in Station Exchange Format version 1.0.0
 }
 \note{
-The data will be converted to the standard units adopted by the qc
-(see \link{Variables}). An exception is made for cloud cover (oktas
-will not be converted).
+The data will be converted to the standard units adopted by the qc.
+An exception is made for cloud cover (oktas will not be converted).
 }
 \author{
 Yuri Brugnara

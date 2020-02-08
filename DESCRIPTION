@@ -1,8 +1,8 @@
 Package: dataresqc
 Type: Package
 Title: C3S Quality Control Tools for Historical Climate Data
-Version: 1.0.2
-Date: 2020-02-04
+Version: 1.0.3
+Date: 2020-02-08
 Authors@R: c(
     person("Yuri", "Brugnara", email = "yuri.brugnara@giub.unibe.ch", role = c("aut","cre"), comment = c(ORCID = "0000-0001-8427-0064")), 
     person("Alba", "Gilabert", role = "aut"),

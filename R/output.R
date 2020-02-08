@@ -176,9 +176,8 @@ write_sef <- function(Data, outpath, variable, cod, nam = "", lat = "",
 #' @author Yuri Brugnara
 #' 
 #' @note
-#' The data will be converted to the standard units adopted by the qc
-#' (see \link{Variables}). An exception is made for cloud cover (oktas
-#' will not be converted).
+#' The data will be converted to the standard units adopted by the qc.
+#' An exception is made for cloud cover (oktas will not be converted).
 #' 
 #' @import utils
 #' @export
@@ -195,8 +194,19 @@ write_flags <- function(infile, qcfile, outpath, note = "") {
   vbl <- read_meta(infile,"var")
   uts <- read_meta(infile,"units")
   Data$Value <- check_units(Data$Value, vbl, uts)
-  if (!uts %in% c("Okta","okta","Oktas","oktas","okt","Okt")) {
-    uts <- Variables$units[which(Variables$var==vbl)]
+  if (vbl %in% c("ta","tb","td","t_air","t_wet","t_dew","Tx","Tn","dep_dew","ibt",
+               "atb","Txs","TGs","Tns","TGn","t_snow","Ts","t_water")) {
+    uts <- "C"
+  } else if (vbl %in% c("p","mslp","pppp")) {
+    uts <- "hPa"
+  } else if (vbl %in% c("rr","sw","rrls")) {
+    uts <- "mm"
+  } else if (vbl %in% c("sd","fs")) {
+    uts <- "cm"
+  } else if (vbl == "w") {
+    uts <- "m/s"
+  } else if (vbl == "rh") {
+    uts <- "%"
   }
   
   ## Read flags

@@ -63,6 +63,9 @@ climatic_outliers <- function(Data, meta = NULL, outpath,
   #Enough data to compute outliers
   if (sum(!is.na(Data[,n])) > 5*365) {
     
+    #Check units
+    Data[,n] <- check_units(Data[,n], meta[5], meta[6])
+    
     #Remove zeroes
     if (meta[5] %in% c("rr","sd","fs","sc","sw")) {
       Data <- Data[which(Data[,n] != 0), ]
@@ -404,6 +407,9 @@ daily_repetition <- function(dailydata, meta = NULL, outpath, n = 4) {
   if (dim(dailydata)[2] != 5) stop("Incorrect dimension of dailydata")
   meta <- as.character(meta)
   
+  #Check units
+  dailydata[,5] <- check_units(dailydata[,5], meta[5], meta[6])
+  
   #Define flag
   flag <- "daily_repetition"
   
@@ -465,6 +471,9 @@ duplicate_dates <- function(dailydata, meta = NULL, outpath) {
   n <- dim(dailydata)[2]
   if (n != 5) stop("Incorrect dimension of dailydata")
   meta <- as.character(meta)
+  
+  #Check units
+  dailydata[,5] <- check_units(dailydata[,5], meta[5], meta[6])
   
   #Define flag
   flag <- "duplicate_dates"
@@ -827,6 +836,9 @@ subdaily_repetition <- function(subdailydata = file.choose(), meta = NULL,
   if (dim(subdailydata)[2] != 7) stop("Incorrect dimension of subdailydata")
   meta <- as.character(meta)
   
+  #Check units
+  subdailydata[,7] <- check_units(subdailydata[,7], meta[5], meta[6])
+  
   #Define flag
   flag <- "subdaily_repetition"
   
@@ -890,6 +902,9 @@ duplicate_times <- function(subdailydata, meta = NULL, outpath) {
   meta <- as.character(meta)
   subdailydata <- subdailydata[order(subdailydata[,2], subdailydata[,3], subdailydata[,4],
                                      subdailydata[,5], subdailydata[,6]), ]
+  
+  #Check units
+  subdailydata[,7] <- check_units(subdailydata[,7], meta[5], meta[6])
   
   #Define flag
   flag <- "duplicate_times"

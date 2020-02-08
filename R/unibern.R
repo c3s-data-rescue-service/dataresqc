@@ -42,6 +42,9 @@ duplicate_columns <- function(Data, meta = NULL, outpath, ndays = 5) {
   #Define flag
   flag <- "duplicate_columns"
   
+  #Check units
+  Data[,n] <- check_units(Data[,n], meta[5], meta[6])
+  
   #Remove zeroes and missing values
   if (meta[5] %in% c("rr","sd","fs","sc","sw")) {
     Data <- Data[which(Data[,n] != 0), ]

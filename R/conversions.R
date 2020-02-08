@@ -71,11 +71,11 @@ check_units <- function(x, v, u) {
                "atb","Txs","TGs","Tns","TGn","t_snow","Ts","t_water")) {
     if (u %in% c("C","K","F","R","c","k","f","r")) {
       if (u %in% c("K","k")) {
-        x <- x - 273.15
+        x <- round(x - 273.15, 1)
       } else if (u %in% c("F","f")) {
-        x <- (x - 32) * 5 / 9
+        x <- round((x - 32) * 5 / 9, 1)
       } else if (u %in% c("R", "r")) {
-        x <- x * 1.25
+        x <- round(x * 1.25, 1)
       }
     } else {
       stop(error_msg)
@@ -86,11 +86,11 @@ check_units <- function(x, v, u) {
   if (v %in% c("p","mslp","pppp")) {
     if (u %in% c("hPa","Pa","mm","mmHg","in","hpa","pa","mmhg","\"")) {
       if (u %in% c("Pa","pa")) {
-        x <- x / 100
+        x <- round(x / 100, 1)
       } else if (u %in% c("mm","mmHg","mmhg")) {
-        x <- x * 1013.25 / 760
+        x <- round(x * 1013.25 / 760, 1)
       } else if (u %in% c("in", "\"")) {
-        x <- x * 25.4 * 1013.25 / 760
+        x <- round(x * 25.4 * 1013.25 / 760, 1)
       }
     } else {
       stop(error_msg)
@@ -101,7 +101,7 @@ check_units <- function(x, v, u) {
   if (v %in% c("rr","sw","rrls")) {
     if (u %in% c("mm","in","\"")) {
       if (u %in% c("in","\"")) {
-        x <- x * 25.4
+        x <- round(x * 25.4, 1)
       }
     } else {
       stop(error_msg)
@@ -112,13 +112,13 @@ check_units <- function(x, v, u) {
   if (v %in% c("sd","fs")) {
     if (u %in% c("cm","mm","m","in","\"","ft")) {
       if (u %in% c("in","\"")) {
-        x <- x * 2.54
+        x <- round(x * 2.54, 1)
       } else if (u == "mm") {
-        x <- x / 10
+        x <- round(x / 10, 1)
       } else if (u == "m") {
         x <- x * 100
       } else if (u == "ft") {
-        x <- x * 30.48
+        x <- round(x * 30.48, 1)
       }
     } else {
       stop(error_msg)
@@ -129,11 +129,11 @@ check_units <- function(x, v, u) {
   if (v == "w") {
     if (u %in% c("m/s","mps","km/h","kph","mph","kn","kt")) {
       if (u %in% c("km/h","kph")) {
-        x <- x / 3.6 
+        x <- round(x / 3.6, 1)
       } else if (u == "mph") {
-        x <- x / 2.2369 
+        x <- round(x / 2.2369, 1)
       } else if (u %in% c("kn","kt")) {
-        x <- x / 1.9438
+        x <- round(x / 1.9438, 1)
       }
     } else {
       stop(error_msg)
