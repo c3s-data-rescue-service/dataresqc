@@ -242,10 +242,10 @@ impossible_values <- function(series, meta = NULL, outpath) {
     
     # Test for cloud cover in percent and relative humidity
     if (vunit == "%") {
-      err_gel <- drec[!(drec$obs %in% 0:100), ]
+      err_gel <- drec[which(drec$obs < 0 | drec$obs > 100), ]
       # Test for cloud cover in oktas
     } else if (vunit %in% c("Okta","okta","Oktas","oktas","okt","Okt")) {
-      err_gel <- drec[!(drec$obs %in% 0:9), ]
+      err_gel <- drec[which(!drec$obs %in% 0:9 & !is.na(drec$obs)), ]
     }
     
     # Output
@@ -496,198 +496,196 @@ wmo_gross_errors <- function(series, meta = NULL, outpath) {
                       drec$month == 7 | drec$month == 8 | drec$month == 9, ]
     # Gross errors tests
     if (vcode == "p" || vcode == "mslp") {
-      # err_gel <- gel_pressure(drec, new_ses, nes_sew, vcode)
       if (vcode == "mslp") {
         # Latitudes belonging to the interval [-45, +45]
         # Southern Hemisphere
         if (lat >= -45 && lat < 0) {
           # Southern Hemisphere Winter
           # Suspect values if: 870 <= p < 910 hPa or 1080 < p <= 1100 hPa
-          wsusp <- nes_sew[(nes_sew$obs >= 870 & nes_sew$obs < 910) | 
-                             (nes_sew$obs > 1080 & nes_sew$obs <= 1100), ]
+          wsusp <- nes_sew[which((nes_sew$obs >= 870 & nes_sew$obs < 910) | 
+                             (nes_sew$obs > 1080 & nes_sew$obs <= 1100)), ]
           # Erroneous if: p < 870 hPa or p > 1100 hPa
-          werro <- nes_sew[nes_sew$obs < 870 | nes_sew$obs > 1100, ]
+          werro <- nes_sew[which(nes_sew$obs < 870 | nes_sew$obs > 1100), ]
           # Southern Hemisphere Summer
           # Suspect values if: 850 <= p < 900 hPa or 1080 < p <= 1100 hPa
-          ssusp <- new_ses[(new_ses$obs >= 850 & new_ses$obs < 900) | 
-                             (new_ses$obs > 1080 & new_ses$obs <= 1100), ]
+          ssusp <- new_ses[which((new_ses$obs >= 850 & new_ses$obs < 900) | 
+                             (new_ses$obs > 1080 & new_ses$obs <= 1100)), ]
           # Erroneous if: p < 850 hPa or p > 1100 hPa
-          serro <- new_ses[new_ses$obs < 850 | new_ses$obs > 1100, ]
+          serro <- new_ses[which(new_ses$obs < 850 | new_ses$obs > 1100), ]
           # Northern Hemisphere
         } else if (lat >= 0 && lat <= 45) {
           # Northern Hemisphere Winter
           # Suspect values if: 870 <= p < 910 hPa or 1080 < p <= 1100 hPa
-          wsusp <- new_ses[(new_ses$obs >= 870 & new_ses$obs < 910) | 
-                             (new_ses$obs > 1080 & new_ses$obs <= 1100), ]
+          wsusp <- new_ses[which((new_ses$obs >= 870 & new_ses$obs < 910) | 
+                             (new_ses$obs > 1080 & new_ses$obs <= 1100)), ]
           # Erroneous if: p < 870 hPa or p > 1100 hPa
-          werro <- new_ses[new_ses$obs < 870 | new_ses$obs > 1100, ]
+          werro <- new_ses[which(new_ses$obs < 870 | new_ses$obs > 1100), ]
           # Northern Hemisphere Summer
           # Suspect values if: 850 <= p < 900 hPa or 1080 < p <= 1100 hPa
-          ssusp <- nes_sew[(nes_sew$obs >= 850 & nes_sew$obs < 900) | 
-                             (nes_sew$obs > 1080 & nes_sew$obs <= 1100), ]
+          ssusp <- nes_sew[which((nes_sew$obs >= 850 & nes_sew$obs < 900) | 
+                             (nes_sew$obs > 1080 & nes_sew$obs <= 1100)), ]
           # Erroneous if: p < 850 hPa or p > 1100 hPa
-          serro <- nes_sew[nes_sew$obs < 850 | nes_sew$obs > 1100, ]
+          serro <- nes_sew[which(nes_sew$obs < 850 | nes_sew$obs > 1100), ]
           # Latitudes belonging to the interval [-90, -45[ U ]+45, +90]
           # Southern Hemisphere
         } else if (lat >= -90 && lat < -45) {
           # Southern Hemisphere Winter
           # Suspect values if: 910 <= p < 940 hPa or 1080 < p <= 1100 hPa
-          wsusp <- nes_sew[(nes_sew$obs >= 910 & nes_sew$obs < 940) | 
-                             (nes_sew$obs > 1080 & nes_sew$obs <= 1100), ]
+          wsusp <- nes_sew[which((nes_sew$obs >= 910 & nes_sew$obs < 940) | 
+                             (nes_sew$obs > 1080 & nes_sew$obs <= 1100)), ]
           # Erroneous if: p < 910 hPa or p > 1100 hPa
-          werro <- nes_sew[nes_sew$obs < 910 | nes_sew$obs > 1100, ]
+          werro <- nes_sew[which(nes_sew$obs < 910 | nes_sew$obs > 1100), ]
           # Southern Hemisphere Summer
           # Suspect values if: 920 <= p < 950 hPa or 1080 < p <= 1100 hPa
-          ssusp <- new_ses[(new_ses$obs >= 920 & new_ses$obs < 950) | 
-                             (new_ses$obs > 1080 & new_ses$obs <= 1100), ]
+          ssusp <- new_ses[which((new_ses$obs >= 920 & new_ses$obs < 950) | 
+                             (new_ses$obs > 1080 & new_ses$obs <= 1100)), ]
           # Erroneous if: p < 920 hPa or p > 1100 hPa
-          serro <- new_ses[new_ses$obs < 920 | new_ses$obs > 1100, ]
+          serro <- new_ses[which(new_ses$obs < 920 | new_ses$obs > 1100), ]
           # Northern Hemisphere  
         } else if (lat > 45 && lat <= 90) {
           # Northern Hemisphere Winter
           # Suspect values if: 910 <= p < 940 hPa or 1080 < p <= 1100 hPa
-          wsusp <- new_ses[(new_ses$obs >= 910 & new_ses$obs < 940) | 
-                             (new_ses$obs > 1080 & new_ses$obs <= 1100), ]
+          wsusp <- new_ses[which((new_ses$obs >= 910 & new_ses$obs < 940) | 
+                             (new_ses$obs > 1080 & new_ses$obs <= 1100)), ]
           # Erroneous if: p < 910 hPa or p > 1100 hPa
-          werro <- new_ses[new_ses$obs < 910 | new_ses$obs > 1100, ]
+          werro <- new_ses[which(new_ses$obs < 910 | new_ses$obs > 1100), ]
           # Northern Hemisphere Summer
           # Suspect values if: 920 <= p < 950 hPa or 1080 < p <= 1100 hPa
-          ssusp <- nes_sew[(nes_sew$obs >= 920 & nes_sew$obs < 950) | 
-                             (nes_sew$obs > 1080 & nes_sew$obs <= 1100), ]
+          ssusp <- nes_sew[which((nes_sew$obs >= 920 & nes_sew$obs < 950) | 
+                             (nes_sew$obs > 1080 & nes_sew$obs <= 1100)), ]
           # Erroneous if: p < 920 hPa or p > 1100 hPa
-          serro <- nes_sew[nes_sew$obs < 920 | nes_sew$obs > 1100, ]
+          serro <- nes_sew[which(nes_sew$obs < 920 | nes_sew$obs > 1100), ]
         }
-        err_gel <- na.omit(rbind(wsusp, werro, ssusp, serro))
+        err_gel <- rbind(wsusp, werro, ssusp, serro)
       } else if (vcode == "p") {
         # Suspect values if: 300 <= p < 400 hPa or 1080 < p <= 1100 hPa
-        susp <- drec[(drec$obs >= 300 & drec$obs < 400) | 
-                       (drec$obs > 1080 & drec$obs <= 1100), ]
+        susp <- drec[which((drec$obs >= 300 & drec$obs < 400) | 
+                       (drec$obs > 1080 & drec$obs <= 1100)), ]
         # Erroneous if: p < 300 or p > 1100 hPa
-        erro <- drec[drec$obs < 300 | drec$obs > 1100, ]
-        err_gel <- na.omit(rbind(susp, erro))
+        erro <- drec[which(drec$obs < 300 | drec$obs > 1100), ]
+        err_gel <- rbind(susp, erro)
       }
     } else if (vcode == "ta") {
-      # err_gel <- gel_airtemp(new_ses, nes_sew)
       # Latitudes belonging to the interval [-45, +45]
       # Southern Hemisphere
       if (lat >= -45 && lat < 0) {
         # Southern Hemisphere Winter
         # Suspect values if: -40 <= ta < -30 ºC or 50 < ta <= 55 ºC
-        wsusp <- nes_sew[(nes_sew$obs >= -40 & nes_sew$obs < -30) | 
-                           (nes_sew$obs > 50 & nes_sew$obs <= 55), ]
+        wsusp <- nes_sew[which((nes_sew$obs >= -40 & nes_sew$obs < -30) | 
+                           (nes_sew$obs > 50 & nes_sew$obs <= 55)), ]
         # Erroneous if: ta < -40 ºC or ta > 55 ºC
-        werro <- nes_sew[nes_sew$obs < -40 | nes_sew$obs > 55, ]
+        werro <- nes_sew[which(nes_sew$obs < -40 | nes_sew$obs > 55), ]
         # Southern Hemisphere Summer
         # Suspect values if: -30 <= ta < -20 ºC or 50 < ta <= 60 ºC
-        ssusp <- new_ses[(new_ses$obs >= -30 & new_ses$obs < -20) | 
-                           (new_ses$obs > 50 & new_ses$obs <= 60), ]
+        ssusp <- new_ses[which((new_ses$obs >= -30 & new_ses$obs < -20) | 
+                           (new_ses$obs > 50 & new_ses$obs <= 60)), ]
         # Erroneous if: ta < -30 ºC or ta > 60 ºC
-        serro <- new_ses[new_ses$obs < -30 | new_ses$obs > 60, ]
+        serro <- new_ses[which(new_ses$obs < -30 | new_ses$obs > 60), ]
         # Northern Hemisphere
       } else if (lat >= 0 && lat <= 45) {
         # Northern Hemisphere Winter
         # Suspect values if: -40 <= ta < -30 ºC or 50 < ta <= 55 ºC
-        wsusp <- new_ses[(new_ses$obs >= -40 & new_ses$obs < -30) | 
-                           (new_ses$obs > 50 & new_ses$obs <= 55), ]
+        wsusp <- new_ses[which((new_ses$obs >= -40 & new_ses$obs < -30) | 
+                           (new_ses$obs > 50 & new_ses$obs <= 55)), ]
         # Erroneous if: ta < -40 ºC or ta > 55 ºC
-        werro <- new_ses[new_ses$obs < -40 | new_ses$obs > 55, ]
+        werro <- new_ses[which(new_ses$obs < -40 | new_ses$obs > 55), ]
         # Northern Hemisphere Summer
         # Suspect values if: -30 <= ta < -20 ºC or 50 < ta <= 60 ºC
-        ssusp <- nes_sew[(nes_sew$obs >= -30 & nes_sew$obs < -20) | 
-                           (nes_sew$obs > 50 & nes_sew$obs <= 60), ]
+        ssusp <- nes_sew[which((nes_sew$obs >= -30 & nes_sew$obs < -20) | 
+                           (nes_sew$obs > 50 & nes_sew$obs <= 60)), ]
         # Erroneous if: ta < -30 ºC or ta > 60 ºC
-        serro <- nes_sew[nes_sew$obs < -30 | nes_sew$obs > 60, ]
+        serro <- nes_sew[which(nes_sew$obs < -30 | nes_sew$obs > 60), ]
         # Latitudes belonging to the interval [-90, -45[ U ]+45, +90]
         # Southern Hemisphere
       } else if (lat >= -90 && lat < -45) {
         # Southern Hemisphere Winter
         # Suspect values if: -90 <= ta < -80 ºC or 35 < ta <= 40 ºC
-        wsusp <- nes_sew[(nes_sew$obs >= -90 & nes_sew$obs < -80) | 
-                           (nes_sew$obs > 35 & nes_sew$obs <= 40), ]
+        wsusp <- nes_sew[which((nes_sew$obs >= -90 & nes_sew$obs < -80) | 
+                           (nes_sew$obs > 35 & nes_sew$obs <= 40)), ]
         # Erroneous if: ta < -90 ºC or ta > 40 ºC
-        werro <- nes_sew[nes_sew$obs < -90 | nes_sew$obs > 40, ]
+        werro <- nes_sew[which(nes_sew$obs < -90 | nes_sew$obs > 40), ]
         # Southern Hemisphere Summer
         # Suspect values if: -40 <= ta < -30 ºC or 40 < ta <= 50 ºC
-        ssusp <- new_ses[(new_ses$obs >= -40 & new_ses$obs < -30) | 
-                           (new_ses$obs > 40 & new_ses$obs <= 50), ]
+        ssusp <- new_ses[which((new_ses$obs >= -40 & new_ses$obs < -30) | 
+                           (new_ses$obs > 40 & new_ses$obs <= 50)), ]
         # Erroneous if: ta < -40 ºC or ta > 50 ºC
-        serro <- new_ses[new_ses$obs < -40 | new_ses$obs > 50, ]
+        serro <- new_ses[which(new_ses$obs < -40 | new_ses$obs > 50), ]
         # Northern Hemisphere  
       } else if (lat > 45 && lat <= 90) {
         # Northern Hemisphere Winter
         # Suspect values if: -90 <= ta < -80 ºC or 35 < ta <= 40 ºC
-        wsusp <- new_ses[(new_ses$obs >= -90 & new_ses$obs < -80) | 
-                           (new_ses$obs > 35 & new_ses$obs <= 40), ]
+        wsusp <- new_ses[which((new_ses$obs >= -90 & new_ses$obs < -80) | 
+                           (new_ses$obs > 35 & new_ses$obs <= 40)), ]
         # Erroneous if: ta < -90 ºC or ta > 40 ºC
-        werro <- new_ses[new_ses$obs < -90 | new_ses$obs > 40, ]
+        werro <- new_ses[which(new_ses$obs < -90 | new_ses$obs > 40), ]
         # Northern Hemisphere Summer
         # Suspect values if: -40 <= ta < -30 ºC or 40 < ta <= 50 ºC
-        ssusp <- nes_sew[(nes_sew$obs >= -40 & nes_sew$obs < -30) | 
-                           (nes_sew$obs > 40 & nes_sew$obs <= 50), ]
+        ssusp <- nes_sew[which((nes_sew$obs >= -40 & nes_sew$obs < -30) | 
+                           (nes_sew$obs > 40 & nes_sew$obs <= 50)), ]
         # Erroneous if: -40 ºC or ta > 50 ºC
-        serro <- nes_sew[nes_sew$obs < -40 | nes_sew$obs > 50, ]
+        serro <- nes_sew[which(nes_sew$obs < -40 | nes_sew$obs > 50), ]
       }
-      err_gel <- na.omit(rbind(wsusp, werro, ssusp, serro))
+      err_gel <- rbind(wsusp, werro, ssusp, serro)
     } else if (vcode == "td") {
       # err_gel <- gel_dewpoint(new_ses, nes_sew)
       if (lat >= -45 && lat < 0) {
         # Southern Hemisphere Winter
         # Suspect values if: -45 <= td < -35 ºC or 35 < td <= 40 ºC
-        wsusp <- nes_sew[(nes_sew$obs >= -45 & nes_sew$obs < -35) | 
-                           (nes_sew$obs > 35 & nes_sew$obs <= 40), ]
+        wsusp <- nes_sew[which((nes_sew$obs >= -45 & nes_sew$obs < -35) | 
+                           (nes_sew$obs > 35 & nes_sew$obs <= 40)), ]
         # Erroneous if: td < -45 ºC or td > 40 ºC
-        werro <- nes_sew[nes_sew$obs < -45 | nes_sew$obs > 40, ]
+        werro <- nes_sew[which(nes_sew$obs < -45 | nes_sew$obs > 40), ]
         # Southern Hemisphere Summer
         # Suspect values if: -35 <= td < -25 ºC or 35 < td <= 40 ºC
-        ssusp <- new_ses[(new_ses$obs >= -35 & new_ses$obs < -25) | 
-                           (new_ses$obs > 35 & new_ses$obs <= 40), ]
+        ssusp <- new_ses[which((new_ses$obs >= -35 & new_ses$obs < -25) | 
+                           (new_ses$obs > 35 & new_ses$obs <= 40)), ]
         # Erroneous if: td < -35 ºC or td > 40 ºC
-        serro <- new_ses[new_ses$obs < -35 | new_ses$obs > 40, ]
+        serro <- new_ses[which(new_ses$obs < -35 | new_ses$obs > 40), ]
         # Northern Hemisphere
       } else if (lat >= 0 && lat <= 45) {
         # Northern Hemisphere Winter
         # Suspect values if: -45 <= td < -35 ºC or 35 < td <= 40 ºC
-        wsusp <- new_ses[(new_ses$obs >= -45 & new_ses$obs < -35) | 
-                           (new_ses$obs > 35 & new_ses$obs <= 40), ]
+        wsusp <- new_ses[which((new_ses$obs >= -45 & new_ses$obs < -35) | 
+                           (new_ses$obs > 35 & new_ses$obs <= 40)), ]
         # Erroneous if: td < -45 ºC or td > 40 ºC
-        werro <- new_ses[new_ses$obs < -45 | new_ses$obs > 40, ]
+        werro <- new_ses[which(new_ses$obs < -45 | new_ses$obs > 40), ]
         # Northern Hemisphere Summer
         # Suspect values if: -35 <= td < -25 ºC or 35 < td <= 40 ºC
-        ssusp <- nes_sew[(nes_sew$obs >= -35 & nes_sew$obs < -25) | 
-                           (nes_sew$obs > 35 & nes_sew$obs <= 40), ]
+        ssusp <- nes_sew[which((nes_sew$obs >= -35 & nes_sew$obs < -25) | 
+                           (nes_sew$obs > 35 & nes_sew$obs <= 40)), ]
         # Erroneous if: td < -35 ºC or td > 40 ºC
-        serro <- nes_sew[nes_sew$obs < -35 | nes_sew$obs > 40, ]
+        serro <- nes_sew[which(nes_sew$obs < -35 | nes_sew$obs > 40), ]
         # Latitudes belonging to the interval [-90, -45[ U ]+45, +90]
         # Southern Hemisphere
       } else if (lat >= -90 && lat < -45) {
         # Southern Hemisphere Winter
         # Suspect values if: -99 <= td < -85 ºC or 30 < td <= 35 ºC
-        wsusp <- nes_sew[(nes_sew$obs >= -99 & nes_sew$obs < -85) | 
-                           (nes_sew$obs > 30 & nes_sew$obs <= 35), ]
+        wsusp <- nes_sew[which((nes_sew$obs >= -99 & nes_sew$obs < -85) | 
+                           (nes_sew$obs > 30 & nes_sew$obs <= 35)), ]
         # Erroneous if: td < -99 ºC or td > 35 ºC
-        werro <- nes_sew[nes_sew$obs < -99 | nes_sew$obs > 35, ]
+        werro <- nes_sew[which(nes_sew$obs < -99 | nes_sew$obs > 35), ]
         # Southern Hemisphere Summer
         # Suspect values if: -45 <= td < -35 ºC or 35 < td <= 40 ºC
-        ssusp <- new_ses[(new_ses$obs >= -45 & new_ses$obs < -35) | 
-                           (new_ses$obs > 35 & new_ses$obs <= 40), ]
+        ssusp <- new_ses[which((new_ses$obs >= -45 & new_ses$obs < -35) | 
+                           (new_ses$obs > 35 & new_ses$obs <= 40)), ]
         # Erroneous if: td < -45 ºC or td > 40 ºC
-        serro <- new_ses[new_ses$obs < -45 | new_ses$obs > 40, ]
+        serro <- new_ses[which(new_ses$obs < -45 | new_ses$obs > 40), ]
         # Northern Hemisphere  
       } else if (lat > 45 && lat <= 90) {
         # Northern Hemisphere Winter
         # Suspect values if: -99 <= td < -85 ºC or 30 < td <= 35 ºC
-        wsusp <- new_ses[(new_ses$obs >= -99 & new_ses$obs < -85) | 
-                           (new_ses$obs > 30 & new_ses$obs <= 35), ]
+        wsusp <- new_ses[which((new_ses$obs >= -99 & new_ses$obs < -85) | 
+                           (new_ses$obs > 30 & new_ses$obs <= 35)), ]
         # Erroneous if: td < -99 ºC or td > 35 ºC
-        werro <- new_ses[new_ses$obs < -99 | new_ses$obs > 35, ]
+        werro <- new_ses[which(new_ses$obs < -99 | new_ses$obs > 35), ]
         # Northern Hemisphere Summer
         # Suspect values if: -45 <= td < -35 ºC or 35 < td <= 40 ºC
-        ssusp <- nes_sew[(nes_sew$obs >= -45 & nes_sew$obs < -35) | 
-                           (nes_sew$obs > 35 & nes_sew$obs <= 40), ]
+        ssusp <- nes_sew[which((nes_sew$obs >= -45 & nes_sew$obs < -35) | 
+                           (nes_sew$obs > 35 & nes_sew$obs <= 40)), ]
         # Erroneous if: td < -45 ºC or td > 40 ºC
-        serro <- nes_sew[nes_sew$obs < -45 | nes_sew$obs > 40, ]
+        serro <- nes_sew[which(nes_sew$obs < -45 | nes_sew$obs > 40), ]
       }
-      err_gel <- na.omit(rbind(wsusp, werro, ssusp, serro))
+      err_gel <- rbind(wsusp, werro, ssusp, serro)
     } else if (vcode == "w") {
       # err_gel <- gel_windspeed(new_ses, nes_sew)
       # Latitudes belonging to the interval [-45, +45]
@@ -695,53 +693,53 @@ wmo_gross_errors <- function(series, meta = NULL, outpath) {
       if (lat >= -45 && lat < 0) {
         # Southern Hemisphere Winter
         # Suspect values if: w > 60 m/s and w <= 125 m/s
-        wsusp <- nes_sew[(nes_sew$obs > 60 & nes_sew$obs <= 125), ]
+        wsusp <- nes_sew[which(nes_sew$obs > 60 & nes_sew$obs <= 125), ]
         # Erroneous if: w > 125 m/s
-        werro <- nes_sew[nes_sew$obs > 125, ]
+        werro <- nes_sew[which(nes_sew$obs > 125), ]
         # Southern Hemisphere Summer
         # Suspect values if: w > 90 m/s and w <= 150 m/s
-        ssusp <- new_ses[(new_ses$obs > 90 & new_ses$obs <= 150), ]
+        ssusp <- new_ses[which(new_ses$obs > 90 & new_ses$obs <= 150), ]
         # Erroneous if: w > 150 m/s
-        serro <- new_ses[new_ses$obs > 150, ]
+        serro <- new_ses[which(new_ses$obs > 150), ]
         # Northern Hemisphere
       } else if (lat >= 0 && lat <= 45) {
         # Northern Hemisphere Winter
         # Suspect values if: w > 60 m/s and w <= 125 m/s
-        wsusp <- new_ses[(new_ses$obs > 60 & new_ses$obs <= 125), ]
+        wsusp <- new_ses[which(new_ses$obs > 60 & new_ses$obs <= 125), ]
         # Erroneous if: w > 125 m/s
-        werro <- new_ses[new_ses$obs > 125, ]
+        werro <- new_ses[which(new_ses$obs > 125), ]
         # Northern Hemisphere Summer
         # Suspect values if: w > 90 m/s and w <= 150 m/s
-        ssusp <- nes_sew[(nes_sew$obs > 90 & nes_sew$obs <= 150), ]
+        ssusp <- nes_sew[which(nes_sew$obs > 90 & nes_sew$obs <= 150), ]
         # Erroneous if: w > 150 m/s
-        serro <- nes_sew[nes_sew$obs > 150, ]
+        serro <- nes_sew[which(nes_sew$obs > 150), ]
         # Latitudes belonging to the interval [-90, -45[ U ]+45, +90]
         # Southern Hemisphere
       } else if (lat >= -90 && lat < -45) {
         # Southern Hemisphere Winter
         # Suspect values if: w > 50 m/s and w <= 100 m/s
-        wsusp <- nes_sew[(nes_sew$obs > 50 & nes_sew$obs <= 100), ]
+        wsusp <- nes_sew[which(nes_sew$obs > 50 & nes_sew$obs <= 100), ]
         # Erroneous if: w > 100 m/s
-        werro <- nes_sew[nes_sew$obs > 100, ]
+        werro <- nes_sew[which(nes_sew$obs) > 100, ]
         # Southern Hemisphere Summer
         # Suspect values if: w > 40 m/s and w <= 75 m/s
-        ssusp <- new_ses[(new_ses$obs > 40 & new_ses$obs <= 75), ]
+        ssusp <- new_ses[which(new_ses$obs > 40 & new_ses$obs <= 75), ]
         # Erroneous if: w > 75 m/s
-        serro <- new_ses[new_ses$obs > 75, ]
+        serro <- new_ses[which(new_ses$obs > 75), ]
         # Northern Hemisphere  
       } else if (lat > 45 && lat <= 90) {
         # Northern Hemisphere Winter
         # Suspect values if: w > 50 m/s and w <= 100 m/s
-        wsusp <- new_ses[(new_ses$obs > 50 & new_ses$obs <= 100), ]
+        wsusp <- new_ses[which(new_ses$obs > 50 & new_ses$obs <= 100), ]
         # Erroneous if: w > 100 m/s
-        werro <- new_ses[new_ses$obs > 100, ]
+        werro <- new_ses[which(new_ses$obs > 100), ]
         # Northern Hemisphere Summer
         # Suspect values if: w > 40 m/s and w <= 75 m/s
-        ssusp <- nes_sew[(nes_sew$obs > 40 & nes_sew$obs <= 75), ]
+        ssusp <- nes_sew[which(nes_sew$obs > 40 & nes_sew$obs <= 75), ]
         # Erroneous if: w > 75 m/s
-        serro <- nes_sew[nes_sew$obs > 75, ]
+        serro <- nes_sew[which(nes_sew$obs > 75), ]
       }
-      err_gel <- na.omit(rbind(wsusp, werro, ssusp, serro))
+      err_gel <- rbind(wsusp, werro, ssusp, serro)
     }
     
     # Output
