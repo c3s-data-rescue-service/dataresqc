@@ -172,6 +172,8 @@ write_sef <- function(Data, outpath, variable, cod, nam = "", lat = "",
 #' It will be separated from the rest of the name by an underscore.
 #' Blanks will be also replaced by underscores.
 #' If not specified, input and output filenames will be identical.
+#' @param match Write the flags only if the values in the qc file are identical to
+#' those in the SEF file (default to TRUE).
 #' 
 #' @author Yuri Brugnara
 #' 
@@ -179,10 +181,16 @@ write_sef <- function(Data, outpath, variable, cod, nam = "", lat = "",
 #' The data will be converted to the standard units adopted by the qc.
 #' An exception is made for cloud cover (oktas will not be converted).
 #' 
+#' If \code{match} is set to FALSE, the flags will be added to the dates given
+#' in the qc files without checking that the entries in the Value column correspond. 
+#' This can be useful when there have been minor changes to the SEF file 
+#' (for instance, a different rounding) after the quality control was applied, 
+#' but can lead to overflagging when hour and minute values are missing.
+#' 
 #' @import utils
 #' @export
 
-write_flags <- function(infile, qcfile, outpath, note = "") {
+write_flags <- function(infile, qcfile, outpath, note = "", match = TRUE) {
   
   ## Read SEF file
   Data <- read_sef(infile, all = TRUE)
@@ -210,30 +218,46 @@ write_flags <- function(infile, qcfile, outpath, note = "") {
   }
   
   ## Read flags
-  flags <- read.table(qcfile, stringsAsFactors = FALSE, header = TRUE, sep = "\t")
+  flags <- suppressWarnings(read.table(qcfile, stringsAsFactors = FALSE, header = TRUE, 
+                                       sep = "\t"))
   if (flags[1,1] != Data[1,1]) {
     stop(paste("Variable mismatch:", flags[1,1], Data[1,1]))
   }
   if (dim(flags)[2] == 6) { # daily resolution
-    dates <- paste(flags[,2], flags[,3], flags[,4], flags[,5])
-    i <- which(paste(Data$Year, Data$Month, Data$Day, Data$Value) %in% dates)
+    if (match) {
+      dates <- paste(flags[,2], flags[,3], flags[,4], flags[,5])
+      i <- which(paste(Data$Year, Data$Month, Data$Day, Data$Value) %in% dates)
+    } else {
+      dates <- paste(flags[,2], flags[,3], flags[,4])
+      i <- which(paste(Data$Year, Data$Month, Data$Day) %in% dates)      
+    }
   } else if (dim(flags)[2] == 8) { # subdaily resolution
-    dates <- paste(flags[,2], flags[,3], flags[,4], flags[,5], flags[,6], flags[,7])
-    i <- which(paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute, Data$Value) 
-               %in% dates)   
+    if (match) {
+      dates <- paste(flags[,2], flags[,3], flags[,4], flags[,5], flags[,6], flags[,7])
+      i <- which(paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute, Data$Value) 
+                 %in% dates)  
+    } else {
+      dates <- paste(flags[,2], flags[,3], flags[,4], flags[,5], flags[,6])
+      i <- which(paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute) 
+                 %in% dates)  
+    }
   } else {
-    stop("Wrong number of columns in flags file")
+    stop("Wrong number of columns in qc file")
   }
   
   if (length(i) > 0) {
     
     ## Stop if there are duplicates
-    if (length(i) > nrow(flags)) stop("Duplicates need one flag for each instance")
+#    if (length(i) > nrow(flags)) stop("Duplicates need one flag for each instance")
     
     ## Check if all flagged times are present in the SEF file
     if (length(i) < nrow(flags)) {
-      k <- which(!dates %in% paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute,
-                                   Data$Value))
+      if (match) {
+        k <- which(!dates %in% paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute,
+                                     Data$Value))
+      } else {
+        k <- which(!dates %in% paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute))
+      }
       warning(paste("The SEF file does not contain all flagged observations.",
                     "Flags for the following observations could not be written:\n",
                     paste(dates[k], collapse="\n")))
