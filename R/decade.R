@@ -386,14 +386,20 @@ days_of_month <- function(year, month) {
 #' @param units Character string giving the units (will be printed in the y-axis). 
 #' If \code{subdailydata} is a path to a file, then the units are read from the 
 #' SEF header.
+#' @param time_offset Numeric vector of offsets in hours to be applied to the observation
+#' times. Recycled if only one value is given. The default is no offset, 
+#' i.e. UTC times for SEF input.
 #' @param ...  Graphical parameters passed to the function \code{\link{plot}},
 #' such as \code{cex}, \code{lwd}, \code{pch}, \code{col}, etc.
 #' (see \code{\link{par}}).
 #'
 #' @details
+#' Creates one pdf for each year plotted.
+#' 
 #' The input file must follow the C3S Station Exchange Format (SEF).
 #' 
-#' Creates one pdf for each year plotted.
+#' The parameter \code{time_offset} can be used to plot observations in local time
+#' when reading the data in SEF.
 #' 
 #' @author Stefan Hunziker, Yuri Brugnara
 #' 
@@ -414,7 +420,7 @@ days_of_month <- function(year, month) {
 
 
 plot_subdaily <- function(subdailydata, year = NA, outfile,
-                          fixed = TRUE, units = NA, ...) {
+                          fixed = TRUE, units = NA, time_offset = 0, ...) {
   
   if (is.null(dim(subdailydata))) {
     units <- read_meta(subdailydata, "units")
@@ -441,18 +447,24 @@ plot_subdaily <- function(subdailydata, year = NA, outfile,
   old_par <- list(mfrow = par()$mfrow, mar = par()$mar, xaxs = par()$xaxs)
   on.exit(par(old_par))
   
+  subdailydata$Date <- ISOdate(subdailydata[,2], subdailydata[,3], subdailydata[,4], 
+                               subdailydata[,5], subdailydata[,6]) 
+  ## Apply offset
+  if (!all(time_offset == 0)) {
+    subdailydata$Date <- subdailydata$Date + time_offset * 3600
+    subdailydata[,2] <- as.integer(format(subdailydata$Date,"%Y"))
+    subdailydata[,3] <- as.integer(format(subdailydata$Date,"%m"))
+  }
+  
   for (y in year) {
     
     ## loop on the months
     for (k in 1:12) {
       seg <- subdailydata[which(subdailydata[,2] == y & subdailydata[,3] == k), ]
       
-      if (dim(seg)[1] > 0) {
-        seg$Date <- ISOdate(seg[,2], seg[,3], seg[,4], seg[,5], seg[,6])
-
-      } else {
+      if (dim(seg)[1] == 0) {
         seg <- as.data.frame(matrix(nrow = days_of_month(y,k), ncol = 7))
-        names(seg) <- names(subdailydata)
+        names(seg) <- names(subdailydata)[1:7]
         seg$Date <- ISOdate(y, k, 1:days_of_month(y,k))
       }
         
