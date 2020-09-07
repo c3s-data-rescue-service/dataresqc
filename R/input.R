@@ -119,25 +119,25 @@ check_sef <- function(file = file.choose()) {
   ## Check header
   if (!all(header[, 1] == c("SEF", "ID", "Name", "Lat", "Lon", "Alt",
                             "Source","Link", "Vbl", "Stat", "Units", "Meta"))) {
-    message("ERROR: One or more labels in the header were not recognized")
+    message("ERROR: One or more labels in the header were not recognized, 
+            or they are in the wrong order")
     e <- e + 1
   }
   
-  if (is.na(meta["id"])) {
+  if (is.na(meta["id"]) | meta["id"] == "") {
     message("ERROR: Missing Station ID")
     e <- e + 1
+  } else {
+    if (any(is.na(utf8ToInt(meta["id"])))) {
+      message("ERROR: Special characters are not allowed in the Station ID")
+      e <- e + 1
+    }
+    if (grepl(" ", trimws(meta["id"]))) {
+      message("ERROR: Blanks are not allowed in the Station ID")
+      e <- e + 1
+    }
   }
-  
-  if (any(is.na(utf8ToInt(meta["id"])))) {
-    message("ERROR: Special characters are not allowed in the Station ID")
-    e <- e + 1
-  }
-  
-  if (grepl(" ", trimws(meta["id"]))) {
-    message("ERROR: Blanks are not allowed in the Station ID")
-    e <- e + 1
-  }
-  
+    
   if (is.na(meta["name"])) {
     message("ERROR: Missing Station Name")
     e <- e + 1
@@ -184,7 +184,7 @@ check_sef <- function(file = file.choose()) {
     e <- e + 1
   }
   
-  if (!is.na(meta["meta"])) {
+  if (!is.na(meta["meta"]) & meta["meta"] != "") {
     n1 <- length(strsplit(meta["meta"], "|", fixed = TRUE)[[1]])
     n2 <- length(strsplit(meta["meta"], "=", fixed = TRUE)[[1]])
     if (n2 != (n1+1)) {
