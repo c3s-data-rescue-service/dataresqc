@@ -23,7 +23,7 @@ read_sef <- function(file = file.choose(), all = FALSE) {
   
   ## Read the data
   Data <- read.table(file = file, skip = 12, header = TRUE, fill = TRUE,
-                     sep = "\t", stringsAsFactors = FALSE)
+                     sep = "\t", stringsAsFactors = FALSE, quote = "")
   
   ## Select columns
   if (!all) {
