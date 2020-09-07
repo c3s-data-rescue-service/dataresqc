@@ -1,3 +1,11 @@
+v1.1.0
+07-Sep-2020
+- Fixed bug in impossible_values (NAs and non-integer rh values are no longer flagged)
+- Fixed bug in wmo_gross_errors (suspicious values are now flagged also when observation time is missing)
+- Added a parameter to write_flags that allows to toggle matching of observed values between qc and SEF files
+- Added a parameter to plot_subdaily that allows to plot in local (or any other) time
+- Addressed various minor flaws in write_sef, read_sef, and check_sef
+
 v1.0.3
 08-Feb-2020
 - Fixed bug in write_flags
