@@ -46,8 +46,7 @@
 #'
 #' @examples
 #' # Create a basic SEF file for air temperature in Bern
-#' # (assuming the observation times are in local solar time)
-#' # The file will be written in the working directory
+#' # (assuming the observation times are in mean local solar time)
 #' meta_bern <- Meta$ta[which(Meta$ta$id == "Bern"), ]
 #' write_sef(Bern$ta[, 2:7], outpath = tempdir(), variable = "ta", 
 #'           cod = meta_bern$id, nam = "Bern", lat = meta_bern$lat, 
@@ -63,32 +62,8 @@ write_sef <- function(Data, outpath, variable, cod, nam = "", lat = "",
                       stat, metaHead = "", meta = "", period = "",
                       time_offset = 0, note = "", keep_na = FALSE, outfile = NA) {
   
-  ## Build filename
-  if (substr(outpath, nchar(outpath), nchar(outpath)) != "/") {
-    outpath <- paste0(outpath, "/")
-  }
-  if (is.na(outfile)) {
-    datemin <- paste(formatC(unlist(Data[1, 1:3]), width=2, flag=0),
-                     collapse = "")
-    datemax <- paste(formatC(unlist(Data[dim(Data)[1], 1:3]), width=2, flag=0),
-                     collapse = "")
-    if (substr(datemin,5,6) == "NA") datemin <- substr(datemin, 1, 4)
-    if (substr(datemax,5,6) == "NA") datemax <- substr(datemax, 1, 4)
-    if (substr(datemin,3,4) == "NA") datemin <- substr(datemin, 1, 2)
-    if (substr(datemax,3,4) == "NA") datemax <- substr(datemax, 1, 2)
-    dates <- paste(datemin, datemax, sep = "-")
-    filename <- paste(sou, cod, dates, variable, sep = "_")
-    if (sou %in% c(NA,"")) filename <- sub("_", "", filename)
-    if (note != "") {
-      note <- paste0("_", gsub(" ", "_", note))
-    }
-    filename <- paste0(outpath, filename, note, ".tsv")
-  } else {
-    filename <- paste0(outpath, outfile)
-    if (substr(filename, nchar(filename)-3, nchar(filename)) != ".tsv") {
-      filename <- paste0(filename, ".tsv")
-    }
-  }
+  ## Get rid of factors
+  for (i in 1:ncol(Data)) Data[,i] <- as.character(Data[,i])
   
   ## Build header
   header <- array(dim = c(12, 2), data = "")
@@ -123,18 +98,45 @@ write_sef <- function(Data, outpath, variable, cod, nam = "", lat = "",
   }
   
   ## Build data frame with SEF structure
-  DataNew <- data.frame(Year = as.integer(Data[, 1]),
-                        Month = as.integer(Data[, 2]),
-                        Day = as.integer(Data[, 3]),
+  DataNew <- data.frame(Year = Data[, 1],
+                        Month = Data[, 2],
+                        Day = Data[, 3],
                         Hour = Data[, 4],
                         Minute = Data[, 5],
                         Period = as.character(period),
-                        Value = as.character(Data[, 6]),
+                        Value = Data[, 6],
                         Meta = as.character(meta),
                         stringsAsFactors = FALSE)
   
   ## Remove lines with missing data
   if (!keep_na) DataNew <- DataNew[which(!is.na(DataNew$Value)), ]
+  
+  ## Build filename
+  if (substr(outpath, nchar(outpath), nchar(outpath)) != "/") {
+    outpath <- paste0(outpath, "/")
+  }
+  if (is.na(outfile)) {
+    j <- 3
+    if (is.na(as.integer(DataNew[1,3]))) j <- 2
+    if (is.na(as.integer(DataNew[1,2]))) j <- 1
+    datemin <- paste(formatC(unlist(as.integer(DataNew[1, 1:j])), width=2, flag=0),
+                     collapse = "")
+    datemax <- paste(formatC(unlist(as.integer(DataNew[dim(DataNew)[1], 1:j])), width=2, flag=0),
+                     collapse = "")
+    dates <- paste(datemin, datemax, sep = "-")
+    filename <- paste(sou, cod, dates, variable, sep = "_")
+    if (sou %in% c(NA,"")) filename <- sub("_", "", filename)
+    if (note != "") {
+      note <- paste0("_", gsub(" ", "_", note))
+    }
+    filename <- gsub(" ", "", filename)
+    filename <- paste0(outpath, filename, note, ".tsv")
+  } else {
+    filename <- paste0(outpath, outfile)
+    if (substr(filename, nchar(filename)-3, nchar(filename)) != ".tsv") {
+      filename <- paste0(filename, ".tsv")
+    }
+  }
   
   ## Write header to file
   write.table(header, file = filename, quote = FALSE, row.names = FALSE,
