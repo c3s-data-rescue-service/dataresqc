@@ -4,8 +4,10 @@
 \name{Bern}
 \alias{Bern}
 \title{Sub-daily meteorological observations for Bern}
-\format{A list of data frames (one data frame per variable).
-The format of the data frames is that required by the QC functions.}
+\format{
+A list of data frames (one data frame per variable).
+The format of the data frames is that required by the QC functions.
+}
 \source{
 Institute of Geography - University of Bern
 }

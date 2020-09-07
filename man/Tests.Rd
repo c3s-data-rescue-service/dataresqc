@@ -4,7 +4,9 @@
 \name{Tests}
 \alias{Tests}
 \title{Table of available qc tests}
-\format{Data frame}
+\format{
+Data frame
+}
 \usage{
 Tests
 }

@@ -4,7 +4,7 @@
 \alias{write_flags}
 \title{Add quality flags to a data file in Station Exchange Format version 1.0.0}
 \usage{
-write_flags(infile, qcfile, outpath, note = "")
+write_flags(infile, qcfile, outpath, note = "", match = TRUE)
 }
 \arguments{
 \item{infile}{Character string giving the path of the SEF file.}
@@ -22,6 +22,9 @@ input file to form the output filename.
 It will be separated from the rest of the name by an underscore.
 Blanks will be also replaced by underscores.
 If not specified, input and output filenames will be identical.}
+
+\item{match}{Write the flags only if the values in the qc file are identical to
+those in the SEF file (default to TRUE).}
 }
 \description{
 Add quality flags to a data file in Station Exchange Format version 1.0.0
@@ -29,6 +32,12 @@ Add quality flags to a data file in Station Exchange Format version 1.0.0
 \note{
 The data will be converted to the standard units adopted by the qc.
 An exception is made for cloud cover (oktas will not be converted).
+
+If \code{match} is set to FALSE, the flags will be added to the dates given
+in the qc files without checking that the entries in the Value column correspond. 
+This can be useful when there have been minor changes to the SEF file 
+(for instance, a different rounding) after the quality control was applied, 
+but can lead to overflagging when hour and minute values are missing.
 }
 \author{
 Yuri Brugnara

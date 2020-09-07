@@ -4,7 +4,15 @@
 \alias{plot_subdaily}
 \title{Plot sub-daily data points}
 \usage{
-plot_subdaily(subdailydata, year = NA, outfile, fixed = TRUE, units = NA, ...)
+plot_subdaily(
+  subdailydata,
+  year = NA,
+  outfile,
+  fixed = TRUE,
+  units = NA,
+  time_offset = 0,
+  ...
+)
 }
 \arguments{
 \item{subdailydata}{A character string giving the path of the input file, or
@@ -25,6 +33,10 @@ the axis limits are set based on the data range of each month.}
 If \code{subdailydata} is a path to a file, then the units are read from the 
 SEF header.}
 
+\item{time_offset}{Numeric vector of offsets in hours to be applied to the observation
+times. Recycled if only one value is given. The default is no offset, 
+i.e. UTC times for SEF input.}
+
 \item{...}{Graphical parameters passed to the function \code{\link{plot}},
 such as \code{cex}, \code{lwd}, \code{pch}, \code{col}, etc.
 (see \code{\link{par}}).}
@@ -33,9 +45,12 @@ such as \code{cex}, \code{lwd}, \code{pch}, \code{col}, etc.
 Plot sub-daily data points divided by month.
 }
 \details{
+Creates one pdf for each year plotted.
+
 The input file must follow the C3S Station Exchange Format (SEF).
 
-Creates one pdf for each year plotted.
+The parameter \code{time_offset} can be used to plot observations in local time
+when reading the data in SEF.
 }
 \examples{
 plot_subdaily(Bern$p, year = 1803:1804, outfile = paste0(tempdir(),"/test"))

@@ -92,8 +92,7 @@ automatically as \code{sou}_\code{cod}_startdate_enddate_\code{variable}.tsv
 }
 \examples{
 # Create a basic SEF file for air temperature in Bern
-# (assuming the observation times are in local solar time)
-# The file will be written in the working directory
+# (assuming the observation times are in mean local solar time)
 meta_bern <- Meta$ta[which(Meta$ta$id == "Bern"), ]
 write_sef(Bern$ta[, 2:7], outpath = tempdir(), variable = "ta", 
           cod = meta_bern$id, nam = "Bern", lat = meta_bern$lat, 

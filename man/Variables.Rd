@@ -4,7 +4,9 @@
 \name{Variables}
 \alias{Variables}
 \title{Table of supported variable codes}
-\format{Data frame}
+\format{
+Data frame
+}
 \usage{
 Variables
 }

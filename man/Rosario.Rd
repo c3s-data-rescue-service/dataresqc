@@ -4,8 +4,10 @@
 \name{Rosario}
 \alias{Rosario}
 \title{Daily and sub-daily meteorological observations for Rosario de Santa Fe (Argentina)}
-\format{A list of data frames (one data frame per variable).
-The format of the data frames is that required by the QC functions.}
+\format{
+A list of data frames (one data frame per variable).
+The format of the data frames is that required by the QC functions.
+}
 \source{
 ACRE
 }
