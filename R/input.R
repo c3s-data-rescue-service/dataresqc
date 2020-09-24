@@ -324,9 +324,10 @@ check_sef <- function(file = file.choose()) {
     w <- w + 1
   }
   
-  if (sum(!is.na(x$Meta)) > 0) {
-    n1 <- sapply(x$Meta, function(x) length(strsplit(x, "|", fixed = TRUE)[[1]]))
-    n2 <- sapply(x$Meta, function(x) length(strsplit(x, "=", fixed = TRUE)[[1]]))
+  if (length(which(x$Meta != "")) > 0) {
+    i <- which(x$Meta != "")
+    n1 <- sapply(x$Meta[i], function(x) length(strsplit(x, "|", fixed = TRUE)[[1]]))
+    n2 <- sapply(x$Meta[i], function(x) length(strsplit(x, "=", fixed = TRUE)[[1]]))
     if (any(n2 != (n1+1))) {
       message("Warning: Uncorrect format detected in the Meta column")
       w <- w + 1
