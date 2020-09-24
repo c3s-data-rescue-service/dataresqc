@@ -109,9 +109,9 @@ check_sef <- function(file = file.choose()) {
   
   meta <- read_meta(file)
   header <- read.table(file = file, nrows = 12, fill = TRUE,
-                       sep = "\t", stringsAsFactors = FALSE)
+                       sep = "\t", stringsAsFactors = FALSE, quote = "")
   x <- read.table(file = file, skip = 12, header = TRUE, fill = TRUE,
-                  sep = "\t", stringsAsFactors = FALSE)
+                  sep = "\t", stringsAsFactors = FALSE, quote = "")
   e <- 0
   w <- 0
   
