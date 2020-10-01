@@ -188,7 +188,7 @@ check_sef <- function(file = file.choose()) {
     n1 <- length(strsplit(meta["meta"], "|", fixed = TRUE)[[1]])
     n2 <- length(strsplit(meta["meta"], "=", fixed = TRUE)[[1]])
     if (n2 != (n1+1)) {
-      message("Warning: Uncorrect metadata format in Meta in the header")
+      message("Warning: Incorrect metadata format in Meta in the header")
       w <- w + 1
     }
   }
@@ -329,7 +329,7 @@ check_sef <- function(file = file.choose()) {
     n1 <- sapply(x$Meta[i], function(x) length(strsplit(x, "|", fixed = TRUE)[[1]]))
     n2 <- sapply(x$Meta[i], function(x) length(strsplit(x, "=", fixed = TRUE)[[1]]))
     if (any(n2 != (n1+1))) {
-      message("Warning: Uncorrect format detected in the Meta column")
+      message("Warning: Incorrect format detected in the Meta column")
       w <- w + 1
     }
   }
