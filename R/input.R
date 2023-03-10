@@ -240,6 +240,12 @@ check_sef <- function(file = file.choose()) {
     e <- e + 1
   }
   
+  dates <- ISOdate(x$Year, x$Month, x$Day)
+  if (any(is.na(dates))) {
+    message ("ERROR: Date missing or wrong")
+    e <- e + 1
+  }
+  
   n <- sum(!is.na(x$Day) & grepl("month", x$Period, ignore.case = TRUE))
   if (n > 0) {
     message("Warning: If the monthly values refer to the calendar month the Day column should contain missing values")
