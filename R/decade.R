@@ -110,6 +110,10 @@ plot_decimals <- function(Data, outfile, startyear = NA, endyear = NA) {
   
   dec.labels <- c("x.0","x.1","x.2","x.3","x.4","x.5","x.6","x.7","x.8","x.9")
   
+  ## Remove missing values
+  Data <- Data[which(!is.na(Data[,dim(Data)[2]])), ]
+  if (nrow(Data) == 0) warning("No valid data found in the selected time interval")
+  
   ## Get decimals in precision of 0.1
   data.vec <- round(Data[,dim(Data)[2]], 1)
   decimal.vec <- as.integer(10 * abs(data.vec - trunc(data.vec))) 
