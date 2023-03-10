@@ -198,7 +198,7 @@ write_flags <- function(infile, qcfile, outpath, note = "", match = TRUE) {
   Data <- read_sef(infile, all = TRUE)
   header <- read.table(file = infile, quote = "", comment.char = "", sep = "\t",
                        nrows = 12, stringsAsFactors = FALSE, fill = TRUE)
-  header[which(is.na(header[,2])), 2] <- ""
+  header[which(is.na(header[,2]) & !header[,1]%in%c("Lat","Lon","Alt")), 2] <- ""
   
   ## Check units
   vbl <- read_meta(infile,"var")
@@ -254,11 +254,19 @@ write_flags <- function(infile, qcfile, outpath, note = "", match = TRUE) {
     
     ## Check if all flagged times are present in the SEF file
     if (length(i) < nrow(flags)) {
-      if (match) {
-        k <- which(!dates %in% paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute,
-                                     Data$Value))
-      } else {
-        k <- which(!dates %in% paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute))
+      if (dim(flags)[2] == 6) { # daily resolution
+        if (match) {
+          k <- which(!dates %in% paste(Data$Year, Data$Month, Data$Day, Data$Value))
+        } else {
+          k <- which(!dates %in% paste(Data$Year, Data$Month, Data$Day))
+        }
+      } else if (dim(flags)[2] == 8) { # subdaily resolution
+        if (match) {
+          k <- which(!dates %in% paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute,
+                                       Data$Value))
+        } else {
+          k <- which(!dates %in% paste(Data$Year, Data$Month, Data$Day, Data$Hour, Data$Minute))
+        }
       }
       warning(paste("The SEF file does not contain all flagged observations.",
                     "Flags for the following observations could not be written:\n",
@@ -299,7 +307,8 @@ write_flags <- function(infile, qcfile, outpath, note = "", match = TRUE) {
               metaHead = header[12, 2], 
               meta = Data[, 9], 
               period = Data[, 7], 
-              outfile = filename)
+              outfile = filename,
+              keep_na = TRUE)
     
   } else warning("No matches found: possibly incorrect input files")
   
