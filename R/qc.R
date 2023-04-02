@@ -77,7 +77,7 @@
 qc <- function(Data, Metadata = NULL, outpath, time_offset = 0) {
   
   ## Check metadata and read SEF files
-  if (class(Data) == "list") {
+  if (inherits(Data, "list")) {
     if (is.null(dim(Metadata))) stop("Metadata must be a data frame or a matrix")
     if (dim(Metadata)[2] != 7) stop("Metadata must have 7 columns")
     if (length(Data) != length(unique(Metadata[,1]))) {
@@ -85,7 +85,7 @@ qc <- function(Data, Metadata = NULL, outpath, time_offset = 0) {
            number of elements of Data (", length(Data), ")"))
     }
     names(Data) <- unique(Metadata[,1])
-  } else if (class(Data) %in% c("data.frame", "matrix")) {
+  } else if (inherits(Data, c("data.frame","matrix"))) {
     if (is.null(dim(Metadata))) stop("Metadata must be a data frame or a matrix")
     if (dim(Metadata)[2] != 7) stop("Metadata must have 7 columns")
     if (length(unique(Metadata[,1])) != 1) {
